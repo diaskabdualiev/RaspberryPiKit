@@ -34,7 +34,6 @@ jobs:
           pip install -r requirements.txt
       - name: Build HTML
         run: | 
-          cd docs/
           make html
       - name: Run ghp-import
         run: | 
