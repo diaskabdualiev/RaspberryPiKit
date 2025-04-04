@@ -144,7 +144,7 @@
    * - .. image:: images/pca9685.jpg
         :width: 100px
         :align: center
-     - PCF9822 (модуль I2C для 16 сервоприводов)
+     - PCA9685 (модуль I2C для 16 сервоприводов)
      - 1
 
    * - .. image:: images/relay.png
@@ -186,19 +186,13 @@
    * - .. image:: images/reisitance.png
         :width: 100px
         :align: center
-     - Набор резисторов (разные номиналы)
+     - Набор резисторов (220 Ом, 10К Ом) по 10 штук каждый
      - 1 набор
 
    * - .. image:: images/papapapa.png
         :width: 100px
         :align: center
-     - Папа-Папа джампер
-     - 30
-
-   * - .. image:: images/mamamama.png
-        :width: 100px
-        :align: center
-     - Мама-Мама джампер
+     - Папа-Мама джампер
      - 30
 
    * - .. image:: images/breadboard.png
