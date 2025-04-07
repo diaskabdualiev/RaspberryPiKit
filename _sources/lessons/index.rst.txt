@@ -1,12 +1,6 @@
 Уроки
 =======================================
 
-
-.. toctree::
-   :titlesonly:
-
-   firstboot
-
 .. toctree::
    :maxdepth: 2
 
