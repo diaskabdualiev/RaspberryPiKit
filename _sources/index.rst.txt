@@ -17,7 +17,7 @@ Alash Raspberry Pi 5 Kit documentation
    specifications/specifications
 
 .. toctree::
-   :maxdepth: 4
+   :maxdepth: 2
 
    parts/index
    start/index
