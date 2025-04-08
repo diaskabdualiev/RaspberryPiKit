@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Настройка SSH (Командный доступ) &mdash; документация Alash Raspberry Pi 5 Kit </title>
+  <title>Настройка SSH (PuTTY) &mdash; документация Alash Raspberry Pi 5 Kit </title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
@@ -24,7 +24,7 @@
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Алфавитный указатель" href="../../genindex.html" />
     <link rel="search" title="Поиск" href="../../search.html" />
-    <link rel="next" title="Как узнать IP адрес Raspberry Pi" href="../getip/getip.html" />
+    <link rel="next" title="Установка встроенного SSH-клиента в Windows" href="cmd.html" />
     <link rel="prev" title="Настройка VNC (Удаленный рабочий стол)" href="../vnc/vnc.html" /> 
 </head>
 
@@ -177,9 +177,20 @@
 <li class="toctree-l3"><a class="reference internal" href="../vnc/vnc.html#id2">Шаг 2: Подключение к VNC</a></li>
 </ul>
 </li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Настройка SSH (Командный доступ)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id1">Шаг 1: Включение SSH</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Настройка SSH (PuTTY)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#ssh">Шаг 1: Включение SSH</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#raspberry-pi-ssh">Шаг 2: Подключение к Raspberry Pi через SSH</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cmd.html">Установка встроенного SSH-клиента в Windows</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cmd.html#ssh">Что такое SSH и почему важен встроенный клиент</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cmd.html#id1">Проверка наличия SSH-клиента</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cmd.html#id2">Включение SSH-клиента в Windows</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cmd.html#id3">Проверка работоспособности</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cmd.html#raspberry-pi">Подключение к Raspberry Pi</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cmd.html#ssh-raspberry-pi">Основные команды SSH для работы с Raspberry Pi</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cmd.html#id4">Возможные проблемы и их решения</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cmd.html#id5">Заключение</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../getip/getip.html">Как узнать IP адрес Raspberry Pi</a><ul>
@@ -211,7 +222,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../index.html">Дополнения</a></li>
-      <li class="breadcrumb-item active">Настройка SSH (Командный доступ)</li>
+      <li class="breadcrumb-item active">Настройка SSH (PuTTY)</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../../_sources/appendix/ssh/ssh.rst.txt" rel="nofollow"> Просмотреть исходный код страницы</a>
       </li>
@@ -221,15 +232,15 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="ssh">
-<h1>Настройка SSH (Командный доступ)<a class="headerlink" href="#ssh" title="Ссылка на этот заголовок"></a></h1>
+  <section id="ssh-putty">
+<h1>Настройка SSH (PuTTY)<a class="headerlink" href="#ssh-putty" title="Ссылка на этот заголовок"></a></h1>
 <p>SSH позволяет управлять Raspberry Pi через командную строку.</p>
 <div class="admonition note">
 <p class="admonition-title">Примечание</p>
 <p>Если устройства находятся в разных сетях, подключение может не работать.</p>
 </div>
-<section id="id1">
-<h2>Шаг 1: Включение SSH<a class="headerlink" href="#id1" title="Ссылка на этот заголовок"></a></h2>
+<section id="ssh">
+<h2>Шаг 1: Включение SSH<a class="headerlink" href="#ssh" title="Ссылка на этот заголовок"></a></h2>
 <ol class="arabic">
 <li><p>Откройте терминал и введите:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>raspi-config
@@ -260,7 +271,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Нижняя область">
         <a href="../vnc/vnc.html" class="btn btn-neutral float-left" title="Настройка VNC (Удаленный рабочий стол)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Предыдущая</a>
-        <a href="../getip/getip.html" class="btn btn-neutral float-right" title="Как узнать IP адрес Raspberry Pi" accesskey="n" rel="next">Следующая <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="cmd.html" class="btn btn-neutral float-right" title="Установка встроенного SSH-клиента в Windows" accesskey="n" rel="next">Следующая <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

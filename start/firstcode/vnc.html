@@ -177,9 +177,20 @@
 <li class="toctree-l3"><a class="reference internal" href="../../appendix/vnc/vnc.html#id2">Шаг 2: Подключение к VNC</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../appendix/ssh/ssh.html">Настройка SSH (Командный доступ)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../appendix/ssh/ssh.html#id1">Шаг 1: Включение SSH</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../appendix/ssh/ssh.html">Настройка SSH (PuTTY)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../appendix/ssh/ssh.html#ssh">Шаг 1: Включение SSH</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../appendix/ssh/ssh.html#raspberry-pi-ssh">Шаг 2: Подключение к Raspberry Pi через SSH</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../appendix/ssh/cmd.html">Установка встроенного SSH-клиента в Windows</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../appendix/ssh/cmd.html#ssh">Что такое SSH и почему важен встроенный клиент</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../appendix/ssh/cmd.html#id1">Проверка наличия SSH-клиента</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../appendix/ssh/cmd.html#id2">Включение SSH-клиента в Windows</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../appendix/ssh/cmd.html#id3">Проверка работоспособности</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../appendix/ssh/cmd.html#raspberry-pi">Подключение к Raspberry Pi</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../appendix/ssh/cmd.html#ssh-raspberry-pi">Основные команды SSH для работы с Raspberry Pi</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../appendix/ssh/cmd.html#id4">Возможные проблемы и их решения</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../appendix/ssh/cmd.html#id5">Заключение</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../appendix/getip/getip.html">Как узнать IP адрес Raspberry Pi</a><ul>
@@ -228,13 +239,45 @@
 <a class="reference internal image-reference" href="../../_images/second.png"><img alt="../../_images/second.png" src="../../_images/second.png" style="width: 80%;" />
 </a>
 </figure>
-<p>Подробные инструкции по настройке и использованию VNC можно найти в разделе <a class="reference internal" href="../../appendix/vnc/vnc.html"><span class="doc">Настройка VNC (Удаленный рабочий стол)</span></a>.</p>
+<p>VNC (Virtual Network Computing) позволяет получить удаленный доступ к графическому рабочему столу Raspberry Pi с другого компьютера по сети. Это очень удобно, когда вы хотите работать с Raspberry Pi без необходимости подключать отдельный монитор, клавиатуру и мышь.</p>
 <section id="id1">
-<h2>Инструкция<a class="headerlink" href="#id1" title="Ссылка на этот заголовок"></a></h2>
-<figure class="align-center">
-<a class="reference internal image-reference" href="../../_images/hdmi.gif"><img alt="../../_images/hdmi.gif" src="../../_images/hdmi.gif" style="width: 80%;" />
+<h2>Преимущества VNC-подключения:<a class="headerlink" href="#id1" title="Ссылка на этот заголовок"></a></h2>
+<ul class="simple">
+<li><p>Доступ к полноценному рабочему столу Raspberry Pi с любого устройства</p></li>
+<li><p>Возможность работать с Raspberry Pi удаленно по сети</p></li>
+<li><p>Удобный интерфейс для копирования файлов между устройствами</p></li>
+<li><p>Не требуется дополнительный монитор и клавиатура для Raspberry Pi</p></li>
+</ul>
+</section>
+<section id="id2">
+<h2>Настройка VNC-подключения<a class="headerlink" href="#id2" title="Ссылка на этот заголовок"></a></h2>
+<p>На Raspberry Pi VNC-сервер уже активирован. Для подключения к нему вам необходимо установить VNC Viewer на ваш компьютер:</p>
+<ol class="arabic simple">
+<li><p>Скачайте и установите RealVNC Viewer с официального сайта</p></li>
+<li><p>Запустите программу и введите IP-адрес вашего Raspberry Pi</p></li>
+<li><p>Введите учетные данные для входа (логин: <code class="docutils literal notranslate"><span class="pre">dias</span></code>, пароль: <code class="docutils literal notranslate"><span class="pre">dias</span></code>)</p></li>
+</ol>
+<p>Подробные инструкции по настройке и использованию VNC можно найти в разделе <a class="reference internal" href="../../appendix/vnc/vnc.html"><span class="doc">Настройка VNC (Удаленный рабочий стол)</span></a>.</p>
+</section>
+<section id="id3">
+<h2>Запуск первого кода через VNC<a class="headerlink" href="#id3" title="Ссылка на этот заголовок"></a></h2>
+<p>После успешного подключения через VNC вы получите доступ к рабочему столу Raspberry Pi. Теперь вы можете запустить VSCode и ваш первый проект точно так же, как если бы вы работали непосредственно на устройстве:</p>
+<ol class="arabic simple">
+<li><p>В окне VNC Viewer найдите и откройте VSCode через меню приложений</p></li>
+<li><p>VSCode автоматически откроет папку с уроками</p></li>
+<li><p>Перейдите к первому уроку в <cite>lessons/module1/lesson1/</cite></p></li>
+<li><p>Откройте файл <cite>led.py</cite></p></li>
+<li><p>Запустите код, нажав кнопку «Run» в правом верхнем углу</p></li>
+</ol>
+<figure class="align-center" id="id4">
+<a class="reference internal image-reference" href="../../_images/vnc.gif"><img alt="../../_images/vnc.gif" src="../../_images/vnc.gif" style="width: 80%;" />
 </a>
+<figcaption>
+<p><span class="caption-text"><strong>Рис. 2:</strong> Демонстрация запуска VSCode и первого примера кода через VNC</span><a class="headerlink" href="#id4" title="Ссылка на это изображение"></a></p>
+</figcaption>
 </figure>
+<p>Вы увидите, как светодиод, подключенный к GPIO18, начнет мигать с интервалом в 1 секунду, хотя вы управляете Raspberry Pi с другого компьютера. Это демонстрирует гибкость работы с Raspberry Pi через удаленное подключение.</p>
+<p>Примечание: При первом запуске кода через VNC может потребоваться немного больше времени из-за сетевой передачи данных. Это нормально и зависит от скорости вашей сети.</p>
 </section>
 </section>
 
