@@ -10,5 +10,6 @@
    ping/ping
    vnc/vnc
    ssh/ssh
+   ssh/cmd
    getip/getip
    gpiozero/gpiozero
