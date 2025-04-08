@@ -1,7 +1,7 @@
 Первый запуск
 ==================
 .. toctree::
-   :titlesonly:
 
    firstactions/firstactions
    firstboot/firstboot
+   firstcode/index
