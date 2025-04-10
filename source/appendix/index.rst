@@ -11,5 +11,6 @@
    vnc/vnc
    ssh/ssh
    ssh/cmd
+   vscode/vscode
    getip/getip
    gpiozero/gpiozero
