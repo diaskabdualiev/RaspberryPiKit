@@ -108,9 +108,9 @@
 
    Hello, World!
 
-.. figure:: images/flask_hello_world.png
-   :width: 50%
-   :align: center
+.. .. figure:: images/flask_hello_world.png
+..    :width: 50%
+..    :align: center
 
    **Рис. 2:** Пример отображения "Hello, World!" в браузере
 

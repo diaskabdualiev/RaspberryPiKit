@@ -94,9 +94,9 @@
 1. Серво будет поочерёдно переходить из позиции 90° (mid) -> 0° (min) -> 90° -> 180° (max). 
 2. В консоль выводятся текущее состояние ("min", "mid", "max").
 
-.. figure:: images/servo_movement.gif
-   :width: 50%
-   :align: center
+.. .. figure:: images/servo_movement.gif
+..    :width: 50%
+..    :align: center
 
    **Рис. 2:** Пример работы SG90 с Raspberry Pi
 

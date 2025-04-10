@@ -119,9 +119,9 @@
 4. 20–30 см – медленные сигналы.
 5. >30 см – зуммер не подаёт сигнал.
 
-.. figure:: images/hcsr04_buzzer.gif
-   :width: 50%
-   :align: center
+.. .. figure:: images/hcsr04_buzzer.gif
+..    :width: 50%
+..    :align: center
 
    **Рис. 2:** Пример "парктроника" с ультразвуковым датчиком
 

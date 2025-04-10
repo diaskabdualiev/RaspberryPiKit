@@ -200,9 +200,9 @@ HTML-файл (index.html)
 -------------------
 На веб-странице в реальном времени будет отображаться поток с камеры Raspberry Pi.
 
-.. figure:: images/picamera2_flask_stream.png
-   :width: 50%
-   :align: center
+.. .. figure:: images/picamera2_flask_stream.png
+..    :width: 50%
+..    :align: center
 
    **Рис. 2:** Пример видео-трансляции
 
