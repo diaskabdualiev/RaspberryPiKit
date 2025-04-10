@@ -90,9 +90,9 @@
 1. При вращении энкодера счётчик (`global_counter`) в консоли изменяется.
 2. При нажатии кнопки счётчик обнуляется.
 
-.. figure:: images/rotary_encoder.gif
-   :width: 50%
-   :align: center
+.. .. figure:: images/rotary_encoder.gif
+..    :width: 50%
+..    :align: center
 
    **Рис. 2:** Демонстрация работы энкодера и кнопки
 

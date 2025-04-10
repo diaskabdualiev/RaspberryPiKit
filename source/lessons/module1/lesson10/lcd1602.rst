@@ -73,9 +73,9 @@
    Hello, World!
    AlashElectronics
 
-.. figure:: images/lcd1602_display.gif
-   :width: 50%
-   :align: center
+.. .. figure:: images/lcd1602_display.gif
+..    :width: 50%
+..    :align: center
 
    **Рис. 2:** Пример отображения текста на LCD1602
 

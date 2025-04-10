@@ -136,9 +136,9 @@ HTML-файл (index.html)
 -------------------
 На экране появится полноценная HTML-страница с заголовком, описанием и кнопкой на красочном фоне.
 
-.. figure:: images/landing_page_preview.png
-   :width: 50%
-   :align: center
+.. .. figure:: images/landing_page_preview.png
+..    :width: 50%
+..    :align: center
 
    **Рис. 2:** Пример отображения Landing Page
 
