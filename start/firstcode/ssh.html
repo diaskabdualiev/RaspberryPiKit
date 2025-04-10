@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SSH-подключение &mdash; документация Alash Raspberry Pi 5 Kit </title>
+  <title>SSH-подключение VS Code для удаленной разработки на Raspberry Pi &mdash; документация Alash Raspberry Pi 5 Kit </title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
@@ -107,7 +107,7 @@
 <li class="toctree-l2 current"><a class="reference internal" href="index.html">Запуск первого кода на Raspberry Pi</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="hdmi.html">Способ работы через монитор HDMI</a></li>
 <li class="toctree-l3"><a class="reference internal" href="vnc.html">VNC-подключение</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">SSH-подключение</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">SSH-подключение VS Code для удаленной разработки на Raspberry Pi</a></li>
 </ul>
 </li>
 </ul>
@@ -193,6 +193,14 @@
 <li class="toctree-l3"><a class="reference internal" href="../../appendix/ssh/cmd.html#id5">Заключение</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../../appendix/vscode/vscode.html">Установка Visual Studio Code на Windows</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../appendix/vscode/vscode.html#visual-studio-code">Что такое Visual Studio Code?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../appendix/vscode/vscode.html#vs-code-windows">Установка VS Code на Windows</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../appendix/vscode/vscode.html#vs-code">Первый запуск VS Code</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../appendix/vscode/vscode.html#id1">Установка необходимых расширений</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../appendix/vscode/vscode.html#id2">Заключение</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../../appendix/getip/getip.html">Как узнать IP адрес Raspberry Pi</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../appendix/getip/getip.html#ip">Способ 1. Определение IP адреса через командную строку</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../appendix/getip/getip.html#id1">Способ 2. Определение IP адреса через графический интерфейс</a></li>
@@ -223,7 +231,7 @@
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../index.html">Первый запуск</a></li>
           <li class="breadcrumb-item"><a href="index.html">Запуск первого кода на Raspberry Pi</a></li>
-      <li class="breadcrumb-item active">SSH-подключение</li>
+      <li class="breadcrumb-item active">SSH-подключение VS Code для удаленной разработки на Raspberry Pi</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../../_sources/start/firstcode/ssh.rst.txt" rel="nofollow"> Просмотреть исходный код страницы</a>
       </li>
@@ -233,12 +241,131 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="ssh">
-<h1>SSH-подключение<a class="headerlink" href="#ssh" title="Ссылка на этот заголовок"></a></h1>
+  <section id="ssh-vs-code-raspberry-pi">
+<h1>SSH-подключение VS Code для удаленной разработки на Raspberry Pi<a class="headerlink" href="#ssh-vs-code-raspberry-pi" title="Ссылка на этот заголовок"></a></h1>
 <figure class="align-center">
 <a class="reference internal image-reference" href="../../_images/third.png"><img alt="../../_images/third.png" src="../../_images/third.png" style="width: 80%;" />
 </a>
 </figure>
+<p>В этом уроке вы научитесь настраивать Visual Studio Code для удаленной разработки на Raspberry Pi через SSH. Такой подход позволяет писать, запускать и отлаживать код непосредственно на Raspberry Pi, используя при этом все преимущества VS Code на вашем основном компьютере.</p>
+<section id="vs-code">
+<h2>Что такое удаленная разработка в VS Code<a class="headerlink" href="#vs-code" title="Ссылка на этот заголовок"></a></h2>
+<p>Visual Studio Code предоставляет мощное расширение Remote - SSH, которое позволяет подключаться к удаленным устройствам (таким как Raspberry Pi) и работать с ними так, будто вы используете локальный редактор. При этом:</p>
+<ul class="simple">
+<li><p>Код выполняется непосредственно на удаленном устройстве</p></li>
+<li><p>Файловая система Raspberry Pi доступна прямо в VS Code</p></li>
+<li><p>Терминал VS Code подключается к консоли Raspberry Pi</p></li>
+<li><p>Все расширения и настройки VS Code остаются доступными</p></li>
+</ul>
+</section>
+<section id="id1">
+<h2>Предварительные требования<a class="headerlink" href="#id1" title="Ссылка на этот заголовок"></a></h2>
+<p>Перед настройкой убедитесь, что:</p>
+<ol class="arabic simple">
+<li><p>На вашем компьютере установлен Visual Studio Code (см. раздел <a class="reference internal" href="../../appendix/vscode/vscode.html"><span class="doc">Установка Visual Studio Code на Windows</span></a>)</p></li>
+<li><p>SSH-доступ к Raspberry Pi настроен и работает (см. раздел <a class="reference internal" href="../../appendix/ssh/ssh.html"><span class="doc">Настройка SSH (PuTTY)</span></a>)</p></li>
+<li><p>Вы знаете IP-адрес вашего Raspberry Pi (см. раздел <a class="reference internal" href="../../appendix/getip/getip.html"><span class="doc">Как узнать IP адрес Raspberry Pi</span></a>)</p></li>
+<li><p>Имя пользователя и пароль для доступа к Raspberry Pi</p></li>
+</ol>
+</section>
+<section id="raspberry-pi">
+<h2>Настройка подключения к Raspberry Pi<a class="headerlink" href="#raspberry-pi" title="Ссылка на этот заголовок"></a></h2>
+<ol class="arabic">
+<li><p>Нажмите на значок Remote Explorer на боковой панели VS Code (или нажмите F1 и введите «Remote-SSH: Connect to Host…»)</p></li>
+<li><p>Нажмите кнопку «+» для добавления нового SSH-хоста</p></li>
+<li><p>В открывшемся поле введите команду подключения:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ssh<span class="w"> </span>username@ip-address
+</pre></div>
+</div>
+<p>Например: <cite>ssh pi&#64;192.168.1.100</cite></p>
+</li>
+<li><p>Выберите файл конфигурации для сохранения (обычно это ~/.ssh/config)</p></li>
+<li><p>Новое подключение появится в списке «SSH TARGETS»</p></li>
+</ol>
+<a class="reference internal image-reference" href="../../_images/vscode-ssh-config.png"><img alt="Настройка SSH-подключения" class="align-center" src="../../_images/vscode-ssh-config.png" style="width: 80%;" />
+</a>
+</section>
+<section id="id2">
+<h2>Подключение к Raspberry Pi<a class="headerlink" href="#id2" title="Ссылка на этот заголовок"></a></h2>
+<p>Теперь вы можете подключиться к Raspberry Pi:</p>
+<ol class="arabic simple">
+<li><p>В панели Remote Explorer наведите курсор на созданное подключение</p></li>
+<li><p>Нажмите иконку «Connect to Host in New Window»</p></li>
+<li><p>VS Code откроет новое окно и начнет процесс подключения</p></li>
+<li><p>При первом подключении появится запрос о доверии к хосту — выберите «Continue»</p></li>
+<li><p>Введите пароль для вашей учетной записи на Raspberry Pi</p></li>
+</ol>
+<p>После успешного подключения в левом нижнем углу окна VS Code появится индикатор «SSH: название_хоста»:</p>
+<a class="reference internal image-reference" href="../../_images/vscode-ssh-connected.png"><img alt="Успешное подключение к Raspberry Pi" class="align-center" src="../../_images/vscode-ssh-connected.png" style="width: 80%;" />
+</a>
+</section>
+<section id="id3">
+<h2>Работа с файлами на Raspberry Pi<a class="headerlink" href="#id3" title="Ссылка на этот заголовок"></a></h2>
+<p>Теперь вы можете работать с файлами на Raspberry Pi:</p>
+<ol class="arabic simple">
+<li><p>Выберите «Open Folder» в меню File (или нажмите Ctrl+O)</p></li>
+<li><p>Перейдите к папке с уроками (например, /home/pi/lessons)</p></li>
+<li><p>Нажмите «OK» для открытия папки</p></li>
+</ol>
+<p>В проводнике VS Code теперь отображаются файлы с Raspberry Pi. Вы можете:</p>
+<ul class="simple">
+<li><p>Просматривать содержимое файлов</p></li>
+<li><p>Редактировать код</p></li>
+<li><p>Создавать новые файлы и папки</p></li>
+<li><p>Все изменения будут сохраняться непосредственно на Raspberry Pi</p></li>
+</ul>
+<a class="reference internal image-reference" href="../../_images/vscode-ssh-files.png"><img alt="Работа с файлами на Raspberry Pi" class="align-center" src="../../_images/vscode-ssh-files.png" style="width: 80%;" />
+</a>
+</section>
+<section id="id4">
+<h2>Использование терминала<a class="headerlink" href="#id4" title="Ссылка на этот заголовок"></a></h2>
+<p>VS Code предоставляет доступ к терминалу Raspberry Pi:</p>
+<ol class="arabic simple">
+<li><p>Откройте встроенный терминал через меню Terminal -&gt; New Terminal (или нажмите Ctrl+`)</p></li>
+<li><p>Терминал откроется в нижней части окна VS Code</p></li>
+<li><p>Этот терминал работает непосредственно на Raspberry Pi — вы можете выполнять любые команды так же, как если бы подключились через обычный SSH-клиент</p></li>
+</ol>
+<a class="reference internal image-reference" href="../../_images/vscode-ssh-terminal.png"><img alt="Использование терминала в VS Code" class="align-center" src="../../_images/vscode-ssh-terminal.png" style="width: 80%;" />
+</a>
+<p>Запуск программ через терминал:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>lessons/module1/lesson1
+python3<span class="w"> </span>blink.py
+</pre></div>
+</div>
+</section>
+<section id="id5">
+<h2>Решение типичных проблем<a class="headerlink" href="#id5" title="Ссылка на этот заголовок"></a></h2>
+<p><strong>Обрыв соединения</strong></p>
+<p>Если соединение с Raspberry Pi разорвалось:</p>
+<ol class="arabic simple">
+<li><p>Закройте окно VS Code</p></li>
+<li><p>Откройте VS Code заново и повторите процесс подключения</p></li>
+<li><p>Убедитесь, что Raspberry Pi включен и подключен к сети</p></li>
+</ol>
+<p><strong>Проблемы с разрешениями файлов</strong></p>
+<p>Если VS Code не может редактировать некоторые файлы из-за отсутствия прав:</p>
+<ol class="arabic">
+<li><p>Проверьте владельца файла в терминале:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ls<span class="w"> </span>-la<span class="w"> </span>имя_файла
+</pre></div>
+</div>
+</li>
+<li><p>Измените разрешения файла, если необходимо:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>chmod<span class="w"> </span><span class="m">644</span><span class="w"> </span>имя_файла
+</pre></div>
+</div>
+</li>
+<li><p>Или измените владельца файла:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>chown<span class="w"> </span>имя_пользователя<span class="w"> </span>имя_файла
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="id6">
+<h2>Заключение<a class="headerlink" href="#id6" title="Ссылка на этот заголовок"></a></h2>
+<p>Теперь вы можете эффективно разрабатывать и запускать код на Raspberry Pi, используя удобный интерфейс VS Code на вашем основном компьютере. Такой подход значительно повышает комфорт разработки и позволяет использовать все преимущества современной IDE при работе с Raspberry Pi.</p>
+</section>
 </section>
 
 
