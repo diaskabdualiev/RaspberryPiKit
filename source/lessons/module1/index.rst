@@ -13,23 +13,41 @@
 Рекомендуется проходить уроки последовательно, так как навыки, полученные в начальных 
 уроках, будут использоваться в более сложных проектах.
 
+Моргание светодиодом
+Подключение кнопки
+RGB светодиод
+Работа с активным зуммером
+Работа с Пассивный зуммер 
+Датчик DHT11
+Ультразвуковой радар
+Управление сервоприводом SG90
+Управление реле
+LED-матрица MAX7219
+Джойстик
+Работа с энкодером
+Клавиатура
+Модуль потенциометра ads1115
+MPU6050
+PCA9685
+Камера
+
 .. toctree::
    :maxdepth: 1
 
    lesson1/led
    lesson2/ledbutton
-   lesson3/pot
+   lesson3/rgb
    lesson4/activebuzzer
    lesson5/passivebuzzer
-   lesson6/dht11
-   lesson7/hsr04
+   lesson6/relay
+   lesson7/dht11
    lesson8/sg90
-   lesson9/relay
    lesson10/lcd1602
    lesson11/mfrc522
    lesson12/8dotdisplay
    lesson13/joystick
    lesson14/encoder
    lesson15/klav
-   lesson16/rgb
+   lesson16/pot
    lesson17/camera
+   lesson18/hsr04
