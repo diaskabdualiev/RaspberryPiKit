@@ -41,3 +41,5 @@ extensions.append("sphinx_design")
 extensions.append("sphinx.ext.imgmath")  # Улучшает работу с изображениями
 
 todo_include_todos = True
+html_copy_source = False  # Отключает копирование исходного кода в выходной каталог
+html_show_sphinx = False  # Убирает "Created using Sphinx" из нижнего колонтитула
