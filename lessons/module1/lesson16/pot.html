@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Урок 6: Датчик DHT11 (Кастомная реализация) &mdash; документация Alash Raspberry Pi 5 Kit </title>
+  <title>Урок 3: Работа с потенциометром ⚙️ &mdash; документация Alash Raspberry Pi 5 Kit </title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
@@ -24,8 +24,8 @@
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Алфавитный указатель" href="../../../genindex.html" />
     <link rel="search" title="Поиск" href="../../../search.html" />
-    <link rel="next" title="Урок 7: Ультразвуковой радар 📡" href="../lesson7/hsr04.html" />
-    <link rel="prev" title="Урок 5: Пассивный зуммер и потенциометр" href="../lesson5/passivebuzzer.html" /> 
+    <link rel="next" title="Урок 17: Камера" href="../lesson17/camera.html" />
+    <link rel="prev" title="Урок 15 Клавиатура" href="../lesson15/klav.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -114,25 +114,32 @@
 </li>
 </ul>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../circuitPythonLessons/index.html">Уроки на основе CircuitPython</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../circuitPythonLessons/module1/index.html">Модуль первый</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../circuitPythonLessons/module1/lesson1/blink.html">Первый урок</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../index.html">Уроки</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="../index.html">Модуль 1</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="../lesson1/led.html">Урок 1: Моргание светодиодом ✨</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../lesson2/ledbutton.html">Урок 2: Подключение кнопки ✨</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../lesson3/pot.html">Урок 3: Работа с потенциометром ⚙️</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../lesson3/rgb.html">Урок 3: RGB светодиод</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../lesson4/activebuzzer.html">Урок 4: Работа с активным зуммером 🔊</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../lesson5/passivebuzzer.html">Урок 5: Пассивный зуммер и потенциометр</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Урок 6: Датчик DHT11 (Кастомная реализация)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../lesson7/hsr04.html">Урок 7: Ультразвуковой радар 📡</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../lesson6/relay.html">Урок 6: Управление реле</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../lesson7/dht11.html">Урок 7: Датчик DHT11 (Кастомная реализация)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../lesson8/sg90.html">Урок 8: Управление сервоприводом SG90</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../lesson9/relay.html">Урок 9: Управление реле</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../lesson10/lcd1602.html">Урок 10: Работа с LCD1602</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../lesson11/mfrc522.html">Урок 11: СКУД на базе RFID и сервопривода</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../lesson12/8dotdisplay.html">Урок 12: LED-матрица MAX7219</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../lesson13/joystick.html">Урок 13: Джойстик</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../lesson14/encoder.html">Урок 14: Работа с энкодером и кнопкой</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../lesson15/klav.html">Урок 15 Клавиатура</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../lesson16/rgb.html">Урок 16: RGB светодиод</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Урок 3: Работа с потенциометром ⚙️</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../lesson17/camera.html">Урок 17: Камера</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../lesson18/hsr04.html">Урок 7: Ультразвуковой радар 📡</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../module2/index.html">Модуль 2</a><ul>
@@ -231,204 +238,106 @@
       <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../index.html">Уроки</a></li>
           <li class="breadcrumb-item"><a href="../index.html">Модуль 1</a></li>
-      <li class="breadcrumb-item active">Урок 6: Датчик DHT11 (Кастомная реализация)</li>
+      <li class="breadcrumb-item active">Урок 3: Работа с потенциометром ⚙️</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul><div class="rst-breadcrumbs-buttons" role="navigation" aria-label="Навигация по соседним страницам">
-        <a href="../lesson5/passivebuzzer.html" class="btn btn-neutral float-left" title="Урок 5: Пассивный зуммер и потенциометр" accesskey="p"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Предыдущая</a>
-        <a href="../lesson7/hsr04.html" class="btn btn-neutral float-right" title="Урок 7: Ультразвуковой радар 📡" accesskey="n">Следующая <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../lesson15/klav.html" class="btn btn-neutral float-left" title="Урок 15 Клавиатура" accesskey="p"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Предыдущая</a>
+        <a href="../lesson17/camera.html" class="btn btn-neutral float-right" title="Урок 17: Камера" accesskey="n">Следующая <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
   </div>
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="dht11">
-<h1>Урок 6: Датчик DHT11 (Кастомная реализация)<a class="headerlink" href="#dht11" title="Ссылка на этот заголовок"></a></h1>
-<section id="id1">
-<h2>Теоретическая часть<a class="headerlink" href="#id1" title="Ссылка на этот заголовок"></a></h2>
-<p>Датчик <strong>DHT11</strong> передаёт данные о температуре и влажности в формате 40 бит. Разбивка:</p>
-<ul class="simple">
-<li><p>Первые 8 бит: целая часть влажности</p></li>
-<li><p>Следующие 8 бит: десятичная часть влажности</p></li>
-<li><p>Следующие 8 бит: целая часть температуры</p></li>
-<li><p>Следующие 8 бит: десятичная часть температуры</p></li>
-<li><p>Последние 8 бит: контрольная сумма (check bit)</p></li>
-</ul>
-<p>При получении данных мы проверяем правильность с помощью суммы предыдущих 4 байт. Если контрольная сумма совпадает, значит данные корректны.</p>
-</section>
+  <section id="id1">
+<h1>Урок 3: Работа с потенциометром ⚙️<a class="headerlink" href="#id1" title="Ссылка на этот заголовок"></a></h1>
 <section id="id2">
-<h2>Необходимые компоненты<a class="headerlink" href="#id2" title="Ссылка на этот заголовок"></a></h2>
+<h2>Теоретическая часть<a class="headerlink" href="#id2" title="Ссылка на этот заголовок"></a></h2>
+<p>Потенциометр – это переменный резистор, который позволяет изменять выходное напряжение путём регулировки сопротивления. Он часто используется для управления различными параметрами (уровнем громкости, яркостью и т.д.) в электронных схемах.</p>
+</section>
+<section id="id3">
+<h2>Необходимые компоненты<a class="headerlink" href="#id3" title="Ссылка на этот заголовок"></a></h2>
 <ul class="simple">
 <li><p>Raspberry Pi</p></li>
-<li><p>DHT11</p></li>
-<li><p>Резистор (обычно ~10 кОм)</p></li>
+<li><p>Потенциометр</p></li>
+<li><p>Модуль <strong>ADS1115</strong> или другой АЦП (аналогово-цифровой преобразователь), способный принимать аналоговый сигнал от потенциометра</p></li>
+<li><p>Макетная плата (breadboard), при необходимости</p></li>
 <li><p>Соединительные провода</p></li>
 </ul>
 </section>
-<section id="id3">
-<h2>Схема подключения<a class="headerlink" href="#id3" title="Ссылка на этот заголовок"></a></h2>
+<section id="id4">
+<h2>Схема подключения<a class="headerlink" href="#id4" title="Ссылка на этот заголовок"></a></h2>
 <figure class="align-center">
-<a class="reference internal image-reference" href="../../../_images/lesson6.png"><img alt="../../../_images/lesson6.png" src="../../../_images/lesson6.png" style="width: 80%;" />
+<a class="reference internal image-reference" href="../../../_images/lesson3.jpg"><img alt="../../../_images/lesson3.jpg" src="../../../_images/lesson3.jpg" style="width: 80%;" />
 </a>
 </figure>
 </section>
-<section id="id4">
-<h2>Запуск кода<a class="headerlink" href="#id4" title="Ссылка на этот заголовок"></a></h2>
-<ol class="arabic">
-<li><p>Создайте файл <cite>dht11.py</cite> в папке <cite>lessons/lesson6/</cite>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>nano<span class="w"> </span>lessons/lesson6/dht11.py
-</pre></div>
-</div>
-</li>
-<li><p>Вставьте следующий код и сохраните.</p></li>
-<li><p>Запустите программу:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>lessons/lesson6/dht11.py
-</pre></div>
-</div>
-</li>
-</ol>
-</section>
 <section id="id5">
-<h2>Код программы<a class="headerlink" href="#id5" title="Ссылка на этот заголовок"></a></h2>
-<p>Файл: <cite>lessons/lesson6/dht11.py</cite></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">gpiozero</span><span class="w"> </span><span class="kn">import</span> <span class="n">OutputDevice</span><span class="p">,</span> <span class="n">InputDevice</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
-
-<span class="k">class</span><span class="w"> </span><span class="nc">DHT11</span><span class="p">:</span>
-    <span class="n">MAX_DELAY_COUINT</span> <span class="o">=</span> <span class="mi">100</span>
-    <span class="n">BIT_1_DELAY_COUNT</span> <span class="o">=</span> <span class="mi">10</span>
-    <span class="n">BITS_LEN</span> <span class="o">=</span> <span class="mi">40</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pin</span><span class="p">,</span> <span class="n">pull_up</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_pin</span> <span class="o">=</span> <span class="n">pin</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_pull_up</span> <span class="o">=</span> <span class="n">pull_up</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">read_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">bit_count</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="n">delay_count</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="n">bits</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-
-        <span class="c1"># -------------- send start --------------</span>
-        <span class="n">gpio</span> <span class="o">=</span> <span class="n">OutputDevice</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pin</span><span class="p">)</span>
-        <span class="n">gpio</span><span class="o">.</span><span class="n">off</span><span class="p">()</span>
-        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.02</span><span class="p">)</span>  <span class="c1"># Задержка ~20 мс</span>
-
-        <span class="n">gpio</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-        <span class="n">gpio</span> <span class="o">=</span> <span class="n">InputDevice</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pin</span><span class="p">,</span> <span class="n">pull_up</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_pull_up</span><span class="p">)</span>
-
-        <span class="c1"># -------------- wait response --------------</span>
-        <span class="k">while</span> <span class="n">gpio</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="k">pass</span>
-
-        <span class="c1"># -------------- read data --------------</span>
-        <span class="k">while</span> <span class="n">bit_count</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">BITS_LEN</span><span class="p">:</span>
-            <span class="c1"># Ждём начала импульса</span>
-            <span class="k">while</span> <span class="n">gpio</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="k">pass</span>
-            <span class="c1"># Считаем, сколько времени вывод находится в HIGH</span>
-            <span class="k">while</span> <span class="n">gpio</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="n">delay_count</span> <span class="o">+=</span> <span class="mi">1</span>
-                <span class="k">if</span> <span class="n">delay_count</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">MAX_DELAY_COUINT</span><span class="p">:</span>
-                    <span class="k">break</span>
-
-            <span class="c1"># Определяем, бит 1 или 0</span>
-            <span class="k">if</span> <span class="n">delay_count</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">BIT_1_DELAY_COUNT</span><span class="p">:</span>
-                <span class="n">bits</span> <span class="o">+=</span> <span class="s2">&quot;1&quot;</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">bits</span> <span class="o">+=</span> <span class="s2">&quot;0&quot;</span>
-
-            <span class="n">delay_count</span> <span class="o">=</span> <span class="mi">0</span>
-            <span class="n">bit_count</span> <span class="o">+=</span> <span class="mi">1</span>
-
-        <span class="c1"># -------------- verify --------------</span>
-        <span class="n">humidity_integer</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">bits</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">8</span><span class="p">],</span> <span class="mi">2</span><span class="p">)</span>
-        <span class="n">humidity_decimal</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">bits</span><span class="p">[</span><span class="mi">8</span><span class="p">:</span><span class="mi">16</span><span class="p">],</span> <span class="mi">2</span><span class="p">)</span>
-        <span class="n">temperature_integer</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">bits</span><span class="p">[</span><span class="mi">16</span><span class="p">:</span><span class="mi">24</span><span class="p">],</span> <span class="mi">2</span><span class="p">)</span>
-        <span class="n">temperature_decimal</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">bits</span><span class="p">[</span><span class="mi">24</span><span class="p">:</span><span class="mi">32</span><span class="p">],</span> <span class="mi">2</span><span class="p">)</span>
-        <span class="n">check_sum</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">bits</span><span class="p">[</span><span class="mi">32</span><span class="p">:</span><span class="mi">40</span><span class="p">],</span> <span class="mi">2</span><span class="p">)</span>
-
-        <span class="n">_sum</span> <span class="o">=</span> <span class="p">(</span><span class="n">humidity_integer</span> <span class="o">+</span> <span class="n">humidity_decimal</span> <span class="o">+</span> <span class="n">temperature_integer</span> <span class="o">+</span> <span class="n">temperature_decimal</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0xFF</span>
-
-        <span class="c1"># отладочная информация</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">bits</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">humidity_integer</span><span class="p">,</span> <span class="n">humidity_decimal</span><span class="p">,</span> <span class="n">temperature_integer</span><span class="p">,</span> <span class="n">temperature_decimal</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;sum:</span><span class="si">{</span><span class="n">_sum</span><span class="si">}</span><span class="s1">, check_sum:</span><span class="si">{</span><span class="n">check_sum</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">()</span>
-
-        <span class="k">if</span> <span class="n">check_sum</span> <span class="o">!=</span> <span class="n">_sum</span><span class="p">:</span>
-            <span class="n">humidity</span> <span class="o">=</span> <span class="mf">0.0</span>
-            <span class="n">temperature</span> <span class="o">=</span> <span class="mf">0.0</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">humidity</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">humidity_integer</span><span class="si">}</span><span class="s1">.</span><span class="si">{</span><span class="n">humidity_decimal</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-            <span class="n">temperature</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">temperature_integer</span><span class="si">}</span><span class="s1">.</span><span class="si">{</span><span class="n">temperature_decimal</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="n">humidity</span><span class="p">,</span> <span class="n">temperature</span>
-
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
-    <span class="n">dht11</span> <span class="o">=</span> <span class="n">DHT11</span><span class="p">(</span><span class="mi">18</span><span class="p">)</span>
-    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-        <span class="n">humidity</span><span class="p">,</span> <span class="n">temperature</span> <span class="o">=</span> <span class="n">dht11</span><span class="o">.</span><span class="n">read_data</span><span class="p">()</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">  temperature: </span><span class="si">{</span><span class="n">temperature</span><span class="si">}</span><span class="s2">°C  humidity: </span><span class="si">{</span><span class="n">humidity</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
-        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<h2>Запуск кода<a class="headerlink" href="#id5" title="Ссылка на этот заголовок"></a></h2>
+<ol class="arabic">
+<li><p>Создайте файл <cite>potentiometer.py</cite> в папке <cite>lessons/lesson3/</cite>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>nano<span class="w"> </span>lessons/lesson3/potentiometer.py
 </pre></div>
 </div>
-</section>
-<section id="code-explanation">
-<h2>Разбор кода (Code Explanation)<a class="headerlink" href="#code-explanation" title="Ссылка на этот заголовок"></a></h2>
-<p>Функция <cite>read_data(self)</cite> отвечает за инициацию и чтение 40-битного пакета данных от DHT11:</p>
-<ol class="arabic simple">
-<li><p><strong>Отправка старта</strong>
-- Создаём объект <cite>OutputDevice(self._pin)</cite>.
-- Устанавливаем LOW (<cite>off()</cite>) на ~20 мс, чтобы сигнализировать датчику о начале чтения.
-- Закрываем <cite>OutputDevice</cite>, переводя пин в режим ввода <cite>InputDevice</cite> с опциональной подтяжкой.</p></li>
-<li><p><strong>Ожидание отклика</strong>
-- Ждём, пока уровень опустится с HIGH до LOW, означая, что датчик готов отправлять данные.</p></li>
-<li><p><strong>Чтение данных</strong>
-- Датчик передаёт 40 бит: каждый бит начинается, когда GPIO переходит в HIGH.
-- Время, в течение которого пин находится в HIGH, определяет, бит ли это «0» или «1» (чем дольше HIGH, тем больше вероятность «1»).
-- Мы аккумулируем полученные биты в переменную <cite>bits</cite>.</p></li>
-<li><p><strong>Парсинг результатов</strong>
-- Раскладываем строку <cite>bits</cite> по 5 байтам:
-- Первые 8 бит: целая часть влажности.
-- Следующие 8 бит: десятичная часть влажности.
-- Следующие 8 бит: целая часть температуры.
-- Следующие 8 бит: десятичная часть температуры.
-- Последние 8 бит: контрольная сумма.</p></li>
-<li><p><strong>Проверка контрольной суммы</strong>
-- Вычисляем <cite>_sum = humidity_integer + humidity_decimal + temperature_integer + temperature_decimal</cite> и берём младший байт (<cite>&amp; 0xFF</cite>).
-- Сравниваем с <cite>check_sum</cite>. Если они совпадают, данные верны.</p></li>
-<li><p><strong>Возврат значений</strong>
-- Если контрольная сумма не совпала, возвращаются нулевые значения.
-- Если всё корректно, возвращаем влажность (<cite>humidity</cite>) и температуру (<cite>temperature</cite>).</p></li>
+</li>
+<li><p>Скопируйте в него следующий код и сохраните файл.</p></li>
+<li><p>Запустите программу:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>lessons/lesson3/potentiometer.py
+</pre></div>
+</div>
+</li>
 </ol>
-<section id="id6">
-<h3>Пояснения по данным<a class="headerlink" href="#id6" title="Ссылка на этот заголовок"></a></h3>
-<ul class="simple">
-<li><p><em>Первые 16 бит</em> (Humidity High + Humidity Low) – влажность.</p></li>
-<li><p><em>Следующие 16 бит</em> (Temperature High + Temperature Low) – температура.</p></li>
-<li><p><em>Последние 8 бит</em> – проверочная сумма.</p></li>
-</ul>
-<p>Если <cite>check_sum != _sum</cite>, значит данные, переданные датчиком, повреждены или считаны неверно. Функция вернёт 0.0/0.0.</p>
 </section>
+<section id="id6">
+<h2>Код программы<a class="headerlink" href="#id6" title="Ссылка на этот заголовок"></a></h2>
+<p>Файл: <cite>lessons/lesson3/potentiometer.py</cite></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ads1115_lib</span><span class="w"> </span><span class="kn">import</span> <span class="n">ADS1115</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">time</span><span class="w"> </span><span class="kn">import</span> <span class="n">sleep</span>
+
+<span class="c1"># Создаём экземпляр класса для работы с ADS1115</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">ADS1115</span><span class="p">()</span>
+
+<span class="c1"># Функция для &quot;калибровки&quot; входных значений в нужный диапазон</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">MAP</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">in_min</span><span class="p">,</span> <span class="n">in_max</span><span class="p">,</span> <span class="n">out_min</span><span class="p">,</span> <span class="n">out_max</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">in_min</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">out_max</span> <span class="o">-</span> <span class="n">out_min</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">in_max</span> <span class="o">-</span> <span class="n">in_min</span><span class="p">)</span> <span class="o">+</span> <span class="n">out_min</span>
+
+<span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># Считываем аналоговое значение с канала 0</span>
+        <span class="n">raw_value</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">read_adc</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="c1"># Преобразуем в диапазон 0–180 (например, для управления сервоприводом)</span>
+        <span class="n">angle</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">MAP</span><span class="p">(</span><span class="n">raw_value</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">32767</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">180</span><span class="p">))</span>
+
+        <span class="c1"># Выводим значения в консоль</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Сырой уровень: </span><span class="si">{</span><span class="n">raw_value</span><span class="si">}</span><span class="se">\t</span><span class="s2">Угол: </span><span class="si">{</span><span class="n">angle</span><span class="si">}</span><span class="s2">°&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Небольшая задержка перед следующим считыванием</span>
+        <span class="n">sleep</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
+
+    <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Программа остановлена пользователем.&quot;</span><span class="p">)</span>
+        <span class="k">break</span>
+</pre></div>
+</div>
 </section>
 <section id="id7">
-<h2>Ожидаемый результат<a class="headerlink" href="#id7" title="Ссылка на этот заголовок"></a></h2>
-<p>При корректном чтении в консоль выводится:</p>
+<h2>Разбор кода<a class="headerlink" href="#id7" title="Ссылка на этот заголовок"></a></h2>
 <ul class="simple">
-<li><p>Сырые двоичные данные, принятые от датчика.</p></li>
-<li><p>Разделённые значения влажности и температуры.</p></li>
-<li><p>Сравнение суммы и контрольной суммы.</p></li>
-<li><p>Итоговые значения влажности и температуры.</p></li>
+<li><p><cite>from ads1115_lib import ADS1115</cite> – импортируем библиотеку для работы с АЦП ADS1115.</p></li>
+<li><p><cite>a = ADS1115()</cite> – создаём объект для взаимодействия с чипом ADS1115.</p></li>
+<li><p><cite>a.read_adc(0)</cite> – считываем значение с аналогового входа <strong>A0</strong>.</p></li>
+<li><p>Функция <cite>MAP(x, in_min, in_max, out_min, out_max)</cite> – масштабирует («калибрует») полученное аналоговое значение в целевой диапазон (например, 0–180).</p></li>
+<li><p><cite>sleep(0.1)</cite> – делает паузу 0.1 секунды между измерениями.</p></li>
 </ul>
-<div class="admonition note">
-<p class="admonition-title">Примечание</p>
-<p>Если данные корректны, вы получите реальные показания <cite>temperature</cite> и <cite>humidity</cite>. В противном случае, функция вернёт 0.0/0.0, сигнализируя об ошибке чтения.</p>
-</div>
 </section>
 <section id="id8">
-<h2>Завершение работы<a class="headerlink" href="#id8" title="Ссылка на этот заголовок"></a></h2>
-<p>Нажмите <strong>Ctrl + C</strong> для остановки программы. Поздравляем! Теперь вы знаете, как вручную инициализировать и считывать данные от датчика DHT11 без сторонних библиотек (например, Adafruit_DHT).</p>
+<h2>Ожидаемый результат<a class="headerlink" href="#id8" title="Ссылка на этот заголовок"></a></h2>
+<p>При повороте потенциометра в терминале будет выводиться текущее аналоговое значение (от 0 до примерно 32767) и вычисленный угол (от 0 до 180). Можете использовать это для управления другими компонентами (например, для регулировки положения сервопривода).</p>
+</section>
+<section id="id9">
+<h2>Завершение работы<a class="headerlink" href="#id9" title="Ссылка на этот заголовок"></a></h2>
+<p>Для остановки программы нажмите <strong>Ctrl + C</strong>. Поздравляем! Теперь вы умеете считывать аналоговые значения с потенциометра и использовать их для управления различными задачами на Raspberry Pi.</p>
 </section>
 </section>
 
@@ -436,8 +345,8 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Нижняя область">
-        <a href="../lesson5/passivebuzzer.html" class="btn btn-neutral float-left" title="Урок 5: Пассивный зуммер и потенциометр" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Предыдущая</a>
-        <a href="../lesson7/hsr04.html" class="btn btn-neutral float-right" title="Урок 7: Ультразвуковой радар 📡" accesskey="n" rel="next">Следующая <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../lesson15/klav.html" class="btn btn-neutral float-left" title="Урок 15 Клавиатура" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Предыдущая</a>
+        <a href="../lesson17/camera.html" class="btn btn-neutral float-right" title="Урок 17: Камера" accesskey="n" rel="next">Следующая <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
