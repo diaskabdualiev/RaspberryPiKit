@@ -36,3 +36,5 @@ pip install adafruit-circuitpython-hcsr04
 для работы с сервоприоводом напрямую нужно установить
 pip install adafruit-circuitpython-servokit
 
+для 10 урока необходимо установить 
+pip install adafruit-circuitpython-max7219
