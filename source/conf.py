@@ -31,6 +31,8 @@ html_logo = '_static/logo.png'
 html_theme_options = {
     "navigation_depth": 3,  # Показывать вложенные уровни
     "collapse_navigation": False,  # Оставлять меню открытым
+    "navigation_with_keys": True,
+    "prev_next_buttons_location": "both",  # Кнопки "пред/след" вверху и внизу
 }
 
 html_static_path = ['_static']
