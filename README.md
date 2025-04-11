@@ -27,3 +27,12 @@ pip install adafruit-blinka
 sudo apt install -y liblgpio-dev
 pip install lgpio
 
+до 5 урока этого хватает но для 6 урока dht нужно установить pip модуль для работы с dht
+pip install adafruit-circuitpython-dht
+
+для 7 урока где используется ультравзуковой датчик нужно установить
+pip install adafruit-circuitpython-hcsr04
+
+для работы с сервоприоводом напрямую нужно установить
+pip install adafruit-circuitpython-servokit
+
