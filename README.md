@@ -42,5 +42,12 @@ pip install adafruit-circuitpython-matrixkeypad
 для 11 урока 
 pip install adafruit-circuitpython-rotaryio
 
-
+для 12 урока
 pip install adafruit-circuitpython-max7219
+
+для 13 урока
+pip install adafruit-circuitpython-ads1x15
+
+
+
+
