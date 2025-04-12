@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Урок 10: Матричная клавиатура (CircuitPython) ⌨️ &mdash; документация Alash Raspberry Pi 5 Kit </title>
+  <title>Урок 15: Матричная клавиатура ⌨️ &mdash; документация Alash Raspberry Pi 5 Kit </title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
@@ -25,7 +25,7 @@
     <link rel="index" title="Алфавитный указатель" href="../../../genindex.html" />
     <link rel="search" title="Поиск" href="../../../search.html" />
     <link rel="next" title="Урок 11: Работа с энкодером (CircuitPython) 🔄" href="../lesson11/encoder.html" />
-    <link rel="prev" title="Урок 9: Управление реле (CircuitPython) 🔌" href="../lesson9/relay.html" /> 
+    <link rel="prev" title="Урок 9: Управление реле 🔌" href="../lesson9/relay.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -123,9 +123,9 @@
 <li class="toctree-l3"><a class="reference internal" href="../lesson5/passive_buzzer.html">Урок 5: Работа с пассивным зуммером 🎵</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../lesson6/dht.html">Урок 6: Работа с датчиком температуры и влажности DHT11</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../lesson7/hsr04.html">Урок 7: Ультразвуковой датчик HC-SR04</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../lesson8/servo.html">Урок 8: Управление сервоприводом SG90 (CircuitPython) 🔄</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../lesson9/relay.html">Урок 9: Управление реле (CircuitPython) 🔌</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Урок 10: Матричная клавиатура (CircuitPython) ⌨️</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../lesson8/servo.html">Урок 8: Управление сервоприводом SG90 🔄</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../lesson9/relay.html">Урок 9: Управление реле 🔌</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Урок 15: Матричная клавиатура ⌨️</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../lesson11/encoder.html">Урок 11: Работа с энкодером (CircuitPython) 🔄</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../lesson12/max.html">Урок 12: LED-матрица MAX7219 (CircuitPython) 🔲</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../lesson13/pot.html">Урок 13: Модуль потенциометра ADS1115 (CircuitPython) 🎚️</a></li>
@@ -254,11 +254,11 @@
       <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../index.html">Уроки на основе CircuitPython</a></li>
           <li class="breadcrumb-item"><a href="../index.html">Модуль первый</a></li>
-      <li class="breadcrumb-item active">Урок 10: Матричная клавиатура (CircuitPython) ⌨️</li>
+      <li class="breadcrumb-item active">Урок 15: Матричная клавиатура ⌨️</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul><div class="rst-breadcrumbs-buttons" role="navigation" aria-label="Навигация по соседним страницам">
-        <a href="../lesson9/relay.html" class="btn btn-neutral float-left" title="Урок 9: Управление реле (CircuitPython) 🔌" accesskey="p"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Предыдущая</a>
+        <a href="../lesson9/relay.html" class="btn btn-neutral float-left" title="Урок 9: Управление реле 🔌" accesskey="p"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Предыдущая</a>
         <a href="../lesson11/encoder.html" class="btn btn-neutral float-right" title="Урок 11: Работа с энкодером (CircuitPython) 🔄" accesskey="n">Следующая <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
   </div>
   <hr/>
@@ -266,15 +266,15 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="circuitpython">
-<h1>Урок 10: Матричная клавиатура (CircuitPython) ⌨️<a class="headerlink" href="#circuitpython" title="Ссылка на этот заголовок"></a></h1>
-<section id="id1">
-<h2>Теоретическая часть<a class="headerlink" href="#id1" title="Ссылка на этот заголовок"></a></h2>
+  <section id="id1">
+<h1>Урок 15: Матричная клавиатура ⌨️<a class="headerlink" href="#id1" title="Ссылка на этот заголовок"></a></h1>
+<section id="id2">
+<h2>Теоретическая часть<a class="headerlink" href="#id2" title="Ссылка на этот заголовок"></a></h2>
 <p>Матричная клавиатура – это набор кнопок, организованных в виде матрицы строк и столбцов. Такая организация позволяет существенно сократить количество необходимых пинов для подключения большого числа кнопок. Например, для клавиатуры 4x4 (16 кнопок) требуется всего 8 GPIO пинов.</p>
 <p>В этом уроке мы используем CircuitPython для работы с матричной клавиатурой 4x4, которая имеет 16 кнопок и часто используется в проектах, где требуется ввод цифр или команд.</p>
 </section>
-<section id="id2">
-<h2>Необходимые компоненты<a class="headerlink" href="#id2" title="Ссылка на этот заголовок"></a></h2>
+<section id="id3">
+<h2>Необходимые компоненты<a class="headerlink" href="#id3" title="Ссылка на этот заголовок"></a></h2>
 <ul class="simple">
 <li><p>Raspberry Pi</p></li>
 <li><p>Матричная клавиатура 4x4 (16 кнопок)</p></li>
@@ -282,43 +282,71 @@
 <li><p>Резисторы 10 кОм для подтяжки (опционально)</p></li>
 </ul>
 </section>
-<section id="id3">
-<h2>Схема подключения<a class="headerlink" href="#id3" title="Ссылка на этот заголовок"></a></h2>
-<figure class="align-center" id="id10">
-<a class="reference internal image-reference" href="circuitPythonLessons/module1/lesson10/images/klaviatura.jpg"><img alt="circuitPythonLessons/module1/lesson10/images/klaviatura.jpg" src="circuitPythonLessons/module1/lesson10/images/klaviatura.jpg" style="width: 80%;" />
+<section id="id4">
+<h2>Схема подключения<a class="headerlink" href="#id4" title="Ссылка на этот заголовок"></a></h2>
+<figure class="align-center" id="id11">
+<a class="reference internal image-reference" href="../../../_images/lesson.png"><img alt="../../../_images/lesson.png" src="../../../_images/lesson.png" style="width: 80%;" />
 </a>
 <figcaption>
-<p><span class="caption-text"><strong>Рис. 1:</strong> Схема подключения матричной клавиатуры</span><a class="headerlink" href="#id10" title="Ссылка на это изображение"></a></p>
+<p><span class="caption-text"><strong>Рис. 1:</strong> Схема подключения матричной клавиатуры</span><a class="headerlink" href="#id11" title="Ссылка на это изображение"></a></p>
 </figcaption>
 </figure>
 </section>
-<section id="id4">
-<h2>Установка необходимых библиотек<a class="headerlink" href="#id4" title="Ссылка на этот заголовок"></a></h2>
+<section id="id5">
+<h2>Установка необходимых библиотек<a class="headerlink" href="#id5" title="Ссылка на этот заголовок"></a></h2>
 <p>Перед запуском кода установите библиотеку для работы с матричной клавиатурой:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>adafruit-circuitpython-matrixkeypad
 </pre></div>
 </div>
 </section>
-<section id="id5">
-<h2>Запуск кода<a class="headerlink" href="#id5" title="Ссылка на этот заголовок"></a></h2>
-<ol class="arabic simple">
-<li><p>Откройте текстовый редактор или IDE (например, Thonny или VS Code) на Raspberry Pi.</p></li>
-<li><p>Создайте новый файл <strong>keypad_circuit.py</strong> в папке <cite>lessons/lesson13/</cite>.</p></li>
-<li><p>Вставьте в файл следующий код:</p></li>
+<section id="id6">
+<h2>Запуск кода<a class="headerlink" href="#id6" title="Ссылка на этот заголовок"></a></h2>
+<ol class="arabic">
+<li><p>Создайте файл <cite>keypad_circuit.py</cite> в папке <cite>lessons/lesson15/</cite>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>nano<span class="w"> </span>lessons/lesson15/keypad_circuit.py
+</pre></div>
+</div>
+</li>
+<li><p>Вставьте в файл следующий код и сохраните.</p></li>
+<li><p>Запустите программу:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>lessons/lesson15/keypad_circuit.py
+</pre></div>
+</div>
+</li>
 </ol>
 </section>
-<section id="id6">
-<h2>Код программы<a class="headerlink" href="#id6" title="Ссылка на этот заголовок"></a></h2>
-<p>Файл: <cite>lessons/lesson10/keypad_circuit.py</cite></p>
+<section id="id7">
+<h2>Код программы<a class="headerlink" href="#id7" title="Ссылка на этот заголовок"></a></h2>
+<p>Файл: <cite>lessons/lesson15/keypad_circuit.py</cite></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">board</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">digitalio</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">adafruit_matrixkeypad</span>
 
 <span class="c1"># Определяем пины для строк (R1-R4) и столбцов (C1-C4)</span>
-<span class="c1"># Обратите внимание, что на вашей клавиатуре маркировка может отличаться</span>
-<span class="n">row_pins</span> <span class="o">=</span> <span class="p">[</span><span class="n">board</span><span class="o">.</span><span class="n">D5</span><span class="p">,</span> <span class="n">board</span><span class="o">.</span><span class="n">D6</span><span class="p">,</span> <span class="n">board</span><span class="o">.</span><span class="n">D13</span><span class="p">,</span> <span class="n">board</span><span class="o">.</span><span class="n">D19</span><span class="p">]</span>  <span class="c1"># Пины для строк</span>
-<span class="n">col_pins</span> <span class="o">=</span> <span class="p">[</span><span class="n">board</span><span class="o">.</span><span class="n">D12</span><span class="p">,</span> <span class="n">board</span><span class="o">.</span><span class="n">D16</span><span class="p">,</span> <span class="n">board</span><span class="o">.</span><span class="n">D20</span><span class="p">,</span> <span class="n">board</span><span class="o">.</span><span class="n">D21</span><span class="p">]</span>  <span class="c1"># Пины для столбцов</span>
+<span class="n">row_pins</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">digitalio</span><span class="o">.</span><span class="n">DigitalInOut</span><span class="p">(</span><span class="n">board</span><span class="o">.</span><span class="n">D5</span><span class="p">),</span>
+    <span class="n">digitalio</span><span class="o">.</span><span class="n">DigitalInOut</span><span class="p">(</span><span class="n">board</span><span class="o">.</span><span class="n">D6</span><span class="p">),</span>
+    <span class="n">digitalio</span><span class="o">.</span><span class="n">DigitalInOut</span><span class="p">(</span><span class="n">board</span><span class="o">.</span><span class="n">D13</span><span class="p">),</span>
+    <span class="n">digitalio</span><span class="o">.</span><span class="n">DigitalInOut</span><span class="p">(</span><span class="n">board</span><span class="o">.</span><span class="n">D19</span><span class="p">)</span>
+<span class="p">]</span>
+
+<span class="n">col_pins</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">digitalio</span><span class="o">.</span><span class="n">DigitalInOut</span><span class="p">(</span><span class="n">board</span><span class="o">.</span><span class="n">D12</span><span class="p">),</span>
+    <span class="n">digitalio</span><span class="o">.</span><span class="n">DigitalInOut</span><span class="p">(</span><span class="n">board</span><span class="o">.</span><span class="n">D16</span><span class="p">),</span>
+    <span class="n">digitalio</span><span class="o">.</span><span class="n">DigitalInOut</span><span class="p">(</span><span class="n">board</span><span class="o">.</span><span class="n">D20</span><span class="p">),</span>
+    <span class="n">digitalio</span><span class="o">.</span><span class="n">DigitalInOut</span><span class="p">(</span><span class="n">board</span><span class="o">.</span><span class="n">D21</span><span class="p">)</span>
+<span class="p">]</span>
+
+<span class="c1"># Настраиваем пины строк как выходы с подтягиванием к высокому уровню</span>
+<span class="k">for</span> <span class="n">pin</span> <span class="ow">in</span> <span class="n">row_pins</span><span class="p">:</span>
+    <span class="n">pin</span><span class="o">.</span><span class="n">direction</span> <span class="o">=</span> <span class="n">digitalio</span><span class="o">.</span><span class="n">Direction</span><span class="o">.</span><span class="n">OUTPUT</span>
+    <span class="n">pin</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="kc">True</span>
+
+<span class="c1"># Настраиваем пины столбцов как входы с подтягиванием к высокому уровню</span>
+<span class="k">for</span> <span class="n">pin</span> <span class="ow">in</span> <span class="n">col_pins</span><span class="p">:</span>
+    <span class="n">pin</span><span class="o">.</span><span class="n">direction</span> <span class="o">=</span> <span class="n">digitalio</span><span class="o">.</span><span class="n">Direction</span><span class="o">.</span><span class="n">INPUT</span>
+    <span class="n">pin</span><span class="o">.</span><span class="n">pull</span> <span class="o">=</span> <span class="n">digitalio</span><span class="o">.</span><span class="n">Pull</span><span class="o">.</span><span class="n">UP</span>
 
 <span class="c1"># Определяем карту символов клавиатуры</span>
 <span class="n">keys</span> <span class="o">=</span> <span class="p">[</span>
@@ -361,6 +389,10 @@
         <span class="c1"># Проверяем нажатые клавиши</span>
         <span class="n">pressed</span> <span class="o">=</span> <span class="n">keypad</span><span class="o">.</span><span class="n">pressed_keys</span>
 
+        <span class="c1"># Выводим отладочную информацию</span>
+        <span class="k">if</span> <span class="n">pressed</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Обнаружены нажатия: </span><span class="si">{</span><span class="n">pressed</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
         <span class="c1"># Обрабатываем только новые нажатия (фронт сигнала)</span>
         <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">pressed</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">last_pressed</span><span class="p">:</span>
@@ -377,22 +409,36 @@
 </pre></div>
 </div>
 </section>
-<section id="id7">
-<h2>Разбор кода<a class="headerlink" href="#id7" title="Ссылка на этот заголовок"></a></h2>
+<section id="id8">
+<h2>Разбор кода<a class="headerlink" href="#id8" title="Ссылка на этот заголовок"></a></h2>
 <ul class="simple">
-<li><p><cite>row_pins</cite> и <cite>col_pins</cite> – списки с номерами GPIO пинов, подключенных к строкам и столбцам клавиатуры.</p></li>
-<li><p><cite>keys</cite> – двумерный массив, определяющий символы для каждой кнопки в соответствии с их расположением.</p></li>
-<li><p><cite>adafruit_matrixkeypad.Matrix_Keypad</cite> – инициализация объекта клавиатуры с указанными параметрами.</p></li>
-<li><p><cite>keypad.pressed_keys</cite> – метод, возвращающий список текущих нажатых клавиш.</p></li>
-<li><p><cite>process_key_press()</cite> – функция для обработки нажатий клавиш:
+<li><p><strong>Настройка пинов</strong>:</p>
+<ul>
+<li><p><cite>row_pins</cite> и <cite>col_pins</cite> – списки объектов <cite>DigitalInOut</cite> для строк и столбцов клавиатуры.</p></li>
+<li><p>Пины строк настраиваются как выходы (<cite>Direction.OUTPUT</cite>) с начальным высоким уровнем.</p></li>
+<li><p>Пины столбцов настраиваются как входы (<cite>Direction.INPUT</cite>) с подтяжкой к высокому уровню.</p></li>
+</ul>
+</li>
+<li><p><strong>Инициализация клавиатуры</strong>:</p>
+<ul>
+<li><p><cite>keys</cite> – двумерный массив символов, соответствующих кнопкам.</p></li>
+<li><p><cite>adafruit_matrixkeypad.Matrix_Keypad</cite> создает объект для работы с клавиатурой.</p></li>
+</ul>
+</li>
+<li><p><strong>Обработка нажатий</strong>:</p>
+<ul>
+<li><p><cite>pressed = keypad.pressed_keys</cite> – получаем список всех нажатых клавиш.</p></li>
+<li><p>Сравниваем текущие нажатия с предыдущими, чтобы обрабатывать только новые.</p></li>
+<li><p>Функция <cite>process_key_press()</cite> обрабатывает нажатия:
 - <cite>*</cite> – очистка текущего ввода
-- <cite>#</cite> – подтверждение ввода
-- Другие клавиши – добавление к текущему вводу</p></li>
-<li><p>Сравнение текущих нажатий с предыдущими для определения новых нажатий (обнаружение фронта).</p></li>
+- <cite>#</cite> – подтверждение ввода и его обработка
+- Другие клавиши – добавление к строке ввода</p></li>
+</ul>
+</li>
 </ul>
 </section>
-<section id="id8">
-<h2>Ожидаемый результат<a class="headerlink" href="#id8" title="Ссылка на этот заголовок"></a></h2>
+<section id="id9">
+<h2>Ожидаемый результат<a class="headerlink" href="#id9" title="Ссылка на этот заголовок"></a></h2>
 <ol class="arabic simple">
 <li><p>При нажатии на клавиши 0-9, A-D символы добавляются к текущему вводу.</p></li>
 <li><p>Нажатие <cite>*</cite> очищает текущий ввод.</p></li>
@@ -404,8 +450,8 @@
 <p>В зависимости от конкретной модели клавиатуры и способа подключения, могут потребоваться корректировки в нумерации пинов и раскладке клавиш. Проверьте спецификацию вашей клавиатуры.</p>
 </div>
 </section>
-<section id="id9">
-<h2>Завершение работы<a class="headerlink" href="#id9" title="Ссылка на этот заголовок"></a></h2>
+<section id="id10">
+<h2>Завершение работы<a class="headerlink" href="#id10" title="Ссылка на этот заголовок"></a></h2>
 <p>Для остановки программы нажмите <strong>Ctrl + C</strong> в терминале.</p>
 <p>Поздравляем! 🎉 Вы успешно научились работать с матричной клавиатурой с помощью CircuitPython! Теперь вы можете использовать клавиатуру для ввода данных, создания кодовых замков, управления меню и других интерактивных проектов.</p>
 </section>
@@ -415,7 +461,7 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Нижняя область">
-        <a href="../lesson9/relay.html" class="btn btn-neutral float-left" title="Урок 9: Управление реле (CircuitPython) 🔌" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Предыдущая</a>
+        <a href="../lesson9/relay.html" class="btn btn-neutral float-left" title="Урок 9: Управление реле 🔌" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Предыдущая</a>
         <a href="../lesson11/encoder.html" class="btn btn-neutral float-right" title="Урок 11: Работа с энкодером (CircuitPython) 🔄" accesskey="n" rel="next">Следующая <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
