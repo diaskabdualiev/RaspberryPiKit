@@ -1,5 +1,5 @@
 ============================================================
-Урок 10: Матричная клавиатура (CircuitPython) ⌨️
+Урок 15: Матричная клавиатура ⌨️
 ============================================================
 
 Теоретическая часть
@@ -17,7 +17,7 @@
 
 Схема подключения
 -----------------
-.. figure:: images/klaviatura.jpg
+.. figure:: images/lesson.png
    :width: 80%
    :align: center
 
@@ -32,94 +32,136 @@
    pip install adafruit-circuitpython-matrixkeypad
 
 Запуск кода
-------------
-1. Откройте текстовый редактор или IDE (например, Thonny или VS Code) на Raspberry Pi.
-2. Создайте новый файл **keypad_circuit.py** в папке `lessons/lesson13/`.
-3. Вставьте в файл следующий код:
+-----------
+1. Создайте файл `keypad_circuit.py` в папке `lessons/lesson15/`:
+
+   .. code-block:: bash
+
+      nano lessons/lesson15/keypad_circuit.py
+
+2. Вставьте в файл следующий код и сохраните.
+3. Запустите программу:
+
+   .. code-block:: bash
+
+      python3 lessons/lesson15/keypad_circuit.py
 
 Код программы
 -------------
-Файл: `lessons/lesson10/keypad_circuit.py`
+Файл: `lessons/lesson15/keypad_circuit.py`
 
 .. code-block:: python
 
-    import time
-    import board
-    import digitalio
-    import adafruit_matrixkeypad
+   import time
+   import board
+   import digitalio
+   import adafruit_matrixkeypad
 
-    # Определяем пины для строк (R1-R4) и столбцов (C1-C4)
-    # Обратите внимание, что на вашей клавиатуре маркировка может отличаться
-    row_pins = [board.D5, board.D6, board.D13, board.D19]  # Пины для строк
-    col_pins = [board.D12, board.D16, board.D20, board.D21]  # Пины для столбцов
+   # Определяем пины для строк (R1-R4) и столбцов (C1-C4)
+   row_pins = [
+       digitalio.DigitalInOut(board.D5),
+       digitalio.DigitalInOut(board.D6),
+       digitalio.DigitalInOut(board.D13),
+       digitalio.DigitalInOut(board.D19)
+   ]
 
-    # Определяем карту символов клавиатуры
-    keys = [
-        ["1", "2", "3", "A"],
-        ["4", "5", "6", "B"],
-        ["7", "8", "9", "C"],
-        ["*", "0", "#", "D"]
-    ]
+   col_pins = [
+       digitalio.DigitalInOut(board.D12),
+       digitalio.DigitalInOut(board.D16),
+       digitalio.DigitalInOut(board.D20),
+       digitalio.DigitalInOut(board.D21)
+   ]
 
-    # Инициализируем матричную клавиатуру
-    keypad = adafruit_matrixkeypad.Matrix_Keypad(
-        row_pins, col_pins, keys
-    )
+   # Настраиваем пины строк как выходы с подтягиванием к высокому уровню
+   for pin in row_pins:
+       pin.direction = digitalio.Direction.OUTPUT
+       pin.value = True
 
-    # Сохраняем последнее состояние клавиатуры для определения нажатий
-    last_pressed = []
-    current_input = ""  # Строка для сохранения введенных символов
+   # Настраиваем пины столбцов как входы с подтягиванием к высокому уровню
+   for pin in col_pins:
+       pin.direction = digitalio.Direction.INPUT
+       pin.pull = digitalio.Pull.UP
 
-    # Функция для обработки нажатий клавиш
-    def process_key_press(key):
-        global current_input
-        
-        if key == "*":  # Если нажата звездочка, очищаем ввод
-            current_input = ""
-            print("Ввод очищен")
-        elif key == "#":  # Если нажата решетка, обрабатываем ввод
-            print(f"Вы ввели: {current_input}")
-            # Здесь можно добавить логику обработки ввода
-            current_input = ""
-        else:  # Обычная клавиша - добавляем к текущему вводу
-            current_input += key
-            print(f"Нажата клавиша: {key}, Текущий ввод: {current_input}")
+   # Определяем карту символов клавиатуры
+   keys = [
+       ["1", "2", "3", "A"],
+       ["4", "5", "6", "B"],
+       ["7", "8", "9", "C"],
+       ["*", "0", "#", "D"]
+   ]
 
-    # Основной цикл
-    try:
-        print("Матричная клавиатура 4x4 готова к работе!")
-        print("'*' - очистить ввод, '#' - подтвердить ввод")
-        
-        while True:
-            # Проверяем нажатые клавиши
-            pressed = keypad.pressed_keys
-            
-            # Обрабатываем только новые нажатия (фронт сигнала)
-            for key in pressed:
-                if key not in last_pressed:
-                    process_key_press(key)
-            
-            # Обновляем состояние последних нажатых клавиш
-            last_pressed = pressed.copy()
-            
-            # Небольшая задержка для стабилизации
-            time.sleep(0.1)
-            
-    except KeyboardInterrupt:
-        print("\nПрограмма завершена.")
+   # Инициализируем матричную клавиатуру
+   keypad = adafruit_matrixkeypad.Matrix_Keypad(
+       row_pins, col_pins, keys
+   )
 
+   # Сохраняем последнее состояние клавиатуры для определения нажатий
+   last_pressed = []
+   current_input = ""  # Строка для сохранения введенных символов
+
+   # Функция для обработки нажатий клавиш
+   def process_key_press(key):
+       global current_input
+       
+       if key == "*":  # Если нажата звездочка, очищаем ввод
+           current_input = ""
+           print("Ввод очищен")
+       elif key == "#":  # Если нажата решетка, обрабатываем ввод
+           print(f"Вы ввели: {current_input}")
+           # Здесь можно добавить логику обработки ввода
+           current_input = ""
+       else:  # Обычная клавиша - добавляем к текущему вводу
+           current_input += key
+           print(f"Нажата клавиша: {key}, Текущий ввод: {current_input}")
+
+   # Основной цикл
+   try:
+       print("Матричная клавиатура 4x4 готова к работе!")
+       print("'*' - очистить ввод, '#' - подтвердить ввод")
+       
+       while True:
+           # Проверяем нажатые клавиши
+           pressed = keypad.pressed_keys
+           
+           # Выводим отладочную информацию
+           if pressed:
+               print(f"Обнаружены нажатия: {pressed}")
+           
+           # Обрабатываем только новые нажатия (фронт сигнала)
+           for key in pressed:
+               if key not in last_pressed:
+                   process_key_press(key)
+           
+           # Обновляем состояние последних нажатых клавиш
+           last_pressed = pressed.copy()
+           
+           # Небольшая задержка для стабилизации
+           time.sleep(0.1)
+           
+   except KeyboardInterrupt:
+       print("\nПрограмма завершена.")
 
 Разбор кода
-------------
-- `row_pins` и `col_pins` – списки с номерами GPIO пинов, подключенных к строкам и столбцам клавиатуры.
-- `keys` – двумерный массив, определяющий символы для каждой кнопки в соответствии с их расположением.
-- `adafruit_matrixkeypad.Matrix_Keypad` – инициализация объекта клавиатуры с указанными параметрами.
-- `keypad.pressed_keys` – метод, возвращающий список текущих нажатых клавиш.
-- `process_key_press()` – функция для обработки нажатий клавиш:
-  - `*` – очистка текущего ввода
-  - `#` – подтверждение ввода
-  - Другие клавиши – добавление к текущему вводу
-- Сравнение текущих нажатий с предыдущими для определения новых нажатий (обнаружение фронта).
+-----------
+- **Настройка пинов**:
+  
+  - `row_pins` и `col_pins` – списки объектов `DigitalInOut` для строк и столбцов клавиатуры.
+  - Пины строк настраиваются как выходы (`Direction.OUTPUT`) с начальным высоким уровнем.
+  - Пины столбцов настраиваются как входы (`Direction.INPUT`) с подтяжкой к высокому уровню.
+
+- **Инициализация клавиатуры**:
+  
+  - `keys` – двумерный массив символов, соответствующих кнопкам.
+  - `adafruit_matrixkeypad.Matrix_Keypad` создает объект для работы с клавиатурой.
+
+- **Обработка нажатий**:
+  
+  - `pressed = keypad.pressed_keys` – получаем список всех нажатых клавиш.
+  - Сравниваем текущие нажатия с предыдущими, чтобы обрабатывать только новые.
+  - Функция `process_key_press()` обрабатывает нажатия:
+    - `*` – очистка текущего ввода
+    - `#` – подтверждение ввода и его обработка
+    - Другие клавиши – добавление к строке ввода
 
 Ожидаемый результат
 -------------------
@@ -129,6 +171,7 @@
 4. В консоль выводится информация о текущем вводе и выполняемых действиях.
 
 .. note::
+
    В зависимости от конкретной модели клавиатуры и способа подключения, могут потребоваться корректировки в нумерации пинов и раскладке клавиш. Проверьте спецификацию вашей клавиатуры.
 
 Завершение работы
