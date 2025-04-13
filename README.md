@@ -48,6 +48,15 @@ pip install adafruit-circuitpython-max7219
 для 13 урока
 pip install adafruit-circuitpython-ads1x15
 
+для 15 урока 
+pip install adafruit-circuitpython-mpu6050
 
+для 16 урока
+pip install adafruit-circuitpython-pca9685
 
+17 урок для работы с lcd1602
+pip install RPLCD
+pip install adafruit-circuitpython-charlcd
 
+18 урок для работы с mfrc522
+pip install mfrc522

@@ -17,7 +17,7 @@
 
 Схема подключения
 -----------------
-.. figure:: images/lesson9.jpg
+.. figure:: images/adsjoysttick.png
    :width: 80%
    :align: center
 

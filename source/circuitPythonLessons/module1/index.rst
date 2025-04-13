@@ -17,7 +17,9 @@
 - 14 Джойстик
 - 15 MPU6050
 - 16 PCA9685
-- 17 Камера
+- 17 LCD1602
+- 18 MFRC522
+- 19 Камера
 
 .. toctree::
    :maxdepth: 1
@@ -38,4 +40,6 @@
    lesson14/joystick
    lesson15/mpu6050
    lesson16/pca9685
-   lesson17/camera
+   lesson17/lcd1602
+   lesson18/mfrc522
+   lesson19/camera
