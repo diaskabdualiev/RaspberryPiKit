@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Урок 15: Работа с MPU6050 (CircuitPython) 🧭 &mdash; документация Alash Raspberry Pi 5 Kit </title>
+  <title>Урок 15: Работа с MPU6050 🧭 &mdash; документация Alash Raspberry Pi 5 Kit </title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
@@ -24,8 +24,8 @@
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Алфавитный указатель" href="../../../genindex.html" />
     <link rel="search" title="Поиск" href="../../../search.html" />
-    <link rel="next" title="Урок 16: Модуль PCA9685 для сервоприводов (CircuitPython) 🤖" href="../lesson16/pca9685.html" />
-    <link rel="prev" title="Урок 14: Работа с джойстиком (CircuitPython) 🕹️" href="../lesson14/joystick.html" /> 
+    <link rel="next" title="Урок 16: Модуль PCA9685 для сервоприводов 🤖" href="../lesson16/pca9685.html" />
+    <link rel="prev" title="Урок 14: Работа с джойстиком 🕹️" href="../lesson14/joystick.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -129,10 +129,12 @@
 <li class="toctree-l3"><a class="reference internal" href="../lesson11/encoder.html">Урок 11: Работа с энкодером 🔄</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../lesson12/max.html">Урок 12: LED-матрица MAX7219 🔲</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../lesson13/pot.html">Урок 13: Модуль потенциометра ADS1115 🎚️</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../lesson14/joystick.html">Урок 14: Работа с джойстиком (CircuitPython) 🕹️</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Урок 15: Работа с MPU6050 (CircuitPython) 🧭</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../lesson16/pca9685.html">Урок 16: Модуль PCA9685 для сервоприводов (CircuitPython) 🤖</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../lesson17/camera.html">Урок 17: Работа с камерой Raspberry Pi (CircuitPython) 📷</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../lesson14/joystick.html">Урок 14: Работа с джойстиком 🕹️</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Урок 15: Работа с MPU6050 🧭</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../lesson16/pca9685.html">Урок 16: Модуль PCA9685 для сервоприводов  🤖</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../lesson17/lcd1602.html">Урок 17: LCD1602 дисплей</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../lesson18/mfrc522.html">Урок 18: NFC модуль MFRC522</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../lesson19/camera.html">Урок 19: Работа с камерой Raspberry Pi (CircuitPython) 📷</a></li>
 </ul>
 </li>
 </ul>
@@ -254,20 +256,20 @@
       <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../index.html">Уроки на основе CircuitPython</a></li>
           <li class="breadcrumb-item"><a href="../index.html">Модуль первый</a></li>
-      <li class="breadcrumb-item active">Урок 15: Работа с MPU6050 (CircuitPython) 🧭</li>
+      <li class="breadcrumb-item active">Урок 15: Работа с MPU6050 🧭</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul><div class="rst-breadcrumbs-buttons" role="navigation" aria-label="Навигация по соседним страницам">
-        <a href="../lesson14/joystick.html" class="btn btn-neutral float-left" title="Урок 14: Работа с джойстиком (CircuitPython) 🕹️" accesskey="p"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Предыдущая</a>
-        <a href="../lesson16/pca9685.html" class="btn btn-neutral float-right" title="Урок 16: Модуль PCA9685 для сервоприводов (CircuitPython) 🤖" accesskey="n">Следующая <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../lesson14/joystick.html" class="btn btn-neutral float-left" title="Урок 14: Работа с джойстиком 🕹️" accesskey="p"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Предыдущая</a>
+        <a href="../lesson16/pca9685.html" class="btn btn-neutral float-right" title="Урок 16: Модуль PCA9685 для сервоприводов 🤖" accesskey="n">Следующая <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
   </div>
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="mpu6050-circuitpython">
-<h1>Урок 15: Работа с MPU6050 (CircuitPython) 🧭<a class="headerlink" href="#mpu6050-circuitpython" title="Ссылка на этот заголовок"></a></h1>
+  <section id="mpu6050">
+<h1>Урок 15: Работа с MPU6050 🧭<a class="headerlink" href="#mpu6050" title="Ссылка на этот заголовок"></a></h1>
 <section id="id1">
 <h2>Теоретическая часть<a class="headerlink" href="#id1" title="Ссылка на этот заголовок"></a></h2>
 <p>MPU6050 – это популярный датчик движения, который сочетает в себе 3-осевой акселерометр и 3-осевой гироскоп на одном кристалле. Этот датчик используется для определения ускорения, наклона и вращения в пространстве.</p>
@@ -285,7 +287,7 @@
 <section id="id3">
 <h2>Схема подключения<a class="headerlink" href="#id3" title="Ссылка на этот заголовок"></a></h2>
 <figure class="align-center" id="id10">
-<a class="reference internal image-reference" href="circuitPythonLessons/module1/lesson15/images/mpu6050.png"><img alt="circuitPythonLessons/module1/lesson15/images/mpu6050.png" src="circuitPythonLessons/module1/lesson15/images/mpu6050.png" style="width: 80%;" />
+<a class="reference internal image-reference" href="../../../_images/mpu6050.png"><img alt="../../../_images/mpu6050.png" src="../../../_images/mpu6050.png" style="width: 80%;" />
 </a>
 <figcaption>
 <p><span class="caption-text"><strong>Рис. 1:</strong> Схема подключения MPU6050</span><a class="headerlink" href="#id10" title="Ссылка на это изображение"></a></p>
@@ -413,8 +415,8 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Нижняя область">
-        <a href="../lesson14/joystick.html" class="btn btn-neutral float-left" title="Урок 14: Работа с джойстиком (CircuitPython) 🕹️" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Предыдущая</a>
-        <a href="../lesson16/pca9685.html" class="btn btn-neutral float-right" title="Урок 16: Модуль PCA9685 для сервоприводов (CircuitPython) 🤖" accesskey="n" rel="next">Следующая <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../lesson14/joystick.html" class="btn btn-neutral float-left" title="Урок 14: Работа с джойстиком 🕹️" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Предыдущая</a>
+        <a href="../lesson16/pca9685.html" class="btn btn-neutral float-right" title="Урок 16: Модуль PCA9685 для сервоприводов 🤖" accesskey="n" rel="next">Следующая <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
