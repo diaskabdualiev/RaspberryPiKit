@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Урок 2: Веб-лендинг с отдельной HTML-страницей &mdash; документация Alash Raspberry Pi 5 Kit </title>
+  <title>Урок: Управление светодиодом через веб-интерфейс &mdash; документация Alash Raspberry Pi 5 Kit </title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
@@ -116,7 +116,7 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../circuitPythonLessons/index.html">Уроки на основе CircuitPython</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../circuitPythonLessons/module1/index.html">Модуль первый</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../../circuitPythonLessons/module1/lesson1/blink.html">Урок 1: Моргание светодиодом (CircuitPython) ✨</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../circuitPythonLessons/module1/lesson1/blink.html">Урок 1: Моргание светодиодом ✨</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../circuitPythonLessons/module1/lesson2/button.html">Урок 2: Подключение кнопки ✨</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../circuitPythonLessons/module1/lesson3/rgb.html">Урок 3: RGB светодиод 🌈</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../circuitPythonLessons/module1/lesson4/active_buzzer.html">Урок 4: Работа с активным зуммером 🔊</a></li>
@@ -134,7 +134,14 @@
 <li class="toctree-l3"><a class="reference internal" href="../../../circuitPythonLessons/module1/lesson16/pca9685.html">Урок 16: Модуль PCA9685 для сервоприводов  🤖</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../circuitPythonLessons/module1/lesson17/lcd1602.html">Урок 17: LCD1602 дисплей</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../circuitPythonLessons/module1/lesson18/mfrc522.html">Урок 18: NFC модуль MFRC522</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../circuitPythonLessons/module1/lesson19/camera.html">Урок 19: Работа с камерой Raspberry Pi (CircuitPython) 📷</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../circuitPythonLessons/module1/lesson19/camera.html">Урок 19: Работа с камерой Raspberry Pi 📷</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../circuitPythonLessons/module2/index.html">Модуль второй</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../circuitPythonLessons/module2/lesson1/flask.html">Основы Flask</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../circuitPythonLessons/module2/lesson2/weblink.html">Веб светодиод</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../circuitPythonLessons/module2/lesson3/webrgb.html">RGB веб светодиод</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../circuitPythonLessons/module2/lesson4/webbuzzer.html">Управление зуммером через веб-интерфейс</a></li>
 </ul>
 </li>
 </ul>
@@ -162,7 +169,7 @@
 </li>
 <li class="toctree-l2 current"><a class="reference internal" href="../index.html">Модуль 2</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="../lesson1/flask.html">Урок 1: Первый веб-сайт на Flask</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Урок 2: Веб-лендинг с отдельной HTML-страницей</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Урок: Управление светодиодом через веб-интерфейс</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../lesson3/ledbutton.html">Урок 3: Управление светодиодом через Flask</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../lesson4/flaskdht.html">Урок 4: Мониторинг DHT11 через Flask</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../lesson5/webcamera.html">Урок 18: Онлайн-видеопоток с PiCamera2 через Flask</a></li>
@@ -256,7 +263,7 @@
       <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../index.html">Уроки</a></li>
           <li class="breadcrumb-item"><a href="../index.html">Модуль 2</a></li>
-      <li class="breadcrumb-item active">Урок 2: Веб-лендинг с отдельной HTML-страницей</li>
+      <li class="breadcrumb-item active">Урок: Управление светодиодом через веб-интерфейс</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul><div class="rst-breadcrumbs-buttons" role="navigation" aria-label="Навигация по соседним страницам">
@@ -268,137 +275,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="html">
-<h1>Урок 2: Веб-лендинг с отдельной HTML-страницей<a class="headerlink" href="#html" title="Ссылка на этот заголовок"></a></h1>
-<section id="id1">
-<h2>Теоретическая часть<a class="headerlink" href="#id1" title="Ссылка на этот заголовок"></a></h2>
-<p>В этом уроке мы создадим простой «лендинг» (одностраничный сайт) с помощью <strong>Flask</strong>, при этом основной контент будет вынесен в отдельный HTML-файл. Flask поддерживает шаблоны, которые обычно хранятся в папке <cite>templates</cite>. Это позволяет разделять логику приложения (Python-код) и структуру/верстку (HTML).</p>
-</section>
-<section id="id2">
-<h2>Необходимые компоненты<a class="headerlink" href="#id2" title="Ссылка на этот заголовок"></a></h2>
-<ul class="simple">
-<li><p>Raspberry Pi (или любой компьютер с Python 3)</p></li>
-<li><p>Установленный Flask (<cite>pip3 install flask</cite>)</p></li>
-<li><p>Папка <cite>templates</cite> c HTML-файлом</p></li>
-</ul>
-</section>
-<section id="id3">
-<h2>Структура проекта<a class="headerlink" href="#id3" title="Ссылка на этот заголовок"></a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>lessons/
-└──<span class="w"> </span>lesson14/
-<span class="w">    </span>├──<span class="w"> </span>app.py
-<span class="w">    </span>└──<span class="w"> </span>templates/
-<span class="w">        </span>└──<span class="w"> </span>index.html
-</pre></div>
-</div>
-<p><strong>Пояснение:</strong>
-- <cite>app.py</cite> – файл с Flask-приложением
-- <cite>templates/</cite> – директория для HTML-шаблонов
-- <cite>index.html</cite> – сам HTML-файл с версткой</p>
-</section>
-<section id="app-py">
-<h2>Код приложения (app.py)<a class="headerlink" href="#app-py" title="Ссылка на этот заголовок"></a></h2>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">flask</span><span class="w"> </span><span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">render_template</span>
-</pre></div>
-</div>
-<p>Просто создаём Flask-приложение и импортируем функцию render_template.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>Здесь мы создаём экземпляр приложения Flask, передавая в него специальную переменную <cite>__name__</cite>, чтобы Flask знал, где искать шаблоны.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">landing_page</span><span class="p">():</span>
-    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;index.html&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>Мы определяем маршрут <cite>/</cite> (корневой URL). При переходе на <a class="reference external" href="http:/">http:/</a>/&lt;IP&gt;:5000/ Flask возвращает содержимое шаблона <cite>index.html</cite> из папки <cite>templates</cite>.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
-    <span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;0.0.0.0&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">5000</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>Если файл запущен напрямую, стартуем встроенный сервер Flask на порту 5000.</p>
-</section>
-<section id="html-index-html">
-<h2>HTML-файл (index.html)<a class="headerlink" href="#html-index-html" title="Ссылка на этот заголовок"></a></h2>
-<div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cp">&lt;!DOCTYPE html&gt;</span>
-<span class="p">&lt;</span><span class="nt">html</span> <span class="na">lang</span><span class="o">=</span><span class="s">&quot;en&quot;</span><span class="p">&gt;</span>
-<span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
-    <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">charset</span><span class="o">=</span><span class="s">&quot;UTF-8&quot;</span><span class="p">/&gt;</span>
-    <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;viewport&quot;</span> <span class="na">content</span><span class="o">=</span><span class="s">&quot;width=device-width, initial-scale=1.0&quot;</span><span class="p">/&gt;</span>
-    <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>My Landing Page<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
-    <span class="p">&lt;</span><span class="nt">style</span><span class="p">&gt;</span>
-<span class="w">        </span><span class="nt">body</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="k">margin</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
-<span class="w">            </span><span class="k">font-family</span><span class="p">:</span><span class="w"> </span><span class="n">Arial</span><span class="p">,</span><span class="w"> </span><span class="kc">sans-serif</span><span class="p">;</span>
-<span class="w">            </span><span class="k">background</span><span class="p">:</span><span class="w"> </span><span class="mh">#f7f9fb</span><span class="p">;</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">        </span><span class="p">.</span><span class="nc">hero</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="k">display</span><span class="p">:</span><span class="w"> </span><span class="kc">flex</span><span class="p">;</span>
-<span class="w">            </span><span class="k">align-items</span><span class="p">:</span><span class="w"> </span><span class="kc">center</span><span class="p">;</span>
-<span class="w">            </span><span class="k">justify-content</span><span class="p">:</span><span class="w"> </span><span class="kc">center</span><span class="p">;</span>
-<span class="w">            </span><span class="k">height</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="kt">vh</span><span class="p">;</span>
-<span class="w">            </span><span class="k">background</span><span class="p">:</span><span class="w"> </span><span class="nb">linear-gradient</span><span class="p">(</span><span class="kc">to</span><span class="w"> </span><span class="kc">bottom</span><span class="w"> </span><span class="kc">right</span><span class="p">,</span><span class="w"> </span><span class="mh">#4facfe</span><span class="p">,</span><span class="w"> </span><span class="mh">#00f2fe</span><span class="p">);</span>
-<span class="w">            </span><span class="k">color</span><span class="p">:</span><span class="w"> </span><span class="kc">white</span><span class="p">;</span>
-<span class="w">            </span><span class="k">text-align</span><span class="p">:</span><span class="w"> </span><span class="kc">center</span><span class="p">;</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">        </span><span class="p">.</span><span class="nc">hero</span><span class="w"> </span><span class="nt">h1</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="k">font-size</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="kt">rem</span><span class="p">;</span>
-<span class="w">            </span><span class="k">margin-bottom</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="kt">rem</span><span class="p">;</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">        </span><span class="p">.</span><span class="nc">hero</span><span class="w"> </span><span class="nt">p</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="k">font-size</span><span class="p">:</span><span class="w"> </span><span class="mf">1.5</span><span class="kt">rem</span><span class="p">;</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">        </span><span class="p">.</span><span class="nc">cta-btn</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="k">display</span><span class="p">:</span><span class="w"> </span><span class="kc">inline-block</span><span class="p">;</span>
-<span class="w">            </span><span class="k">margin-top</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="kt">rem</span><span class="p">;</span>
-<span class="w">            </span><span class="k">padding</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="kt">rem</span><span class="w"> </span><span class="mi">2</span><span class="kt">rem</span><span class="p">;</span>
-<span class="w">            </span><span class="k">font-size</span><span class="p">:</span><span class="w"> </span><span class="mf">1.2</span><span class="kt">rem</span><span class="p">;</span>
-<span class="w">            </span><span class="k">background</span><span class="p">:</span><span class="w"> </span><span class="mh">#fff</span><span class="p">;</span>
-<span class="w">            </span><span class="k">color</span><span class="p">:</span><span class="w"> </span><span class="mh">#333</span><span class="p">;</span>
-<span class="w">            </span><span class="k">border</span><span class="p">:</span><span class="w"> </span><span class="kc">none</span><span class="p">;</span>
-<span class="w">            </span><span class="k">border-radius</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="kt">px</span><span class="p">;</span>
-<span class="w">            </span><span class="k">cursor</span><span class="p">:</span><span class="w"> </span><span class="kc">pointer</span><span class="p">;</span>
-<span class="w">            </span><span class="k">transition</span><span class="p">:</span><span class="w"> </span><span class="k">background</span><span class="w"> </span><span class="mf">0.3</span><span class="kt">s</span><span class="w"> </span><span class="kc">ease</span><span class="p">;</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">        </span><span class="p">.</span><span class="nc">cta-btn</span><span class="p">:</span><span class="nd">hover</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="k">background</span><span class="p">:</span><span class="w"> </span><span class="mh">#eaeaea</span><span class="p">;</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">    </span><span class="p">&lt;/</span><span class="nt">style</span><span class="p">&gt;</span>
-<span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
-<span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
-    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;hero&quot;</span><span class="p">&gt;</span>
-        <span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
-            <span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>Welcome to My Landing Page!<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
-            <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>This is a simple hero section with a call-to-action button.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
-            <span class="p">&lt;</span><span class="nt">button</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;cta-btn&quot;</span><span class="p">&gt;</span>Learn More<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
-        <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
-    <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
-<span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
-<span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
-</pre></div>
-</div>
-<p>В этом файле мы используем стандартную структуру HTML5. Блок <cite>.hero</cite> занимает всю высоту экрана и имеет градиентный фон. Класс <cite>.cta-btn</cite> — это кнопка с анимацией при наведении.</p>
-</section>
-<section id="id4">
-<h2>Запуск проекта<a class="headerlink" href="#id4" title="Ссылка на этот заголовок"></a></h2>
-<ol class="arabic">
-<li><p>Убедитесь, что в папке lesson14 есть <cite>app.py</cite> и папка <cite>templates/index.html</cite>.</p></li>
-<li><p>Запустите приложение:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>lessons/lesson14/app.py
-</pre></div>
-</div>
-</li>
-<li><p>Перейдите в браузере на <a class="reference external" href="http:/">http:/</a>/&lt;RaspberryPi_IP&gt;:5000</p></li>
-</ol>
-</section>
-<section id="id5">
-<h2>Ожидаемый результат<a class="headerlink" href="#id5" title="Ссылка на этот заголовок"></a></h2>
-<p>На экране появится полноценная HTML-страница с заголовком, описанием и кнопкой на красочном фоне.</p>
-</section>
-<section id="id6">
-<h2>Завершение работы<a class="headerlink" href="#id6" title="Ссылка на этот заголовок"></a></h2>
-<p>Нажмите <strong>Ctrl + C</strong> в терминале, чтобы остановить сервер. Поздравляем! Вы создали простой лэндинг-сайт, отделив HTML от логики Flask-приложения.</p>
-</section>
+  <section id="id1">
+<h1>Урок: Управление светодиодом через веб-интерфейс<a class="headerlink" href="#id1" title="Ссылка на этот заголовок"></a></h1>
 </section>
 
 

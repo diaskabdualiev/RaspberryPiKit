@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Урок 19: Работа с камерой Raspberry Pi (CircuitPython) 📷 &mdash; документация Alash Raspberry Pi 5 Kit </title>
+  <title>Урок 19: Работа с камерой Raspberry Pi 📷 &mdash; документация Alash Raspberry Pi 5 Kit </title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
@@ -24,7 +24,7 @@
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Алфавитный указатель" href="../../../genindex.html" />
     <link rel="search" title="Поиск" href="../../../search.html" />
-    <link rel="next" title="Уроки" href="../../../lessons/index.html" />
+    <link rel="next" title="Модуль второй" href="../../module2/index.html" />
     <link rel="prev" title="Урок 18: NFC модуль MFRC522" href="../lesson18/mfrc522.html" /> 
 </head>
 
@@ -116,7 +116,7 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="../../index.html">Уроки на основе CircuitPython</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="../index.html">Модуль первый</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="../lesson1/blink.html">Урок 1: Моргание светодиодом (CircuitPython) ✨</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../lesson1/blink.html">Урок 1: Моргание светодиодом ✨</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../lesson2/button.html">Урок 2: Подключение кнопки ✨</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../lesson3/rgb.html">Урок 3: RGB светодиод 🌈</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../lesson4/active_buzzer.html">Урок 4: Работа с активным зуммером 🔊</a></li>
@@ -134,7 +134,14 @@
 <li class="toctree-l3"><a class="reference internal" href="../lesson16/pca9685.html">Урок 16: Модуль PCA9685 для сервоприводов  🤖</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../lesson17/lcd1602.html">Урок 17: LCD1602 дисплей</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../lesson18/mfrc522.html">Урок 18: NFC модуль MFRC522</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Урок 19: Работа с камерой Raspberry Pi (CircuitPython) 📷</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Урок 19: Работа с камерой Raspberry Pi 📷</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../module2/index.html">Модуль второй</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../module2/lesson1/flask.html">Основы Flask</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../module2/lesson2/weblink.html">Веб светодиод</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../module2/lesson3/webrgb.html">RGB веб светодиод</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../module2/lesson4/webbuzzer.html">Управление зуммером через веб-интерфейс</a></li>
 </ul>
 </li>
 </ul>
@@ -162,7 +169,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../lessons/module2/index.html">Модуль 2</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../lessons/module2/lesson1/flask.html">Урок 1: Первый веб-сайт на Flask</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../lessons/module2/lesson2/webserver.html">Урок 2: Веб-лендинг с отдельной HTML-страницей</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../lessons/module2/lesson2/webserver.html">Урок: Управление светодиодом через веб-интерфейс</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../lessons/module2/lesson3/ledbutton.html">Урок 3: Управление светодиодом через Flask</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../lessons/module2/lesson4/flaskdht.html">Урок 4: Мониторинг DHT11 через Flask</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../lessons/module2/lesson5/webcamera.html">Урок 18: Онлайн-видеопоток с PiCamera2 через Flask</a></li>
@@ -256,20 +263,20 @@
       <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../index.html">Уроки на основе CircuitPython</a></li>
           <li class="breadcrumb-item"><a href="../index.html">Модуль первый</a></li>
-      <li class="breadcrumb-item active">Урок 19: Работа с камерой Raspberry Pi (CircuitPython) 📷</li>
+      <li class="breadcrumb-item active">Урок 19: Работа с камерой Raspberry Pi 📷</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul><div class="rst-breadcrumbs-buttons" role="navigation" aria-label="Навигация по соседним страницам">
         <a href="../lesson18/mfrc522.html" class="btn btn-neutral float-left" title="Урок 18: NFC модуль MFRC522" accesskey="p"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Предыдущая</a>
-        <a href="../../../lessons/index.html" class="btn btn-neutral float-right" title="Уроки" accesskey="n">Следующая <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../../module2/index.html" class="btn btn-neutral float-right" title="Модуль второй" accesskey="n">Следующая <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
   </div>
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="raspberry-pi-circuitpython">
-<h1>Урок 19: Работа с камерой Raspberry Pi (CircuitPython) 📷<a class="headerlink" href="#raspberry-pi-circuitpython" title="Ссылка на этот заголовок"></a></h1>
+  <section id="raspberry-pi">
+<h1>Урок 19: Работа с камерой Raspberry Pi 📷<a class="headerlink" href="#raspberry-pi" title="Ссылка на этот заголовок"></a></h1>
 <section id="id1">
 <h2>Теоретическая часть<a class="headerlink" href="#id1" title="Ссылка на этот заголовок"></a></h2>
 <p>Камера Raspberry Pi – это официальный модуль камеры для Raspberry Pi, который подключается напрямую к плате через CSI (Camera Serial Interface). Существует несколько моделей камер, включая стандартную и NoIR (без ИК-фильтра). Для работы с камерой в CircuitPython мы будем использовать библиотеку <cite>picamera2</cite>, которая предоставляет современный API для работы с камерой на Python.</p>
@@ -545,7 +552,7 @@ sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Нижняя область">
         <a href="../lesson18/mfrc522.html" class="btn btn-neutral float-left" title="Урок 18: NFC модуль MFRC522" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Предыдущая</a>
-        <a href="../../../lessons/index.html" class="btn btn-neutral float-right" title="Уроки" accesskey="n" rel="next">Следующая <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../../module2/index.html" class="btn btn-neutral float-right" title="Модуль второй" accesskey="n" rel="next">Следующая <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
