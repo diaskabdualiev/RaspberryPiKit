@@ -21,3 +21,6 @@
    lesson4/webbuzzer
    lesson5/webpassivebuzzer
    lesson6/webdht
+   lesson7/hcsr04web
+   lesson8/webservo
+   lesson9/webrelay
