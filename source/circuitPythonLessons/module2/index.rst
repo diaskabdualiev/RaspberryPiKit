@@ -19,3 +19,5 @@
    lesson2/weblink
    lesson3/webrgb
    lesson4/webbuzzer
+   lesson5/webpassivebuzzer
+   lesson6/webdht
