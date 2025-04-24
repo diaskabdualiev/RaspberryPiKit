@@ -24,3 +24,6 @@
    lesson7/hcsr04web
    lesson8/webservo
    lesson9/webrelay
+   lesson10/webkeypad
+   lesson11/webencoder
+   lesson12/webmax
