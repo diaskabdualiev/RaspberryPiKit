@@ -27,3 +27,6 @@
    lesson10/webkeypad
    lesson11/webencoder
    lesson12/webmax
+   lesson13/webpot
+   lesson14/webjoystick
+   lesson15/webmpu
