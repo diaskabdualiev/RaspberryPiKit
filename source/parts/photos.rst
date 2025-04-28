@@ -137,7 +137,7 @@ Raspberry Pi 5. Визуальное представление поможет �
    * - .. image:: images/rfid.jpg
         :width: 100px
         :align: center
-     - RFID считыватель MFRC522
+     - RFID считыватель PN532
      - 1
 
    * - .. image:: images/ads1115.jpg
