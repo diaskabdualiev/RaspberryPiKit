@@ -59,4 +59,5 @@ pip install RPLCD
 pip install adafruit-circuitpython-charlcd
 
 18 урок для работы с mfrc522
-pip install mfrc522
+pip uninstall -y RPi.GPIO
+pip install rpi-lgpio mfrc522-python

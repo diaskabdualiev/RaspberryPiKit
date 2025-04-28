@@ -30,3 +30,7 @@
    lesson13/webpot
    lesson14/webjoystick
    lesson15/webmpu
+   lesson16/webpca
+   lesson17/weblcd
+   lesson18/nfrc522
+   
