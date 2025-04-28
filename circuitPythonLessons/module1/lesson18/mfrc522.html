@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Урок 18: NFC модуль MFRC522 &mdash; документация Alash Raspberry Pi 5 Kit </title>
+  <title>Урок: Работа с RFID/NFC считывателем PN532 на Raspberry Pi &mdash; документация Alash Raspberry Pi 5 Kit </title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
@@ -133,7 +133,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../lesson15/mpu6050.html">Урок 15: Работа с MPU6050 🧭</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../lesson16/pca9685.html">Урок 16: Модуль PCA9685 для сервоприводов  🤖</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../lesson17/lcd1602.html">Урок 17: LCD1602 дисплей</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Урок 18: NFC модуль MFRC522</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Урок: Работа с RFID/NFC считывателем PN532 на Raspberry Pi</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../lesson19/camera.html">Урок 19: Работа с камерой Raspberry Pi 📷</a></li>
 </ul>
 </li>
@@ -277,7 +277,7 @@
       <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../index.html">Уроки на основе CircuitPython</a></li>
           <li class="breadcrumb-item"><a href="../index.html">Модуль первый</a></li>
-      <li class="breadcrumb-item active">Урок 18: NFC модуль MFRC522</li>
+      <li class="breadcrumb-item active">Урок: Работа с RFID/NFC считывателем PN532 на Raspberry Pi</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul><div class="rst-breadcrumbs-buttons" role="navigation" aria-label="Навигация по соседним страницам">
@@ -289,37 +289,419 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="nfc-mfrc522">
-<h1>Урок 18: NFC модуль MFRC522<a class="headerlink" href="#nfc-mfrc522" title="Ссылка на этот заголовок"></a></h1>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">RPi.GPIO</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">GPIO</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">mfrc522</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimpleMFRC522</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+  <section id="rfid-nfc-pn532-raspberry-pi">
+<h1>Урок: Работа с RFID/NFC считывателем PN532 на Raspberry Pi<a class="headerlink" href="#rfid-nfc-pn532-raspberry-pi" title="Ссылка на этот заголовок"></a></h1>
+<section id="id1">
+<h2>Теоретическая часть<a class="headerlink" href="#id1" title="Ссылка на этот заголовок"></a></h2>
+<p>RFID (Radio Frequency Identification) и NFC (Near Field Communication) технологии широко используются для бесконтактной идентификации объектов. Устройство PN532 — это популярный считыватель, который поддерживает различные стандарты RFID и NFC, включая ISO 14443A/MIFARE, FeliCa и ISO 14443B.</p>
+<p>В этом уроке мы научимся:
+- Подключать модуль PN532 к Raspberry Pi через I2C интерфейс
+- Настраивать библиотеку CircuitPython для работы с модулем
+- Считывать UID (уникальные идентификаторы) RFID/NFC карт и меток
+- Выполнять базовые операции чтения/записи с картами</p>
+</section>
+<section id="id2">
+<h2>Необходимые компоненты<a class="headerlink" href="#id2" title="Ссылка на этот заголовок"></a></h2>
+<ul class="simple">
+<li><p>Raspberry Pi</p></li>
+<li><p>RFID/NFC считыватель PN532</p></li>
+<li><p>RFID-карты или NFC-метки для тестирования</p></li>
+<li><p>Соединительные провода</p></li>
+<li><p>Макетная плата (опционально)</p></li>
+</ul>
+</section>
+<section id="id3">
+<h2>Схема подключения<a class="headerlink" href="#id3" title="Ссылка на этот заголовок"></a></h2>
+<p>Модуль PN532 может работать через разные интерфейсы: I2C, SPI или UART. В этом уроке мы используем I2C как наиболее простой вариант, требующий минимального количества проводов.</p>
+</section>
+<section id="id4">
+<h2>Установка необходимых библиотек<a class="headerlink" href="#id4" title="Ссылка на этот заголовок"></a></h2>
+<p>Для работы с PN532 через CircuitPython, нам потребуются следующие библиотеки:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt-get<span class="w"> </span>update
+sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>python3-pip
 
-<span class="c1"># Инициализация</span>
-<span class="n">reader</span> <span class="o">=</span> <span class="n">SimpleMFRC522</span><span class="p">()</span>
+<span class="c1"># Включение I2C в Raspberry Pi, если ещё не включено</span>
+sudo<span class="w"> </span>raspi-config
+<span class="c1"># Выберите: Interfacing Options → I2C → Yes</span>
 
-<span class="k">try</span><span class="p">:</span>
-    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Поднесите карту к считывателю...&quot;</span><span class="p">)</span>
-
-        <span class="c1"># Считывание ID карты и данных</span>
-        <span class="nb">id</span><span class="p">,</span> <span class="n">text</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
-
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ID карты: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">id</span><span class="p">))</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Данные на карте: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">text</span><span class="p">))</span>
-
-        <span class="c1"># Задержка между считываниями</span>
-        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-
-<span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
-    <span class="c1"># Выход по Ctrl+C</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Программа остановлена&quot;</span><span class="p">)</span>
-
-<span class="k">finally</span><span class="p">:</span>
-    <span class="c1"># Очистка GPIO</span>
-    <span class="n">GPIO</span><span class="o">.</span><span class="n">cleanup</span><span class="p">()</span>
+<span class="c1"># Установка библиотек</span>
+pip3<span class="w"> </span>install<span class="w"> </span>adafruit-blinka
+pip3<span class="w"> </span>install<span class="w"> </span>adafruit-circuitpython-pn532
 </pre></div>
 </div>
+<p>После установки желательно проверить, определяется ли I2C-устройство:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>i2cdetect<span class="w"> </span>-y<span class="w"> </span><span class="m">1</span>
+</pre></div>
+</div>
+<p>Вы должны увидеть устройство по адресу 0x24 (типичный адрес PN532).</p>
+</section>
+<section id="pn532">
+<h2>Базовый код для работы с PN532<a class="headerlink" href="#pn532" title="Ссылка на этот заголовок"></a></h2>
+<p>Создайте файл <cite>rfid_basic.py</cite> и вставьте следующий код:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">board</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">busio</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">digitalio</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">adafruit_pn532.i2c</span><span class="w"> </span><span class="kn">import</span> <span class="n">PN532_I2C</span>
+
+<span class="c1"># I2C-шина и пин reset</span>
+<span class="n">i2c</span> <span class="o">=</span> <span class="n">busio</span><span class="o">.</span><span class="n">I2C</span><span class="p">(</span><span class="n">board</span><span class="o">.</span><span class="n">SCL</span><span class="p">,</span> <span class="n">board</span><span class="o">.</span><span class="n">SDA</span><span class="p">)</span>
+<span class="n">reset</span> <span class="o">=</span> <span class="n">digitalio</span><span class="o">.</span><span class="n">DigitalInOut</span><span class="p">(</span><span class="n">board</span><span class="o">.</span><span class="n">D25</span><span class="p">)</span>
+
+<span class="n">pn532</span> <span class="o">=</span> <span class="n">PN532_I2C</span><span class="p">(</span><span class="n">i2c</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">reset</span><span class="o">=</span><span class="n">reset</span><span class="p">)</span>
+
+<span class="n">ic</span><span class="p">,</span> <span class="n">ver</span><span class="p">,</span> <span class="n">rev</span><span class="p">,</span> <span class="n">support</span> <span class="o">=</span> <span class="n">pn532</span><span class="o">.</span><span class="n">firmware_version</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;PN532 v</span><span class="si">{</span><span class="n">ver</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">rev</span><span class="si">}</span><span class="s2"> — IC 0x</span><span class="si">{</span><span class="n">ic</span><span class="si">:</span><span class="s2">x</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">pn532</span><span class="o">.</span><span class="n">SAM_configuration</span><span class="p">()</span>          <span class="c1"># включаем чтение карт</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Поднесите NFC-метку…&quot;</span><span class="p">)</span>
+
+<span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="n">uid</span> <span class="o">=</span> <span class="n">pn532</span><span class="o">.</span><span class="n">read_passive_target</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">uid</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Найдена карта, UID:&quot;</span><span class="p">,</span> <span class="n">uid</span><span class="o">.</span><span class="n">hex</span><span class="p">())</span>
+</pre></div>
+</div>
+<p>Запустите скрипт командой:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>rfid_basic.py
+</pre></div>
+</div>
+</section>
+<section id="id5">
+<h2>Разбор кода для работы с PN532<a class="headerlink" href="#id5" title="Ссылка на этот заголовок"></a></h2>
+<p>Рассмотрим ключевые части кода и объясним их назначение:</p>
+<p><strong>Импорт библиотек:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">board</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">busio</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">digitalio</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">adafruit_pn532.i2c</span><span class="w"> </span><span class="kn">import</span> <span class="n">PN532_I2C</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><cite>board</cite> - модуль для работы с GPIO пинами Raspberry Pi</p></li>
+<li><p><cite>busio</cite> - модуль для работы с коммуникационными интерфейсами (I2C, SPI, UART)</p></li>
+<li><p><cite>digitalio</cite> - модуль для работы с цифровыми входами/выходами</p></li>
+<li><p><cite>PN532_I2C</cite> - класс для работы с PN532 через I2C интерфейс</p></li>
+</ul>
+<p><strong>Инициализация I2C и пина сброса:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">i2c</span> <span class="o">=</span> <span class="n">busio</span><span class="o">.</span><span class="n">I2C</span><span class="p">(</span><span class="n">board</span><span class="o">.</span><span class="n">SCL</span><span class="p">,</span> <span class="n">board</span><span class="o">.</span><span class="n">SDA</span><span class="p">)</span>
+<span class="n">reset</span> <span class="o">=</span> <span class="n">digitalio</span><span class="o">.</span><span class="n">DigitalInOut</span><span class="p">(</span><span class="n">board</span><span class="o">.</span><span class="n">D25</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Здесь мы создаем объект для I2C интерфейса, используя стандартные пины SCL и SDA на Raspberry Pi, и настраиваем пин GPIO25 как цифровой выход для сброса модуля.</p>
+<p><strong>Создание объекта PN532:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pn532</span> <span class="o">=</span> <span class="n">PN532_I2C</span><span class="p">(</span><span class="n">i2c</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">reset</span><span class="o">=</span><span class="n">reset</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Создаем объект для работы с PN532 через I2C, передавая ему:
+- объект I2C интерфейса
+- флаг отладки (False - выключена)
+- пин сброса (reset)</p>
+<p><strong>Проверка подключения:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ic</span><span class="p">,</span> <span class="n">ver</span><span class="p">,</span> <span class="n">rev</span><span class="p">,</span> <span class="n">support</span> <span class="o">=</span> <span class="n">pn532</span><span class="o">.</span><span class="n">firmware_version</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;PN532 v</span><span class="si">{</span><span class="n">ver</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">rev</span><span class="si">}</span><span class="s2"> — IC 0x</span><span class="si">{</span><span class="n">ic</span><span class="si">:</span><span class="s2">x</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Запрашиваем версию прошивки, чтобы убедиться, что модуль подключен и работает корректно. Это возвращает кортеж из четырех значений:
+- <cite>ic</cite>: идентификатор микросхемы
+- <cite>ver</cite>: основная версия прошивки
+- <cite>rev</cite>: ревизия прошивки
+- <cite>support</cite>: поддерживаемые функции</p>
+<p><strong>Настройка Security Access Module (SAM):</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pn532</span><span class="o">.</span><span class="n">SAM_configuration</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Этот метод настраивает режим работы Security Access Module (SAM). Без явной конфигурации используются режимы по умолчанию:
+- Нормальный режим (без использования SAM)
+- IRQ пин не используется
+- Виртуальная карта не используется</p>
+<p><strong>Основной цикл считывания меток:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="n">uid</span> <span class="o">=</span> <span class="n">pn532</span><span class="o">.</span><span class="n">read_passive_target</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">uid</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Найдена карта, UID:&quot;</span><span class="p">,</span> <span class="n">uid</span><span class="o">.</span><span class="n">hex</span><span class="p">())</span>
+</pre></div>
+</div>
+<p>В бесконечном цикле мы пытаемся считать метку с таймаутом 0.5 секунды:
+- <cite>read_passive_target()</cite> ищет карту/метку, совместимую с ISO14443A (включая MIFARE)
+- Если метка найдена, метод возвращает ее UID в виде байтового массива
+- Метод <cite>hex()</cite> преобразует байтовый массив в шестнадцатеричную строку для удобного отображения</p>
+</section>
+<section id="ndef-nfc">
+<h2>Расширенный пример: чтение NDEF данных с NFC-меток<a class="headerlink" href="#ndef-nfc" title="Ссылка на этот заголовок"></a></h2>
+<p>NDEF (NFC Data Exchange Format) - это стандартный формат данных для NFC-меток. Давайте расширим наш код для чтения NDEF-сообщений с метки:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">board</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">busio</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">digitalio</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">adafruit_pn532.i2c</span><span class="w"> </span><span class="kn">import</span> <span class="n">PN532_I2C</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+
+<span class="c1"># I2C-шина и пин reset</span>
+<span class="n">i2c</span> <span class="o">=</span> <span class="n">busio</span><span class="o">.</span><span class="n">I2C</span><span class="p">(</span><span class="n">board</span><span class="o">.</span><span class="n">SCL</span><span class="p">,</span> <span class="n">board</span><span class="o">.</span><span class="n">SDA</span><span class="p">)</span>
+<span class="n">reset</span> <span class="o">=</span> <span class="n">digitalio</span><span class="o">.</span><span class="n">DigitalInOut</span><span class="p">(</span><span class="n">board</span><span class="o">.</span><span class="n">D25</span><span class="p">)</span>
+
+<span class="n">pn532</span> <span class="o">=</span> <span class="n">PN532_I2C</span><span class="p">(</span><span class="n">i2c</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">reset</span><span class="o">=</span><span class="n">reset</span><span class="p">)</span>
+
+<span class="n">ic</span><span class="p">,</span> <span class="n">ver</span><span class="p">,</span> <span class="n">rev</span><span class="p">,</span> <span class="n">support</span> <span class="o">=</span> <span class="n">pn532</span><span class="o">.</span><span class="n">firmware_version</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;PN532 v</span><span class="si">{</span><span class="n">ver</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">rev</span><span class="si">}</span><span class="s2"> — IC 0x</span><span class="si">{</span><span class="n">ic</span><span class="si">:</span><span class="s2">x</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">pn532</span><span class="o">.</span><span class="n">SAM_configuration</span><span class="p">()</span>
+
+<span class="c1"># Функция для чтения NDEF данных из метки</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">read_ndef_data</span><span class="p">(</span><span class="n">block_number</span><span class="o">=</span><span class="mi">4</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Поднесите NFC метку для чтения NDEF данных...&quot;</span><span class="p">)</span>
+    <span class="n">uid</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="c1"># Ждем метку</span>
+    <span class="k">while</span> <span class="n">uid</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">uid</span> <span class="o">=</span> <span class="n">pn532</span><span class="o">.</span><span class="n">read_passive_target</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Найдена метка, UID: </span><span class="si">{</span><span class="n">uid</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># Пробуем прочитать блок данных (для MIFARE Classic)</span>
+        <span class="c1"># Для MIFARE Ultralight и других меток процесс может отличаться</span>
+        <span class="k">if</span> <span class="n">block_number</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># Аутентификация для MIFARE Classic (ключ по умолчанию)</span>
+            <span class="n">mifare_key</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&quot;</span><span class="se">\xFF\xFF\xFF\xFF\xFF\xFF</span><span class="s2">&quot;</span>
+            <span class="k">if</span> <span class="n">pn532</span><span class="o">.</span><span class="n">mifare_classic_authenticate_block</span><span class="p">(</span><span class="n">uid</span><span class="p">,</span> <span class="n">block_number</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">mifare_key</span><span class="p">):</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Аутентификация успешна для блока </span><span class="si">{</span><span class="n">block_number</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">block_data</span> <span class="o">=</span> <span class="n">pn532</span><span class="o">.</span><span class="n">mifare_classic_read_block</span><span class="p">(</span><span class="n">block_number</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">block_data</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Данные блока </span><span class="si">{</span><span class="n">block_number</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">block_data</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="c1"># Пробуем интерпретировать как ASCII текст</span>
+                    <span class="n">text</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">chr</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="k">if</span> <span class="mi">32</span> <span class="o">&lt;=</span> <span class="n">b</span> <span class="o">&lt;=</span> <span class="mi">126</span> <span class="k">else</span> <span class="s1">&#39;.&#39;</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">block_data</span><span class="p">])</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ASCII: </span><span class="si">{</span><span class="n">text</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Ошибка чтения блока&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Ошибка аутентификации&quot;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Ошибка при чтении данных: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Основной код</span>
+<span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="n">read_ndef_data</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Ожидание 3 секунды перед следующей попыткой...&quot;</span><span class="p">)</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Этот код пытается прочитать содержимое блока 4 карты MIFARE Classic, который часто содержит начало NDEF сообщения. Для других типов карт и меток может потребоваться другой подход.</p>
+</section>
+<section id="mifare-classic">
+<h2>Пример записи данных на MIFARE Classic карту<a class="headerlink" href="#mifare-classic" title="Ссылка на этот заголовок"></a></h2>
+<p>Для записи данных на MIFARE Classic карту можно использовать следующий код:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">write_mifare_block</span><span class="p">(</span><span class="n">block_number</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">16</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="nb">bytearray</span><span class="p">([</span><span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">,</span> <span class="mh">0x02</span><span class="p">,</span> <span class="mh">0x03</span><span class="p">,</span> <span class="mh">0x04</span><span class="p">,</span> <span class="mh">0x05</span><span class="p">,</span> <span class="mh">0x06</span><span class="p">,</span> <span class="mh">0x07</span><span class="p">,</span>
+                        <span class="mh">0x08</span><span class="p">,</span> <span class="mh">0x09</span><span class="p">,</span> <span class="mh">0x0A</span><span class="p">,</span> <span class="mh">0x0B</span><span class="p">,</span> <span class="mh">0x0C</span><span class="p">,</span> <span class="mh">0x0D</span><span class="p">,</span> <span class="mh">0x0E</span><span class="p">,</span> <span class="mh">0x0F</span><span class="p">])</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Поднесите MIFARE Classic карту для записи...&quot;</span><span class="p">)</span>
+    <span class="n">uid</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="c1"># Ждем карту</span>
+    <span class="k">while</span> <span class="n">uid</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">uid</span> <span class="o">=</span> <span class="n">pn532</span><span class="o">.</span><span class="n">read_passive_target</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Найдена карта, UID: </span><span class="si">{</span><span class="n">uid</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># Аутентификация</span>
+        <span class="n">mifare_key</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&quot;</span><span class="se">\xFF\xFF\xFF\xFF\xFF\xFF</span><span class="s2">&quot;</span>  <span class="c1"># Ключ по умолчанию</span>
+        <span class="k">if</span> <span class="n">pn532</span><span class="o">.</span><span class="n">mifare_classic_authenticate_block</span><span class="p">(</span><span class="n">uid</span><span class="p">,</span> <span class="n">block_number</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">mifare_key</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Аутентификация успешна для блока </span><span class="si">{</span><span class="n">block_number</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="c1"># Запись данных</span>
+            <span class="k">if</span> <span class="n">pn532</span><span class="o">.</span><span class="n">mifare_classic_write_block</span><span class="p">(</span><span class="n">block_number</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Данные успешно записаны в блок </span><span class="si">{</span><span class="n">block_number</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Записаны данные: </span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Ошибка записи данных&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Ошибка аутентификации&quot;</span><span class="p">)</span>
+
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Ошибка при записи данных: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Важное замечание о безопасности</strong>: Некоторые блоки на MIFARE Classic картах содержат важную служебную информацию, включая ключи аутентификации и биты доступа. Запись в эти блоки может привести к тому, что карта станет непригодной для использования. Обычно безопасно записывать в блоки данных, начиная с блока 4.</p>
+</section>
+<section id="id6">
+<h2>Интеграция с системами контроля доступа<a class="headerlink" href="#id6" title="Ссылка на этот заголовок"></a></h2>
+<p>Можно создать простую систему контроля доступа, сохраняя разрешенные UID карт в файл или базу данных:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">board</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">busio</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">digitalio</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">adafruit_pn532.i2c</span><span class="w"> </span><span class="kn">import</span> <span class="n">PN532_I2C</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+
+<span class="c1"># I2C-шина и пин reset</span>
+<span class="n">i2c</span> <span class="o">=</span> <span class="n">busio</span><span class="o">.</span><span class="n">I2C</span><span class="p">(</span><span class="n">board</span><span class="o">.</span><span class="n">SCL</span><span class="p">,</span> <span class="n">board</span><span class="o">.</span><span class="n">SDA</span><span class="p">)</span>
+<span class="n">reset</span> <span class="o">=</span> <span class="n">digitalio</span><span class="o">.</span><span class="n">DigitalInOut</span><span class="p">(</span><span class="n">board</span><span class="o">.</span><span class="n">D25</span><span class="p">)</span>
+
+<span class="n">pn532</span> <span class="o">=</span> <span class="n">PN532_I2C</span><span class="p">(</span><span class="n">i2c</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">reset</span><span class="o">=</span><span class="n">reset</span><span class="p">)</span>
+
+<span class="n">ic</span><span class="p">,</span> <span class="n">ver</span><span class="p">,</span> <span class="n">rev</span><span class="p">,</span> <span class="n">support</span> <span class="o">=</span> <span class="n">pn532</span><span class="o">.</span><span class="n">firmware_version</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;PN532 v</span><span class="si">{</span><span class="n">ver</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">rev</span><span class="si">}</span><span class="s2"> — IC 0x</span><span class="si">{</span><span class="n">ic</span><span class="si">:</span><span class="s2">x</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">pn532</span><span class="o">.</span><span class="n">SAM_configuration</span><span class="p">()</span>
+
+<span class="c1"># Функция для загрузки разрешенных UID из файла</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">load_allowed_uids</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s2">&quot;allowed_uids.json&quot;</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+    <span class="k">except</span> <span class="p">(</span><span class="ne">FileNotFoundError</span><span class="p">,</span> <span class="n">json</span><span class="o">.</span><span class="n">JSONDecodeError</span><span class="p">):</span>
+        <span class="c1"># Если файл не существует или поврежден, создаем пустой список</span>
+        <span class="k">return</span> <span class="p">[]</span>
+
+<span class="c1"># Функция для сохранения UID в файл</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">save_uid</span><span class="p">(</span><span class="n">uid</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s2">&quot;allowed_uids.json&quot;</span><span class="p">):</span>
+    <span class="n">uids</span> <span class="o">=</span> <span class="n">load_allowed_uids</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+
+    <span class="c1"># Проверяем, есть ли уже такой UID</span>
+    <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">uids</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;uid&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="n">uid</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;UID </span><span class="si">{</span><span class="n">uid</span><span class="si">}</span><span class="s2"> уже существует в базе&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="c1"># Добавляем новый UID</span>
+    <span class="n">uids</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;uid&quot;</span><span class="p">:</span> <span class="n">uid</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span> <span class="s2">&quot;added&quot;</span><span class="p">:</span> <span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S&quot;</span><span class="p">)})</span>
+
+    <span class="c1"># Сохраняем обновленный список</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+        <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">uids</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;UID </span><span class="si">{</span><span class="n">uid</span><span class="si">}</span><span class="s2"> успешно добавлен в базу&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">True</span>
+
+<span class="c1"># Функция для проверки доступа</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">check_access</span><span class="p">(</span><span class="n">uid</span><span class="p">):</span>
+    <span class="n">allowed_uids</span> <span class="o">=</span> <span class="n">load_allowed_uids</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">allowed_uids</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;uid&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="n">uid</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Доступ разрешен для </span><span class="si">{</span><span class="n">entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Неизвестный&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Доступ запрещен: неизвестная карта&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">False</span>
+
+<span class="c1"># Режим регистрации новых карт</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">registration_mode</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== РЕЖИМ РЕГИСТРАЦИИ ===&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Поднесите карту для регистрации...&quot;</span><span class="p">)</span>
+
+    <span class="n">uid</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">while</span> <span class="n">uid</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">uid</span> <span class="o">=</span> <span class="n">pn532</span><span class="o">.</span><span class="n">read_passive_target</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
+
+    <span class="n">uid_hex</span> <span class="o">=</span> <span class="n">uid</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Найдена карта, UID: </span><span class="si">{</span><span class="n">uid_hex</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Введите имя пользователя (или оставьте пустым): &quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">save_uid</span><span class="p">(</span><span class="n">uid_hex</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Карта успешно зарегистрирована!&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Ошибка при регистрации карты.&quot;</span><span class="p">)</span>
+
+<span class="c1"># Режим проверки доступа</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">access_control_mode</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== РЕЖИМ КОНТРОЛЯ ДОСТУПА ===&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Поднесите карту для проверки...&quot;</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">uid</span> <span class="o">=</span> <span class="n">pn532</span><span class="o">.</span><span class="n">read_passive_target</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">uid</span><span class="p">:</span>
+                <span class="n">uid_hex</span> <span class="o">=</span> <span class="n">uid</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Найдена карта, UID: </span><span class="si">{</span><span class="n">uid_hex</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="n">check_access</span><span class="p">(</span><span class="n">uid_hex</span><span class="p">):</span>
+                    <span class="c1"># Здесь можно добавить код для открытия двери, включения LED и т.д.</span>
+                    <span class="k">pass</span>
+
+                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># Пауза между считываниями</span>
+
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
+
+    <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Режим контроля доступа завершен.&quot;</span><span class="p">)</span>
+
+<span class="c1"># Главное меню</span>
+<span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">=== МЕНЮ ===&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;1. Режим регистрации карт&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;2. Режим контроля доступа&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;3. Выход&quot;</span><span class="p">)</span>
+
+    <span class="n">choice</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Выберите опцию (1-3): &quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">choice</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span><span class="p">:</span>
+        <span class="n">registration_mode</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="n">choice</span> <span class="o">==</span> <span class="s2">&quot;2&quot;</span><span class="p">:</span>
+        <span class="n">access_control_mode</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="n">choice</span> <span class="o">==</span> <span class="s2">&quot;3&quot;</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Программа завершена.&quot;</span><span class="p">)</span>
+        <span class="k">break</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Неверный выбор. Попробуйте снова.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Этот скрипт предоставляет простое меню для регистрации новых карт и проверки доступа. Разрешенные UID сохраняются в JSON-файле вместе с именами пользователей и датой регистрации.</p>
+</section>
+<section id="id7">
+<h2>Практические рекомендации<a class="headerlink" href="#id7" title="Ссылка на этот заголовок"></a></h2>
+<ol class="arabic">
+<li><p><strong>Расстояние чтения</strong>: Модуль PN532 имеет относительно небольшой диапазон чтения (обычно до 5 см). Для оптимальных результатов держите карту или метку близко к антенне.</p></li>
+<li><p><strong>Избегайте металлических поверхностей</strong>: Металл может значительно снизить эффективность считывания. Старайтесь не размещать модуль на металлических поверхностях или вблизи них.</p></li>
+<li><p><strong>Проверка наличия карты</strong>: В режиме чтения могут быть ложные срабатывания, поэтому всегда проверяйте UID карты перед выполнением важных действий:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">uid</span> <span class="o">=</span> <span class="n">pn532</span><span class="o">.</span><span class="n">read_passive_target</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">uid</span><span class="p">:</span>
+    <span class="c1"># Работаем с картой</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Обработка ошибок</strong>: Всегда добавляйте обработку исключений, особенно при работе с картами MIFARE, где может быть множество типов ошибок:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
+    <span class="c1"># Код работы с картой</span>
+<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Ошибка: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Безопасность ключей</strong>: Если вы меняете ключи аутентификации на картах MIFARE Classic, всегда сохраняйте резервную копию ключей. Потеря ключей может сделать карту непригодной для использования.</p></li>
+</ol>
+</section>
+<section id="id8">
+<h2>Заключение<a class="headerlink" href="#id8" title="Ссылка на этот заголовок"></a></h2>
+<p>В этом уроке мы изучили основы работы с RFID/NFC считывателем PN532 на Raspberry Pi через I2C интерфейс. Мы рассмотрели:</p>
+<ul class="simple">
+<li><p>Базовое подключение и инициализацию считывателя</p></li>
+<li><p>Считывание UID карт и меток</p></li>
+<li><p>Чтение и запись данных на MIFARE Classic карты</p></li>
+<li><p>Создание простой системы контроля доступа</p></li>
+</ul>
+<p>Теперь вы можете использовать эти знания для создания собственных проектов с использованием RFID/NFC технологий, таких как:
+- Системы контроля доступа
+- Электронные платежные системы
+- Учет посещаемости
+- Интерактивные экспонаты и игры</p>
+</section>
+<section id="id9">
+<h2>Дополнительные материалы<a class="headerlink" href="#id9" title="Ссылка на этот заголовок"></a></h2>
+<ol class="arabic simple">
+<li><p>[Документация CircuitPython для PN532](<a class="reference external" href="https://circuitpython.readthedocs.io/projects/pn532/en/latest/">https://circuitpython.readthedocs.io/projects/pn532/en/latest/</a>)</p></li>
+<li><p>[Спецификация стандарта NDEF](<a class="reference external" href="https://developer.android.com/develop/connectivity/nfc/nfc/advanced-nfc.html">https://developer.android.com/develop/connectivity/nfc/nfc/advanced-nfc.html</a>)</p></li>
+<li><p>[Руководство по работе с MIFARE Classic](<a class="reference external" href="https://www.nxp.com/docs/en/data-sheet/MF1S50YYX_V1.pdf">https://www.nxp.com/docs/en/data-sheet/MF1S50YYX_V1.pdf</a>)</p></li>
+</ol>
+</section>
 </section>
 
 
