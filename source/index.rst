@@ -1,10 +1,6 @@
 Alash Raspberry Pi 5 Kit documentation
 ======================================
 
-.. warning::
-   Данный момент документация виду ограничений библиотеки gpiozero, делать перевод всех уроков под, CircuitPython данный момент не все уроки не могут быть досутпны. Спасибо за внимание!
-
-
 .. figure:: _images/raspberry-pi-board1.jpg
    :width: 100%
    :align: center
