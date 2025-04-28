@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Урок: Веб-интерфейс для RFID считывателя на Raspberry Pi &mdash; документация Alash Raspberry Pi 5 Kit </title>
+  <title>Урок: Создание веб-интерфейса для NFC-считывателя на Raspberry Pi &mdash; документация Alash Raspberry Pi 5 Kit </title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
@@ -155,7 +155,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../lesson15/webmpu.html">3D веб визуализация MPU6050</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../lesson16/webpca.html">Веб управлениt сервоприводами через PCA9685</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../lesson17/weblcd.html">Урок: Веб-интерфейс для управления LCD дисплеем</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Урок: Веб-интерфейс для RFID считывателя на Raspberry Pi</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Урок: Создание веб-интерфейса для NFC-считывателя на Raspberry Pi</a></li>
 </ul>
 </li>
 </ul>
@@ -277,7 +277,7 @@
       <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../index.html">Уроки на основе CircuitPython</a></li>
           <li class="breadcrumb-item"><a href="../index.html">Модуль второй</a></li>
-      <li class="breadcrumb-item active">Урок: Веб-интерфейс для RFID считывателя на Raspberry Pi</li>
+      <li class="breadcrumb-item active">Урок: Создание веб-интерфейса для NFC-считывателя на Raspberry Pi</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul><div class="rst-breadcrumbs-buttons" role="navigation" aria-label="Навигация по соседним страницам">
@@ -289,97 +289,147 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="rfid-raspberry-pi">
-<h1>Урок: Веб-интерфейс для RFID считывателя на Raspberry Pi<a class="headerlink" href="#rfid-raspberry-pi" title="Ссылка на этот заголовок"></a></h1>
+  <section id="nfc-raspberry-pi">
+<h1>Урок: Создание веб-интерфейса для NFC-считывателя на Raspberry Pi<a class="headerlink" href="#nfc-raspberry-pi" title="Ссылка на этот заголовок"></a></h1>
 <section id="id1">
 <h2>Теоретическая часть<a class="headerlink" href="#id1" title="Ссылка на этот заголовок"></a></h2>
-<p>В этом уроке мы создадим веб-интерфейс для RFID считывателя RC522, подключенного к Raspberry Pi. RFID (Radio Frequency IDentification) — это технология радиочастотной идентификации, которая используется для бесконтактного считывания информации с специальных меток (карт, брелоков).</p>
-<p>Наше приложение позволит:
-1. В реальном времени отслеживать считывание RFID-меток
-2. Отображать уникальный идентификатор (UID) считанной карты
-3. Вручную вводить и сохранять UID меток</p>
-<p>Мы будем использовать:
-- Python библиотеку <cite>mfrc522</cite> для работы с RFID считывателем
-- Flask для создания веб-сервера
-- Многопоточное программирование для одновременного считывания RFID и обслуживания веб-запросов
-- HTML, CSS и JavaScript для создания интерактивного интерфейса</p>
+<p>В этом уроке мы создадим веб-приложение для NFC-считывателя на базе Raspberry Pi. Такая система позволит удаленно отслеживать считывание NFC-меток и карт через веб-браузер. Мы объединим технологии работы с NFC и веб-разработки, сделав информацию с NFC-считывателя доступной через интернет.</p>
+<p>Ключевые технологии, которые будут использованы:
+- <strong>PN532</strong> - популярный чип для работы с NFC/RFID
+- <strong>CircuitPython</strong> с библиотекой <strong>adafruit_pn532</strong> для работы с NFC-считывателем
+- <strong>Flask</strong> - легковесный веб-фреймворк для создания веб-приложения
+- <strong>Многопоточность</strong> (threading) для одновременной работы NFC-считывателя и веб-сервера
+- <strong>HTML/CSS/JavaScript</strong> для создания интерактивного интерфейса</p>
 </section>
 <section id="id2">
 <h2>Необходимые компоненты<a class="headerlink" href="#id2" title="Ссылка на этот заголовок"></a></h2>
 <ul class="simple">
 <li><p>Raspberry Pi</p></li>
-<li><p>RFID считыватель RC522</p></li>
-<li><p>RFID метки (карты, брелоки)</p></li>
+<li><p>NFC-считыватель PN532</p></li>
+<li><p>NFC-метки или карты для тестирования</p></li>
 <li><p>Соединительные провода</p></li>
 </ul>
 </section>
 <section id="id3">
 <h2>Схема подключения<a class="headerlink" href="#id3" title="Ссылка на этот заголовок"></a></h2>
-<figure class="align-center" id="id12">
-<a class="reference internal image-reference" href="../../../_images/rc522_connection.png"><img alt="../../../_images/rc522_connection.png" src="../../../_images/rc522_connection.png" style="width: 80%;" />
-</a>
-<figcaption>
-<p><span class="caption-text"><strong>Рис. 1:</strong> Схема подключения RFID считывателя RC522 к Raspberry Pi</span><a class="headerlink" href="#id12" title="Ссылка на это изображение"></a></p>
-</figcaption>
-</figure>
+<p>NFC-считыватель PN532 подключается к Raspberry Pi по интерфейсу I2C:</p>
+<div class="line-block">
+<div class="line">PN532     | Raspberry Pi |</div>
+</div>
+<p><a href="#id12"><span class="problematic" id="id13">|-----------|</span></a>————–|
+| VCC       | 3.3V         |
+| GND       | GND          |
+| SDA       | GPIO2 (SDA)  |
+| SCL       | GPIO3 (SCL)  |
+| RSTPDN    | GPIO25       |</p>
 </section>
 <section id="id4">
 <h2>Установка необходимых библиотек<a class="headerlink" href="#id4" title="Ссылка на этот заголовок"></a></h2>
-<p>Перед запуском проекта необходимо установить требуемые библиотеки:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Включение SPI в Raspberry Pi, если ещё не включено</span>
-sudo<span class="w"> </span>raspi-config
-<span class="c1"># Выберите: Interfacing Options → SPI → Yes</span>
+<p>Для начала работы необходимо установить все требуемые библиотеки:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Обновление списка пакетов</span>
+sudo<span class="w"> </span>apt-get<span class="w"> </span>update
 
-<span class="c1"># Установка библиотек</span>
-pip<span class="w"> </span>install<span class="w"> </span>flask<span class="w"> </span>mfrc522
+<span class="c1"># Установка I2C утилит</span>
+sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>python3-pip<span class="w"> </span>i2c-tools
+
+<span class="c1"># Включение I2C в Raspberry Pi (если еще не включен)</span>
+sudo<span class="w"> </span>raspi-config
+<span class="c1"># Выберите: Interfacing Options → I2C → Yes</span>
+
+<span class="c1"># Установка библиотек Python</span>
+pip3<span class="w"> </span>install<span class="w"> </span>flask
+pip3<span class="w"> </span>install<span class="w"> </span>adafruit-blinka
+pip3<span class="w"> </span>install<span class="w"> </span>adafruit-circuitpython-pn532
 </pre></div>
 </div>
+<p>Проверка подключения NFC-считывателя:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>i2cdetect<span class="w"> </span>-y<span class="w"> </span><span class="m">1</span>
+</pre></div>
+</div>
+<p>В выводе команды должен присутствовать адрес устройства (обычно 0x24), что подтверждает успешное подключение считывателя.</p>
 </section>
 <section id="id5">
 <h2>Структура проекта<a class="headerlink" href="#id5" title="Ссылка на этот заголовок"></a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>rfid_web_interface/
-├──<span class="w"> </span>app.py<span class="w">           </span><span class="c1"># Основной Python-скрипт</span>
-└──<span class="w"> </span>templates/<span class="w">       </span><span class="c1"># Папка с HTML шаблонами</span>
-<span class="w">    </span>└──<span class="w"> </span>index.html<span class="w">   </span><span class="c1"># Веб-интерфейс</span>
+<p>Создадим следующую структуру файлов:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>nfc_web_app/
+├──<span class="w"> </span>app.py<span class="w">             </span><span class="c1"># Серверная часть на Flask с NFC-считывателем</span>
+└──<span class="w"> </span>templates/
+<span class="w">    </span>└──<span class="w"> </span>index.html<span class="w">     </span><span class="c1"># Веб-интерфейс</span>
 </pre></div>
 </div>
 </section>
 <section id="app-py">
-<h2>Код серверной части (app.py)<a class="headerlink" href="#app-py" title="Ссылка на этот заголовок"></a></h2>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">flask</span><span class="w"> </span><span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">render_template</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">jsonify</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">mfrc522</span><span class="w"> </span><span class="kn">import</span> <span class="n">BasicMFRC522</span>
+<h2>Серверная часть (app.py)<a class="headerlink" href="#app-py" title="Ссылка на этот заголовок"></a></h2>
+<p>Создайте файл <cite>app.py</cite> с следующим содержимым:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">flask</span><span class="w"> </span><span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">render_template</span><span class="p">,</span> <span class="n">jsonify</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">board</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">busio</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">digitalio</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">threading</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">adafruit_pn532.i2c</span><span class="w"> </span><span class="kn">import</span> <span class="n">PN532_I2C</span>
 
 <span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
-<span class="c1"># Создаем объект считывателя</span>
-<span class="n">reader</span> <span class="o">=</span> <span class="n">BasicMFRC522</span><span class="p">()</span>
-
-<span class="c1"># Глобальные переменные для хранения данных</span>
+<span class="c1"># Глобальные переменные для хранения данных с NFC</span>
 <span class="n">last_uid</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="n">is_running</span> <span class="o">=</span> <span class="kc">True</span>
 
-<span class="c1"># Функция для фонового считывания карты</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">read_rfid</span><span class="p">():</span>
+<span class="c1"># Инициализация PN532</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">init_pn532</span><span class="p">():</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># I2C-шина и пин reset</span>
+        <span class="n">i2c</span> <span class="o">=</span> <span class="n">busio</span><span class="o">.</span><span class="n">I2C</span><span class="p">(</span><span class="n">board</span><span class="o">.</span><span class="n">SCL</span><span class="p">,</span> <span class="n">board</span><span class="o">.</span><span class="n">SDA</span><span class="p">)</span>
+        <span class="n">reset</span> <span class="o">=</span> <span class="n">digitalio</span><span class="o">.</span><span class="n">DigitalInOut</span><span class="p">(</span><span class="n">board</span><span class="o">.</span><span class="n">D25</span><span class="p">)</span>
+
+        <span class="c1"># Создаем объект PN532</span>
+        <span class="n">pn532</span> <span class="o">=</span> <span class="n">PN532_I2C</span><span class="p">(</span><span class="n">i2c</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">reset</span><span class="o">=</span><span class="n">reset</span><span class="p">)</span>
+
+        <span class="c1"># Выводим информацию о версии прошивки</span>
+        <span class="n">ic</span><span class="p">,</span> <span class="n">ver</span><span class="p">,</span> <span class="n">rev</span><span class="p">,</span> <span class="n">support</span> <span class="o">=</span> <span class="n">pn532</span><span class="o">.</span><span class="n">firmware_version</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;PN532 v</span><span class="si">{</span><span class="n">ver</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">rev</span><span class="si">}</span><span class="s2"> — IC 0x</span><span class="si">{</span><span class="n">ic</span><span class="si">:</span><span class="s2">x</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Включаем чтение карт</span>
+        <span class="n">pn532</span><span class="o">.</span><span class="n">SAM_configuration</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">pn532</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Ошибка инициализации PN532: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+<span class="c1"># Функция для считывания NFC в отдельном потоке</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">read_nfc</span><span class="p">():</span>
     <span class="k">global</span> <span class="n">last_uid</span><span class="p">,</span> <span class="n">is_running</span>
-    <span class="n">last</span> <span class="o">=</span> <span class="kc">None</span>
 
+    <span class="c1"># Инициализируем PN532</span>
+    <span class="n">pn532</span> <span class="o">=</span> <span class="n">init_pn532</span><span class="p">()</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">pn532</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Не удалось инициализировать PN532, завершение работы&quot;</span><span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Поднесите NFC-метку...&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Основной цикл сканирования</span>
     <span class="k">while</span> <span class="n">is_running</span><span class="p">:</span>
-        <span class="n">uid</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">read_id_no_block</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">uid</span> <span class="ow">and</span> <span class="n">uid</span> <span class="o">!=</span> <span class="n">last</span><span class="p">:</span>  <span class="c1"># новый UID</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Считан UID: </span><span class="si">{</span><span class="n">uid</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="n">last_uid</span> <span class="o">=</span> <span class="n">uid</span>
-            <span class="n">last</span> <span class="o">=</span> <span class="n">uid</span>
-            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.15</span><span class="p">)</span>  <span class="c1"># дебаунс</span>
-        <span class="k">elif</span> <span class="n">uid</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">last</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># карта убрана — ждём новую</span>
-        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.02</span><span class="p">)</span>  <span class="c1"># 50 опросов в секунду</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Пытаемся считать NFC метку</span>
+            <span class="n">uid</span> <span class="o">=</span> <span class="n">pn532</span><span class="o">.</span><span class="n">read_passive_target</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
 
-<span class="c1"># Запускаем фоновый поток для считывания</span>
-<span class="n">read_thread</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">read_rfid</span><span class="p">)</span>
-<span class="n">read_thread</span><span class="o">.</span><span class="n">daemon</span> <span class="o">=</span> <span class="kc">True</span>
-<span class="n">read_thread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">uid</span><span class="p">:</span>
+                <span class="n">uid_hex</span> <span class="o">=</span> <span class="n">uid</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Найдена карта, UID: </span><span class="si">{</span><span class="n">uid_hex</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">last_uid</span> <span class="o">=</span> <span class="n">uid_hex</span>
+
+                <span class="c1"># Небольшая задержка, чтобы избежать повторного считывания</span>
+                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Ошибка при считывании NFC: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Запускаем поток считывания NFC</span>
+<span class="n">nfc_thread</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">read_nfc</span><span class="p">)</span>
+<span class="n">nfc_thread</span><span class="o">.</span><span class="n">daemon</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">nfc_thread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
 
 <span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">index</span><span class="p">():</span>
@@ -389,201 +439,173 @@ pip<span class="w"> </span>install<span class="w"> </span>flask<span class="w"> 
 <span class="k">def</span><span class="w"> </span><span class="nf">get_uid</span><span class="p">():</span>
     <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s1">&#39;uid&#39;</span><span class="p">:</span> <span class="n">last_uid</span><span class="p">})</span>
 
-<span class="c1"># Маршрут для сохранения введенного UID</span>
-<span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/save_uid&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;POST&#39;</span><span class="p">])</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">save_uid</span><span class="p">():</span>
-    <span class="k">global</span> <span class="n">last_uid</span>
-    <span class="n">data</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">get_json</span><span class="p">()</span>
-    <span class="n">last_uid</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;uid&#39;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s1">&#39;success&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;uid&#39;</span><span class="p">:</span> <span class="n">last_uid</span><span class="p">})</span>
-
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[*] RFID веб-приложение запущено (Ctrl-C для выхода)&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;NFC веб-приложение запущено&quot;</span><span class="p">)</span>
         <span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;0.0.0.0&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">use_reloader</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[*] Программа остановлена&quot;</span><span class="p">)</span>
-        <span class="n">is_running</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># Останавливаем фоновый поток</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Программа остановлена&quot;</span><span class="p">)</span>
+        <span class="n">is_running</span> <span class="o">=</span> <span class="kc">False</span>
 </pre></div>
 </div>
 </section>
 <section id="index-html">
-<h2>Код веб-интерфейса (index.html)<a class="headerlink" href="#index-html" title="Ссылка на этот заголовок"></a></h2>
-<p>Создайте директорию <cite>templates</cite> и внутри нее файл <cite>index.html</cite>:</p>
+<h2>Веб-интерфейс (index.html)<a class="headerlink" href="#index-html" title="Ссылка на этот заголовок"></a></h2>
+<p>Создайте директорию <cite>templates</cite> и в ней файл <cite>index.html</cite> с следующим содержимым:</p>
 <div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cp">&lt;!DOCTYPE html&gt;</span>
 <span class="p">&lt;</span><span class="nt">html</span> <span class="na">lang</span><span class="o">=</span><span class="s">&quot;ru&quot;</span><span class="p">&gt;</span>
 <span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
     <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">charset</span><span class="o">=</span><span class="s">&quot;UTF-8&quot;</span><span class="p">&gt;</span>
     <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;viewport&quot;</span> <span class="na">content</span><span class="o">=</span><span class="s">&quot;width=device-width, initial-scale=1.0&quot;</span><span class="p">&gt;</span>
-    <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>RFID Считыватель<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>NFC Считыватель<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
     <span class="p">&lt;</span><span class="nt">style</span><span class="p">&gt;</span>
 <span class="w">        </span><span class="nt">body</span><span class="w"> </span><span class="p">{</span>
 <span class="w">            </span><span class="k">font-family</span><span class="p">:</span><span class="w"> </span><span class="n">Arial</span><span class="p">,</span><span class="w"> </span><span class="kc">sans-serif</span><span class="p">;</span>
 <span class="w">            </span><span class="k">max-width</span><span class="p">:</span><span class="w"> </span><span class="mi">600</span><span class="kt">px</span><span class="p">;</span>
 <span class="w">            </span><span class="k">margin</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="kc">auto</span><span class="p">;</span>
 <span class="w">            </span><span class="k">padding</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="kt">px</span><span class="p">;</span>
-<span class="w">            </span><span class="k">text-align</span><span class="p">:</span><span class="w"> </span><span class="kc">center</span><span class="p">;</span>
+<span class="w">            </span><span class="k">background-color</span><span class="p">:</span><span class="w"> </span><span class="mh">#f5f5f5</span><span class="p">;</span>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">        </span><span class="nt">h1</span><span class="w"> </span><span class="p">{</span>
 <span class="w">            </span><span class="k">color</span><span class="p">:</span><span class="w"> </span><span class="mh">#333</span><span class="p">;</span>
+<span class="w">            </span><span class="k">text-align</span><span class="p">:</span><span class="w"> </span><span class="kc">center</span><span class="p">;</span>
 <span class="w">        </span><span class="p">}</span>
-<span class="w">        </span><span class="p">.</span><span class="nc">card</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="k">background-color</span><span class="p">:</span><span class="w"> </span><span class="mh">#f5f5f5</span><span class="p">;</span>
+<span class="w">        </span><span class="p">.</span><span class="nc">container</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">background-color</span><span class="p">:</span><span class="w"> </span><span class="kc">white</span><span class="p">;</span>
+<span class="w">            </span><span class="k">border-radius</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="kt">px</span><span class="p">;</span>
+<span class="w">            </span><span class="k">padding</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="kt">px</span><span class="p">;</span>
+<span class="w">            </span><span class="k">box-shadow</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">2</span><span class="kt">px</span><span class="w"> </span><span class="mi">10</span><span class="kt">px</span><span class="w"> </span><span class="nb">rgba</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.1</span><span class="p">);</span>
+<span class="w">            </span><span class="k">margin-top</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="kt">px</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="p">.</span><span class="nc">uid-card</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">border</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="kt">px</span><span class="w"> </span><span class="kc">solid</span><span class="w"> </span><span class="mh">#ddd</span><span class="p">;</span>
 <span class="w">            </span><span class="k">border-radius</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="kt">px</span><span class="p">;</span>
 <span class="w">            </span><span class="k">padding</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="kt">px</span><span class="p">;</span>
 <span class="w">            </span><span class="k">margin</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="kt">px</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
-<span class="w">            </span><span class="k">box-shadow</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">2</span><span class="kt">px</span><span class="w"> </span><span class="mi">5</span><span class="kt">px</span><span class="w"> </span><span class="nb">rgba</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.1</span><span class="p">);</span>
+<span class="w">            </span><span class="k">background-color</span><span class="p">:</span><span class="w"> </span><span class="mh">#f9f9f9</span><span class="p">;</span>
+<span class="w">            </span><span class="k">text-align</span><span class="p">:</span><span class="w"> </span><span class="kc">center</span><span class="p">;</span>
 <span class="w">        </span><span class="p">}</span>
-<span class="w">        </span><span class="p">.</span><span class="nc">uid-display</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="k">font-size</span><span class="p">:</span><span class="w"> </span><span class="mi">24</span><span class="kt">px</span><span class="p">;</span>
+<span class="w">        </span><span class="p">.</span><span class="nc">uid-text</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">font-size</span><span class="p">:</span><span class="w"> </span><span class="mi">22</span><span class="kt">px</span><span class="p">;</span>
 <span class="w">            </span><span class="k">font-weight</span><span class="p">:</span><span class="w"> </span><span class="kc">bold</span><span class="p">;</span>
-<span class="w">            </span><span class="k">margin</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="kt">px</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
-<span class="w">            </span><span class="k">padding</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="kt">px</span><span class="p">;</span>
-<span class="w">            </span><span class="k">background-color</span><span class="p">:</span><span class="w"> </span><span class="mh">#e0e0e0</span><span class="p">;</span>
-<span class="w">            </span><span class="k">border-radius</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="kt">px</span><span class="p">;</span>
+<span class="w">            </span><span class="k">margin</span><span class="p">:</span><span class="w"> </span><span class="mi">15</span><span class="kt">px</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">            </span><span class="k">font-family</span><span class="p">:</span><span class="w"> </span><span class="kc">monospace</span><span class="p">;</span>
 <span class="w">        </span><span class="p">}</span>
-<span class="w">        </span><span class="p">.</span><span class="nc">loader</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="k">border</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="kt">px</span><span class="w"> </span><span class="kc">solid</span><span class="w"> </span><span class="mh">#f3f3f3</span><span class="p">;</span>
-<span class="w">            </span><span class="k">border-top</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="kt">px</span><span class="w"> </span><span class="kc">solid</span><span class="w"> </span><span class="mh">#3498db</span><span class="p">;</span>
+<span class="w">        </span><span class="p">.</span><span class="nc">status</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">text-align</span><span class="p">:</span><span class="w"> </span><span class="kc">center</span><span class="p">;</span>
+<span class="w">            </span><span class="k">font-style</span><span class="p">:</span><span class="w"> </span><span class="kc">italic</span><span class="p">;</span>
+<span class="w">            </span><span class="k">color</span><span class="p">:</span><span class="w"> </span><span class="mh">#666</span><span class="p">;</span>
+<span class="w">            </span><span class="k">margin</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="kt">px</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="p">.</span><span class="nc">loading</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">display</span><span class="p">:</span><span class="w"> </span><span class="kc">inline-block</span><span class="p">;</span>
+<span class="w">            </span><span class="k">width</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="kt">px</span><span class="p">;</span>
+<span class="w">            </span><span class="k">height</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="kt">px</span><span class="p">;</span>
+<span class="w">            </span><span class="k">border</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="kt">px</span><span class="w"> </span><span class="kc">solid</span><span class="w"> </span><span class="mh">#f3f3f3</span><span class="p">;</span>
+<span class="w">            </span><span class="k">border-top</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="kt">px</span><span class="w"> </span><span class="kc">solid</span><span class="w"> </span><span class="mh">#3498db</span><span class="p">;</span>
 <span class="w">            </span><span class="k">border-radius</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="kt">%</span><span class="p">;</span>
-<span class="w">            </span><span class="k">width</span><span class="p">:</span><span class="w"> </span><span class="mi">40</span><span class="kt">px</span><span class="p">;</span>
-<span class="w">            </span><span class="k">height</span><span class="p">:</span><span class="w"> </span><span class="mi">40</span><span class="kt">px</span><span class="p">;</span>
-<span class="w">            </span><span class="k">animation</span><span class="p">:</span><span class="w"> </span><span class="n">spin</span><span class="w"> </span><span class="mi">2</span><span class="kt">s</span><span class="w"> </span><span class="kc">linear</span><span class="w"> </span><span class="kc">infinite</span><span class="p">;</span>
-<span class="w">            </span><span class="k">margin</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="kc">auto</span><span class="p">;</span>
-<span class="w">            </span><span class="k">display</span><span class="p">:</span><span class="w"> </span><span class="kc">none</span><span class="p">;</span>
+<span class="w">            </span><span class="k">animation</span><span class="p">:</span><span class="w"> </span><span class="n">spin</span><span class="w"> </span><span class="mi">1</span><span class="kt">s</span><span class="w"> </span><span class="kc">linear</span><span class="w"> </span><span class="kc">infinite</span><span class="p">;</span>
+<span class="w">            </span><span class="k">margin-right</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="kt">px</span><span class="p">;</span>
+<span class="w">            </span><span class="k">vertical-align</span><span class="p">:</span><span class="w"> </span><span class="kc">middle</span><span class="p">;</span>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">        </span><span class="p">@</span><span class="k">keyframes</span><span class="w"> </span><span class="nt">spin</span><span class="w"> </span><span class="p">{</span>
 <span class="w">            </span><span class="nt">0</span><span class="o">%</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">transform</span><span class="p">:</span><span class="w"> </span><span class="nb">rotate</span><span class="p">(</span><span class="mi">0</span><span class="kt">deg</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
 <span class="w">            </span><span class="nt">100</span><span class="o">%</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">transform</span><span class="p">:</span><span class="w"> </span><span class="nb">rotate</span><span class="p">(</span><span class="mi">360</span><span class="kt">deg</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
 <span class="w">        </span><span class="p">}</span>
-<span class="w">        </span><span class="nt">input</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="k">padding</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="kt">px</span><span class="p">;</span>
-<span class="w">            </span><span class="k">width</span><span class="p">:</span><span class="w"> </span><span class="mi">80</span><span class="kt">%</span><span class="p">;</span>
-<span class="w">            </span><span class="k">margin</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="kt">px</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
-<span class="w">            </span><span class="k">border-radius</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="kt">px</span><span class="p">;</span>
-<span class="w">            </span><span class="k">border</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="kt">px</span><span class="w"> </span><span class="kc">solid</span><span class="w"> </span><span class="mh">#ddd</span><span class="p">;</span>
+<span class="w">        </span><span class="p">.</span><span class="nc">last-update</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">text-align</span><span class="p">:</span><span class="w"> </span><span class="kc">right</span><span class="p">;</span>
+<span class="w">            </span><span class="k">font-size</span><span class="p">:</span><span class="w"> </span><span class="mi">12</span><span class="kt">px</span><span class="p">;</span>
+<span class="w">            </span><span class="k">color</span><span class="p">:</span><span class="w"> </span><span class="mh">#999</span><span class="p">;</span>
+<span class="w">            </span><span class="k">margin-top</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="kt">px</span><span class="p">;</span>
 <span class="w">        </span><span class="p">}</span>
-<span class="w">        </span><span class="nt">button</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="k">padding</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="kt">px</span><span class="w"> </span><span class="mi">15</span><span class="kt">px</span><span class="p">;</span>
-<span class="w">            </span><span class="k">background-color</span><span class="p">:</span><span class="w"> </span><span class="mh">#4CAF50</span><span class="p">;</span>
-<span class="w">            </span><span class="k">color</span><span class="p">:</span><span class="w"> </span><span class="kc">white</span><span class="p">;</span>
-<span class="w">            </span><span class="k">border</span><span class="p">:</span><span class="w"> </span><span class="kc">none</span><span class="p">;</span>
-<span class="w">            </span><span class="k">border-radius</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="kt">px</span><span class="p">;</span>
-<span class="w">            </span><span class="k">cursor</span><span class="p">:</span><span class="w"> </span><span class="kc">pointer</span><span class="p">;</span>
-<span class="w">            </span><span class="k">margin</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="kt">px</span><span class="w"> </span><span class="mi">5</span><span class="kt">px</span><span class="p">;</span>
+<span class="w">        </span><span class="p">.</span><span class="nc">nfc-icon</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">width</span><span class="p">:</span><span class="w"> </span><span class="mi">80</span><span class="kt">px</span><span class="p">;</span>
+<span class="w">            </span><span class="k">height</span><span class="p">:</span><span class="w"> </span><span class="mi">80</span><span class="kt">px</span><span class="p">;</span>
+<span class="w">            </span><span class="k">margin</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="kc">auto</span><span class="p">;</span>
+<span class="w">            </span><span class="k">display</span><span class="p">:</span><span class="w"> </span><span class="kc">block</span><span class="p">;</span>
+<span class="w">            </span><span class="k">background-color</span><span class="p">:</span><span class="w"> </span><span class="mh">#3498db</span><span class="p">;</span>
+<span class="w">            </span><span class="k">border-radius</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="kt">%</span><span class="p">;</span>
+<span class="w">            </span><span class="k">position</span><span class="p">:</span><span class="w"> </span><span class="kc">relative</span><span class="p">;</span>
 <span class="w">        </span><span class="p">}</span>
-<span class="w">        </span><span class="p">.</span><span class="nc">status</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="k">margin-top</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="kt">px</span><span class="p">;</span>
-<span class="w">            </span><span class="k">padding</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="kt">px</span><span class="p">;</span>
-<span class="w">            </span><span class="k">border-radius</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="kt">px</span><span class="p">;</span>
-<span class="w">            </span><span class="k">display</span><span class="p">:</span><span class="w"> </span><span class="kc">none</span><span class="p">;</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">        </span><span class="p">.</span><span class="nc">success</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="k">background-color</span><span class="p">:</span><span class="w"> </span><span class="mh">#dff0d8</span><span class="p">;</span>
-<span class="w">            </span><span class="k">color</span><span class="p">:</span><span class="w"> </span><span class="mh">#3c763d</span><span class="p">;</span>
+<span class="w">        </span><span class="p">.</span><span class="nc">nfc-icon</span><span class="p">:</span><span class="nd">before</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">content</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">;</span>
+<span class="w">            </span><span class="k">position</span><span class="p">:</span><span class="w"> </span><span class="kc">absolute</span><span class="p">;</span>
+<span class="w">            </span><span class="k">top</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="kt">%</span><span class="p">;</span>
+<span class="w">            </span><span class="k">left</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="kt">%</span><span class="p">;</span>
+<span class="w">            </span><span class="k">width</span><span class="p">:</span><span class="w"> </span><span class="mi">60</span><span class="kt">%</span><span class="p">;</span>
+<span class="w">            </span><span class="k">height</span><span class="p">:</span><span class="w"> </span><span class="mi">60</span><span class="kt">%</span><span class="p">;</span>
+<span class="w">            </span><span class="k">border</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="kt">px</span><span class="w"> </span><span class="kc">solid</span><span class="w"> </span><span class="kc">white</span><span class="p">;</span>
+<span class="w">            </span><span class="k">border-radius</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="kt">%</span><span class="p">;</span>
+<span class="w">            </span><span class="k">box-sizing</span><span class="p">:</span><span class="w"> </span><span class="kc">border-box</span><span class="p">;</span>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">    </span><span class="p">&lt;/</span><span class="nt">style</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
 <span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
-    <span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>RFID Считыватель<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>NFC Считыватель<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
 
-    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;card&quot;</span><span class="p">&gt;</span>
-        <span class="p">&lt;</span><span class="nt">h2</span><span class="p">&gt;</span>Текущий UID<span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span>
-        <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;uid-display&quot;</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;uid-display&quot;</span><span class="p">&gt;</span>Ожидание карты...<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
-        <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;loader&quot;</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;loader&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
-        <span class="p">&lt;</span><span class="nt">button</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;refresh-btn&quot;</span><span class="p">&gt;</span>Обновить<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
-    <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;container&quot;</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;nfc-icon&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
 
-    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;card&quot;</span><span class="p">&gt;</span>
-        <span class="p">&lt;</span><span class="nt">h2</span><span class="p">&gt;</span>Ввод UID вручную<span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span>
-        <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;text&quot;</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;manual-uid&quot;</span> <span class="na">placeholder</span><span class="o">=</span><span class="s">&quot;Введите UID&quot;</span><span class="p">&gt;</span>
-        <span class="p">&lt;</span><span class="nt">button</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;save-btn&quot;</span><span class="p">&gt;</span>Сохранить<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
-        <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;status&quot;</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;status&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;status&quot;</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;status&quot;</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">span</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;loading&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">span</span><span class="p">&gt;</span> Ожидание NFC метки...
+        <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+
+        <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;uid-card&quot;</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">h2</span><span class="p">&gt;</span>Последний считанный UID:<span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;uid-text&quot;</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;uid-display&quot;</span><span class="p">&gt;</span>Нет данных<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+        <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+
+        <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;last-update&quot;</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;last-update&quot;</span><span class="p">&gt;</span>
+            Последнее обновление: Никогда
+        <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
     <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
 
     <span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span>
-<span class="w">        </span><span class="c1">// Получаем элементы</span>
-<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">uidDisplay</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;uid-display&#39;</span><span class="p">);</span>
-<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">loader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;loader&#39;</span><span class="p">);</span>
-<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">refreshBtn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;refresh-btn&#39;</span><span class="p">);</span>
-<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">manualUid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;manual-uid&#39;</span><span class="p">);</span>
-<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">saveBtn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;save-btn&#39;</span><span class="p">);</span>
-<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;status&#39;</span><span class="p">);</span>
+<span class="w">        </span><span class="c1">// Функция для получения текущего времени в формате ЧЧ:ММ:СС</span>
+<span class="w">        </span><span class="kd">function</span><span class="w"> </span><span class="nx">getCurrentTime</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="kd">const</span><span class="w"> </span><span class="nx">now</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nb">Date</span><span class="p">();</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="nx">now</span><span class="p">.</span><span class="nx">toLocaleTimeString</span><span class="p">();</span>
+<span class="w">        </span><span class="p">}</span>
 
 <span class="w">        </span><span class="c1">// Функция для получения UID с сервера</span>
 <span class="w">        </span><span class="kd">function</span><span class="w"> </span><span class="nx">getUID</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nx">loader</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">display</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;block&#39;</span><span class="p">;</span>
-<span class="w">            </span><span class="nx">uidDisplay</span><span class="p">.</span><span class="nx">textContent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Считывание...&#39;</span><span class="p">;</span>
-
 <span class="w">            </span><span class="nx">fetch</span><span class="p">(</span><span class="s1">&#39;/get_uid&#39;</span><span class="p">)</span>
 <span class="w">                </span><span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">response</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">response</span><span class="p">.</span><span class="nx">json</span><span class="p">())</span>
 <span class="w">                </span><span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">data</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="nx">loader</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">display</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;none&#39;</span><span class="p">;</span>
+<span class="w">                    </span><span class="kd">const</span><span class="w"> </span><span class="nx">uidDisplay</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;uid-display&#39;</span><span class="p">);</span>
+<span class="w">                    </span><span class="kd">const</span><span class="w"> </span><span class="nx">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;status&#39;</span><span class="p">);</span>
+<span class="w">                    </span><span class="kd">const</span><span class="w"> </span><span class="nx">lastUpdate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;last-update&#39;</span><span class="p">);</span>
+
+<span class="w">                    </span><span class="c1">// Обновляем время последнего обновления</span>
+<span class="w">                    </span><span class="nx">lastUpdate</span><span class="p">.</span><span class="nx">textContent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Последнее обновление: &#39;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">getCurrentTime</span><span class="p">();</span>
+
 <span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">uid</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                        </span><span class="c1">// Если UID получен</span>
 <span class="w">                        </span><span class="nx">uidDisplay</span><span class="p">.</span><span class="nx">textContent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">data</span><span class="p">.</span><span class="nx">uid</span><span class="p">;</span>
-<span class="w">                        </span><span class="nx">manualUid</span><span class="p">.</span><span class="nx">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">data</span><span class="p">.</span><span class="nx">uid</span><span class="p">;</span>
+<span class="w">                        </span><span class="nx">status</span><span class="p">.</span><span class="nx">innerHTML</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;&lt;span style=&quot;color: green;&quot;&gt;✓&lt;/span&gt; NFC метка обнаружена&#39;</span><span class="p">;</span>
 <span class="w">                    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                        </span><span class="nx">uidDisplay</span><span class="p">.</span><span class="nx">textContent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Карта не обнаружена&#39;</span><span class="p">;</span>
+<span class="w">                        </span><span class="c1">// Если UID не получен</span>
+<span class="w">                        </span><span class="nx">uidDisplay</span><span class="p">.</span><span class="nx">textContent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Нет данных&#39;</span><span class="p">;</span>
+<span class="w">                        </span><span class="nx">status</span><span class="p">.</span><span class="nx">innerHTML</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;&lt;span class=&quot;loading&quot;&gt;&lt;/span&gt; Ожидание NFC метки...&#39;</span><span class="p">;</span>
 <span class="w">                    </span><span class="p">}</span>
 <span class="w">                </span><span class="p">})</span>
 <span class="w">                </span><span class="p">.</span><span class="k">catch</span><span class="p">(</span><span class="nx">error</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                    </span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s1">&#39;Ошибка:&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">error</span><span class="p">);</span>
-<span class="w">                    </span><span class="nx">loader</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">display</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;none&#39;</span><span class="p">;</span>
-<span class="w">                    </span><span class="nx">uidDisplay</span><span class="p">.</span><span class="nx">textContent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Ошибка связи с сервером&#39;</span><span class="p">;</span>
+<span class="w">                    </span><span class="kd">const</span><span class="w"> </span><span class="nx">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;status&#39;</span><span class="p">);</span>
+<span class="w">                    </span><span class="nx">status</span><span class="p">.</span><span class="nx">innerHTML</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;&lt;span style=&quot;color: red;&quot;&gt;✗&lt;/span&gt; Ошибка связи с сервером&#39;</span><span class="p">;</span>
 <span class="w">                </span><span class="p">});</span>
 <span class="w">        </span><span class="p">}</span>
-
-<span class="w">        </span><span class="c1">// Функция для сохранения UID</span>
-<span class="w">        </span><span class="kd">function</span><span class="w"> </span><span class="nx">saveUID</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="kd">const</span><span class="w"> </span><span class="nx">uid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">manualUid</span><span class="p">.</span><span class="nx">value</span><span class="p">.</span><span class="nx">trim</span><span class="p">();</span>
-<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">uid</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;Введите UID&#39;</span><span class="p">);</span>
-<span class="w">                </span><span class="k">return</span><span class="p">;</span>
-<span class="w">            </span><span class="p">}</span>
-
-<span class="w">            </span><span class="nx">fetch</span><span class="p">(</span><span class="s1">&#39;/save_uid&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nx">method</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;POST&#39;</span><span class="p">,</span>
-<span class="w">                </span><span class="nx">headers</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="s1">&#39;Content-Type&#39;</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;application/json&#39;</span><span class="p">,</span>
-<span class="w">                </span><span class="p">},</span>
-<span class="w">                </span><span class="nx">body</span><span class="o">:</span><span class="w"> </span><span class="nb">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">({</span><span class="w"> </span><span class="nx">uid</span><span class="o">:</span><span class="w"> </span><span class="nx">uid</span><span class="w"> </span><span class="p">}),</span>
-<span class="w">            </span><span class="p">})</span>
-<span class="w">                </span><span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">response</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">response</span><span class="p">.</span><span class="nx">json</span><span class="p">())</span>
-<span class="w">                </span><span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">data</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">success</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                        </span><span class="nx">status</span><span class="p">.</span><span class="nx">textContent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;UID успешно сохранен!&#39;</span><span class="p">;</span>
-<span class="w">                        </span><span class="nx">status</span><span class="p">.</span><span class="nx">className</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;status success&#39;</span><span class="p">;</span>
-<span class="w">                        </span><span class="nx">status</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">display</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;block&#39;</span><span class="p">;</span>
-<span class="w">                        </span><span class="nx">uidDisplay</span><span class="p">.</span><span class="nx">textContent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">data</span><span class="p">.</span><span class="nx">uid</span><span class="p">;</span>
-
-<span class="w">                        </span><span class="c1">// Скрываем сообщение через 3 секунды</span>
-<span class="w">                        </span><span class="nx">setTimeout</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                            </span><span class="nx">status</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">display</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;none&#39;</span><span class="p">;</span>
-<span class="w">                        </span><span class="p">},</span><span class="w"> </span><span class="mf">3000</span><span class="p">);</span>
-<span class="w">                    </span><span class="p">}</span>
-<span class="w">                </span><span class="p">})</span>
-<span class="w">                </span><span class="p">.</span><span class="k">catch</span><span class="p">(</span><span class="nx">error</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s1">&#39;Ошибка:&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">error</span><span class="p">);</span>
-<span class="w">                    </span><span class="nx">status</span><span class="p">.</span><span class="nx">textContent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Ошибка при сохранении&#39;</span><span class="p">;</span>
-<span class="w">                    </span><span class="nx">status</span><span class="p">.</span><span class="nx">className</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;status error&#39;</span><span class="p">;</span>
-<span class="w">                    </span><span class="nx">status</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">display</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;block&#39;</span><span class="p">;</span>
-<span class="w">                </span><span class="p">});</span>
-<span class="w">        </span><span class="p">}</span>
-
-<span class="w">        </span><span class="c1">// Обработчики событий</span>
-<span class="w">        </span><span class="nx">refreshBtn</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;click&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">getUID</span><span class="p">);</span>
-<span class="w">        </span><span class="nx">saveBtn</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;click&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">saveUID</span><span class="p">);</span>
-
-<span class="w">        </span><span class="c1">// Автоматическое обновление каждую секунду</span>
-<span class="w">        </span><span class="nx">setInterval</span><span class="p">(</span><span class="nx">getUID</span><span class="p">,</span><span class="w"> </span><span class="mf">1000</span><span class="p">);</span>
-
-<span class="w">        </span><span class="c1">// Автообновление страницы каждые 60 секунд</span>
-<span class="w">        </span><span class="nx">setInterval</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nx">location</span><span class="p">.</span><span class="nx">reload</span><span class="p">();</span>
-<span class="w">        </span><span class="p">},</span><span class="w"> </span><span class="mf">60000</span><span class="p">);</span>
 
 <span class="w">        </span><span class="c1">// Получаем UID при загрузке страницы</span>
 <span class="w">        </span><span class="nx">getUID</span><span class="p">();</span>
+
+<span class="w">        </span><span class="c1">// Обновляем UID каждые 3 секунды</span>
+<span class="w">        </span><span class="nx">setInterval</span><span class="p">(</span><span class="nx">getUID</span><span class="p">,</span><span class="w"> </span><span class="mf">3000</span><span class="p">);</span>
+
+<span class="w">        </span><span class="c1">// Перезагружаем страницу каждую минуту</span>
+<span class="w">        </span><span class="nx">setInterval</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">location</span><span class="p">.</span><span class="nx">reload</span><span class="p">();</span>
+<span class="w">        </span><span class="p">},</span><span class="w"> </span><span class="mf">60000</span><span class="p">);</span>
 <span class="w">    </span><span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
@@ -591,59 +613,118 @@ pip<span class="w"> </span>install<span class="w"> </span>flask<span class="w"> 
 </div>
 </section>
 <section id="id6">
-<h2>Разбор кода<a class="headerlink" href="#id6" title="Ссылка на этот заголовок"></a></h2>
+<h2>Запуск приложения<a class="headerlink" href="#id6" title="Ссылка на этот заголовок"></a></h2>
+<ol class="arabic">
+<li><p>Создайте необходимую структуру директорий и файлы:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>-p<span class="w"> </span>nfc_web_app/templates
+<span class="nb">cd</span><span class="w"> </span>nfc_web_app
+<span class="c1"># Создайте файлы app.py и templates/index.html с указанным выше содержимым</span>
+</pre></div>
+</div>
+</li>
+<li><p>Запустите приложение:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>app.py
+</pre></div>
+</div>
+</li>
+<li><p>Откройте веб-браузер и перейдите по адресу:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>http://&lt;IP-адрес_Raspberry_Pi&gt;:5000
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="id7">
+<h2>Разбор кода<a class="headerlink" href="#id7" title="Ссылка на этот заголовок"></a></h2>
 <p>### Серверная часть (app.py)</p>
-<p><strong>Инициализация и настройка:</strong></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">flask</span><span class="w"> </span><span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">render_template</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">jsonify</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">mfrc522</span><span class="w"> </span><span class="kn">import</span> <span class="n">BasicMFRC522</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">threading</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<p>Рассмотрим ключевые элементы серверной части приложения:</p>
+<p><strong>Инициализация и глобальные переменные:</strong></p>
+<p>В начале кода мы создаем Flask-приложение и определяем глобальные переменные:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
-<span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
-
-<span class="c1"># Создаем объект считывателя</span>
-<span class="n">reader</span> <span class="o">=</span> <span class="n">BasicMFRC522</span><span class="p">()</span>
-
-<span class="c1"># Глобальные переменные для хранения данных</span>
+<span class="c1"># Глобальные переменные для хранения данных с NFC</span>
 <span class="n">last_uid</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="n">is_running</span> <span class="o">=</span> <span class="kc">True</span>
 </pre></div>
 </div>
-<p>В этом блоке:
-- Импортируются необходимые библиотеки
-- Создается экземпляр Flask-приложения
-- Инициализируется объект считывателя RFID
-- Определяются глобальные переменные для хранения данных и состояния программы</p>
-<p><strong>Фоновый поток для считывания RFID:</strong></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Функция для фонового считывания карты</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">read_rfid</span><span class="p">():</span>
-    <span class="k">global</span> <span class="n">last_uid</span><span class="p">,</span> <span class="n">is_running</span>
-    <span class="n">last</span> <span class="o">=</span> <span class="kc">None</span>
+<ul class="simple">
+<li><p><cite>last_uid</cite> хранит последний считанный UID карты</p></li>
+<li><p><cite>is_running</cite> управляет работой потока считывания</p></li>
+</ul>
+<p><strong>Функция инициализации NFC-считывателя:</strong></p>
+<p>Функция <cite>init_pn532()</cite> отвечает за инициализацию и настройку NFC-считывателя:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">init_pn532</span><span class="p">():</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># I2C-шина и пин reset</span>
+        <span class="n">i2c</span> <span class="o">=</span> <span class="n">busio</span><span class="o">.</span><span class="n">I2C</span><span class="p">(</span><span class="n">board</span><span class="o">.</span><span class="n">SCL</span><span class="p">,</span> <span class="n">board</span><span class="o">.</span><span class="n">SDA</span><span class="p">)</span>
+        <span class="n">reset</span> <span class="o">=</span> <span class="n">digitalio</span><span class="o">.</span><span class="n">DigitalInOut</span><span class="p">(</span><span class="n">board</span><span class="o">.</span><span class="n">D25</span><span class="p">)</span>
 
-    <span class="k">while</span> <span class="n">is_running</span><span class="p">:</span>
-        <span class="n">uid</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">read_id_no_block</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">uid</span> <span class="ow">and</span> <span class="n">uid</span> <span class="o">!=</span> <span class="n">last</span><span class="p">:</span>  <span class="c1"># новый UID</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Считан UID: </span><span class="si">{</span><span class="n">uid</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="n">last_uid</span> <span class="o">=</span> <span class="n">uid</span>
-            <span class="n">last</span> <span class="o">=</span> <span class="n">uid</span>
-            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.15</span><span class="p">)</span>  <span class="c1"># дебаунс</span>
-        <span class="k">elif</span> <span class="n">uid</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">last</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># карта убрана — ждём новую</span>
-        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.02</span><span class="p">)</span>  <span class="c1"># 50 опросов в секунду</span>
+        <span class="c1"># Создаем объект PN532</span>
+        <span class="n">pn532</span> <span class="o">=</span> <span class="n">PN532_I2C</span><span class="p">(</span><span class="n">i2c</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">reset</span><span class="o">=</span><span class="n">reset</span><span class="p">)</span>
 
-<span class="c1"># Запускаем фоновый поток для считывания</span>
-<span class="n">read_thread</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">read_rfid</span><span class="p">)</span>
-<span class="n">read_thread</span><span class="o">.</span><span class="n">daemon</span> <span class="o">=</span> <span class="kc">True</span>
-<span class="n">read_thread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+        <span class="c1"># Выводим информацию о версии прошивки</span>
+        <span class="n">ic</span><span class="p">,</span> <span class="n">ver</span><span class="p">,</span> <span class="n">rev</span><span class="p">,</span> <span class="n">support</span> <span class="o">=</span> <span class="n">pn532</span><span class="o">.</span><span class="n">firmware_version</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;PN532 v</span><span class="si">{</span><span class="n">ver</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">rev</span><span class="si">}</span><span class="s2"> — IC 0x</span><span class="si">{</span><span class="n">ic</span><span class="si">:</span><span class="s2">x</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Включаем чтение карт</span>
+        <span class="n">pn532</span><span class="o">.</span><span class="n">SAM_configuration</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">pn532</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Ошибка инициализации PN532: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span>
 </pre></div>
 </div>
-<p>Этот блок кода:
-- Определяет функцию <cite>read_rfid()</cite>, которая непрерывно опрашивает RFID-считыватель
-- Запускает эту функцию в отдельном потоке
-- Настраивает поток как «демон» (daemon=True), чтобы он автоматически завершился при закрытии основной программы
-- Использует метод <cite>read_id_no_block()</cite>, который не блокирует выполнение программы при отсутствии карты
-- Включает механизм дебаунса для исключения многократного считывания одной и той же карты
-- Сохраняет считанный UID в глобальной переменной <cite>last_uid</cite> для доступа из веб-интерфейса</p>
+<p>В этой функции:
+1. Инициализируем I2C интерфейс для связи с PN532
+2. Настраиваем пин сброса (reset)
+3. Создаем объект PN532 и проверяем версию прошивки
+4. Настраиваем Security Access Module (SAM) для работы с картами
+5. Возвращаем инициализированный объект или None в случае ошибки</p>
+<p><strong>Функция считывания NFC в отдельном потоке:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">read_nfc</span><span class="p">():</span>
+    <span class="k">global</span> <span class="n">last_uid</span><span class="p">,</span> <span class="n">is_running</span>
+
+    <span class="c1"># Инициализируем PN532</span>
+    <span class="n">pn532</span> <span class="o">=</span> <span class="n">init_pn532</span><span class="p">()</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">pn532</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Не удалось инициализировать PN532, завершение работы&quot;</span><span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Поднесите NFC-метку...&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Основной цикл сканирования</span>
+    <span class="k">while</span> <span class="n">is_running</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Пытаемся считать NFC метку</span>
+            <span class="n">uid</span> <span class="o">=</span> <span class="n">pn532</span><span class="o">.</span><span class="n">read_passive_target</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">uid</span><span class="p">:</span>
+                <span class="n">uid_hex</span> <span class="o">=</span> <span class="n">uid</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Найдена карта, UID: </span><span class="si">{</span><span class="n">uid_hex</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">last_uid</span> <span class="o">=</span> <span class="n">uid_hex</span>
+
+                <span class="c1"># Небольшая задержка, чтобы избежать повторного считывания</span>
+                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Ошибка при считывании NFC: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Функция <cite>read_nfc()</cite> запускается в отдельном потоке и выполняет:
+1. Инициализацию NFC-считывателя
+2. Постоянный опрос NFC-считывателя на наличие карты
+3. При обнаружении карты сохраняет её UID в глобальную переменную</p>
+<p><strong>Запуск потока считывания:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">nfc_thread</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">read_nfc</span><span class="p">)</span>
+<span class="n">nfc_thread</span><span class="o">.</span><span class="n">daemon</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">nfc_thread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Здесь мы:
+1. Создаем новый поток, который будет выполнять функцию <cite>read_nfc()</cite>
+2. Устанавливаем флаг <cite>daemon=True</cite>, чтобы поток автоматически завершался при выходе из основной программы
+3. Запускаем поток</p>
 <p><strong>Маршруты Flask:</strong></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">index</span><span class="p">():</span>
@@ -652,240 +733,114 @@ pip<span class="w"> </span>install<span class="w"> </span>flask<span class="w"> 
 <span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/get_uid&#39;</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_uid</span><span class="p">():</span>
     <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s1">&#39;uid&#39;</span><span class="p">:</span> <span class="n">last_uid</span><span class="p">})</span>
-
-<span class="c1"># Маршрут для сохранения введенного UID</span>
-<span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/save_uid&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;POST&#39;</span><span class="p">])</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">save_uid</span><span class="p">():</span>
-    <span class="k">global</span> <span class="n">last_uid</span>
-    <span class="n">data</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">get_json</span><span class="p">()</span>
-    <span class="n">last_uid</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;uid&#39;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s1">&#39;success&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;uid&#39;</span><span class="p">:</span> <span class="n">last_uid</span><span class="p">})</span>
 </pre></div>
 </div>
-<p>Здесь определены три маршрута:
-1. <cite>/</cite> - главная страница, возвращает HTML-шаблон интерфейса
-2. <cite>/get_uid</cite> - возвращает текущий считанный UID в формате JSON
-3. <cite>/save_uid</cite> - принимает вручную введенный UID в формате JSON и сохраняет его в переменной <cite>last_uid</cite></p>
-<p><strong>Запуск приложения:</strong></p>
+<p>Создаем два маршрута:
+1. <cite>/</cite> - для отображения веб-интерфейса
+2. <cite>/get_uid</cite> - API-эндпоинт, который возвращает последний считанный UID в формате JSON</p>
+<p><strong>Запуск веб-сервера:</strong></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[*] RFID веб-приложение запущено (Ctrl-C для выхода)&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;NFC веб-приложение запущено&quot;</span><span class="p">)</span>
         <span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;0.0.0.0&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">use_reloader</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[*] Программа остановлена&quot;</span><span class="p">)</span>
-        <span class="n">is_running</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># Останавливаем фоновый поток</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Программа остановлена&quot;</span><span class="p">)</span>
+        <span class="n">is_running</span> <span class="o">=</span> <span class="kc">False</span>
 </pre></div>
 </div>
-<p>Этот блок:
-- Запускает Flask-приложение на порту 5000
-- Делает его доступным для всех устройств в сети (<cite>host=“0.0.0.0“</cite>)
-- Отключает автоматическую перезагрузку (<cite>use_reloader=False</cite>), которая мешала бы работе фонового потока
-- Обрабатывает завершение работы по Ctrl+C, корректно останавливая фоновый поток</p>
-<p>### Клиентская часть (index.html)</p>
-<p><strong>HTML-структура и CSS:</strong></p>
-<p>Веб-интерфейс состоит из:
-- Заголовка
-- Карточки с отображением текущего UID и кнопкой обновления
-- Карточки для ручного ввода UID
-- Стилей для создания привлекательного интерфейса</p>
-<p>Особенности CSS:
+<p>При запуске:
+1. Выводим сообщение о запуске приложения
+2. Запускаем Flask-сервер на всех интерфейсах (0.0.0.0)
+3. Отключаем автоматическую перезагрузку (<cite>use_reloader=False</cite>), чтобы избежать проблем с потоками
+4. При нажатии Ctrl+C устанавливаем <cite>is_running=False</cite> для корректного завершения потока считывания</p>
+<p>### Веб-интерфейс (index.html)</p>
+<p>Рассмотрим основные элементы веб-интерфейса:</p>
+<p><strong>HTML-структура:</strong></p>
+<p>HTML-документ содержит несколько ключевых элементов:
+1. Заголовок страницы
+2. Контейнер с иконкой NFC
+3. Индикатор статуса
+4. Карточку для отображения UID
+5. Строку с временем последнего обновления</p>
+<p><strong>CSS-стили:</strong></p>
+<p>CSS-стили отвечают за внешний вид интерфейса:
 - Адаптивный дизайн с максимальной шириной 600px
-- Карточки с тенями и скругленными углами
-- Индикатор загрузки (spinner)
-- Стилизация кнопок и полей ввода
-- Различные стили для статусных сообщений</p>
+- Карточка с тенью для основного контента
+- Анимированный индикатор загрузки
+- Стилизованная иконка NFC
+- Различные стили для статусов и текста</p>
 <p><strong>JavaScript для взаимодействия с сервером:</strong></p>
-<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// Функция для получения UID с сервера</span>
-<span class="kd">function</span><span class="w"> </span><span class="nx">getUID</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nx">loader</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">display</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;block&#39;</span><span class="p">;</span>
-<span class="w">    </span><span class="nx">uidDisplay</span><span class="p">.</span><span class="nx">textContent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Считывание...&#39;</span><span class="p">;</span>
-
-<span class="w">    </span><span class="nx">fetch</span><span class="p">(</span><span class="s1">&#39;/get_uid&#39;</span><span class="p">)</span>
-<span class="w">        </span><span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">response</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">response</span><span class="p">.</span><span class="nx">json</span><span class="p">())</span>
-<span class="w">        </span><span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">data</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nx">loader</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">display</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;none&#39;</span><span class="p">;</span>
-<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">uid</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nx">uidDisplay</span><span class="p">.</span><span class="nx">textContent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">data</span><span class="p">.</span><span class="nx">uid</span><span class="p">;</span>
-<span class="w">                </span><span class="nx">manualUid</span><span class="p">.</span><span class="nx">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">data</span><span class="p">.</span><span class="nx">uid</span><span class="p">;</span>
-<span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nx">uidDisplay</span><span class="p">.</span><span class="nx">textContent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Карта не обнаружена&#39;</span><span class="p">;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">        </span><span class="p">})</span>
-<span class="w">        </span><span class="p">.</span><span class="k">catch</span><span class="p">(</span><span class="nx">error</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s1">&#39;Ошибка:&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">error</span><span class="p">);</span>
-<span class="w">            </span><span class="nx">loader</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">display</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;none&#39;</span><span class="p">;</span>
-<span class="w">            </span><span class="nx">uidDisplay</span><span class="p">.</span><span class="nx">textContent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Ошибка связи с сервером&#39;</span><span class="p">;</span>
-<span class="w">        </span><span class="p">});</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-<p>Функция <cite>getUID()</cite>:
-- Показывает индикатор загрузки
-- Делает AJAX-запрос к маршруту <cite>/get_uid</cite>
-- Обрабатывает полученные данные и обновляет интерфейс
-- Обрабатывает возможные ошибки</p>
-<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// Функция для сохранения UID</span>
-<span class="kd">function</span><span class="w"> </span><span class="nx">saveUID</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">uid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">manualUid</span><span class="p">.</span><span class="nx">value</span><span class="p">.</span><span class="nx">trim</span><span class="p">();</span>
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">uid</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;Введите UID&#39;</span><span class="p">);</span>
-<span class="w">        </span><span class="k">return</span><span class="p">;</span>
-<span class="w">    </span><span class="p">}</span>
-
-<span class="w">    </span><span class="nx">fetch</span><span class="p">(</span><span class="s1">&#39;/save_uid&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nx">method</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;POST&#39;</span><span class="p">,</span>
-<span class="w">        </span><span class="nx">headers</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="s1">&#39;Content-Type&#39;</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;application/json&#39;</span><span class="p">,</span>
-<span class="w">        </span><span class="p">},</span>
-<span class="w">        </span><span class="nx">body</span><span class="o">:</span><span class="w"> </span><span class="nb">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">({</span><span class="w"> </span><span class="nx">uid</span><span class="o">:</span><span class="w"> </span><span class="nx">uid</span><span class="w"> </span><span class="p">}),</span>
-<span class="w">    </span><span class="p">})</span>
-<span class="w">        </span><span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">response</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">response</span><span class="p">.</span><span class="nx">json</span><span class="p">())</span>
-<span class="w">        </span><span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">data</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">success</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nx">status</span><span class="p">.</span><span class="nx">textContent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;UID успешно сохранен!&#39;</span><span class="p">;</span>
-<span class="w">                </span><span class="nx">status</span><span class="p">.</span><span class="nx">className</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;status success&#39;</span><span class="p">;</span>
-<span class="w">                </span><span class="nx">status</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">display</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;block&#39;</span><span class="p">;</span>
-<span class="w">                </span><span class="nx">uidDisplay</span><span class="p">.</span><span class="nx">textContent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">data</span><span class="p">.</span><span class="nx">uid</span><span class="p">;</span>
-
-<span class="w">                </span><span class="c1">// Скрываем сообщение через 3 секунды</span>
-<span class="w">                </span><span class="nx">setTimeout</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="nx">status</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">display</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;none&#39;</span><span class="p">;</span>
-<span class="w">                </span><span class="p">},</span><span class="w"> </span><span class="mf">3000</span><span class="p">);</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">        </span><span class="p">})</span>
-<span class="w">        </span><span class="p">.</span><span class="k">catch</span><span class="p">(</span><span class="nx">error</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s1">&#39;Ошибка:&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">error</span><span class="p">);</span>
-<span class="w">            </span><span class="nx">status</span><span class="p">.</span><span class="nx">textContent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Ошибка при сохранении&#39;</span><span class="p">;</span>
-<span class="w">            </span><span class="nx">status</span><span class="p">.</span><span class="nx">className</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;status error&#39;</span><span class="p">;</span>
-<span class="w">            </span><span class="nx">status</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">display</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;block&#39;</span><span class="p">;</span>
-<span class="w">        </span><span class="p">});</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-<p>Функция <cite>saveUID()</cite>:
-- Проверяет, что пользователь ввел UID
-- Отправляет данные на сервер через POST-запрос
-- Обновляет интерфейс при успешном сохранении
-- Показывает статусное сообщение, которое автоматически исчезает через 3 секунды</p>
-<p><strong>Автоматическое обновление:</strong></p>
-<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// Автоматическое обновление каждую секунду</span>
-<span class="nx">setInterval</span><span class="p">(</span><span class="nx">getUID</span><span class="p">,</span><span class="w"> </span><span class="mf">1000</span><span class="p">);</span>
-
-<span class="c1">// Автообновление страницы каждые 60 секунд</span>
-<span class="nx">setInterval</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nx">location</span><span class="p">.</span><span class="nx">reload</span><span class="p">();</span>
-<span class="p">},</span><span class="w"> </span><span class="mf">60000</span><span class="p">);</span>
-
-<span class="c1">// Получаем UID при загрузке страницы</span>
-<span class="nx">getUID</span><span class="p">();</span>
-</pre></div>
-</div>
-<p>Этот код:
-- Запускает функцию <cite>getUID()</cite> при загрузке страницы
-- Обновляет данные с сервера каждую секунду
-- Полностью перезагружает страницу каждые 60 секунд для обеспечения стабильности</p>
-</section>
-<section id="id7">
-<h2>Запуск проекта<a class="headerlink" href="#id7" title="Ссылка на этот заголовок"></a></h2>
-<ol class="arabic">
-<li><p>Создайте директорию для проекта и внутри нее папку <cite>templates</cite>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>-p<span class="w"> </span>rfid_web_interface/templates
-<span class="nb">cd</span><span class="w"> </span>rfid_web_interface
-</pre></div>
-</div>
-</li>
-<li><p>Создайте файлы <cite>app.py</cite> и <cite>templates/index.html</cite> с приведенным выше кодом.</p></li>
-<li><p>Запустите Flask-приложение:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>app.py
-</pre></div>
-</div>
-</li>
-<li><p>Откройте браузер и перейдите по адресу:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>http://&lt;IP-адрес_Raspberry_Pi&gt;:5000
-</pre></div>
-</div>
-</li>
-</ol>
+<p>JavaScript-код выполняет следующие функции:
+1. Получает текущее время для отображения времени обновления
+2. Делает AJAX-запросы к API <cite>/get_uid</cite> для получения последнего UID
+3. Обновляет интерфейс в зависимости от полученных данных
+4. Настраивает автоматическое обновление каждые 3 секунды
+5. Перезагружает страницу каждую минуту для обновления состояния</p>
 </section>
 <section id="id8">
 <h2>Ожидаемый результат<a class="headerlink" href="#id8" title="Ссылка на этот заголовок"></a></h2>
-<p>После запуска приложения вы увидите веб-интерфейс со следующими возможностями:</p>
-<ol class="arabic simple">
-<li><p>В верхней карточке отображается UID последней считанной RFID-метки.</p></li>
-<li><p>При поднесении RFID-метки (карты, брелока) к считывателю, UID автоматически обновляется.</p></li>
-<li><p>При нажатии на кнопку «Обновить» происходит запрос текущего UID с сервера.</p></li>
-<li><p>В нижней карточке можно вручную ввести UID и сохранить его.</p></li>
-</ol>
-<figure class="align-center" id="id13">
-<a class="reference internal image-reference" href="../../../_images/rfid_web_interface.png"><img alt="../../../_images/rfid_web_interface.png" src="../../../_images/rfid_web_interface.png" style="width: 80%;" />
-</a>
-<figcaption>
-<p><span class="caption-text"><strong>Рис. 2:</strong> Пример веб-интерфейса для RFID считывателя</span><a class="headerlink" href="#id13" title="Ссылка на это изображение"></a></p>
-</figcaption>
-</figure>
+<p>При запуске приложения и открытии веб-интерфейса вы увидите:
+1. Страницу с иконкой NFC и статусом «Ожидание NFC метки…»
+2. При поднесении NFC-карты или метки к считывателю, интерфейс обновится:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Статус изменится на «NFC метка обнаружена»</p></li>
+<li><p>Отобразится UID карты</p></li>
+<li><p>Обновится время последнего обновления</p></li>
+</ul>
+</div></blockquote>
+<p>Интерфейс будет автоматически обновляться каждые 3 секунды, проверяя наличие новых данных с NFC-считывателя.</p>
 </section>
 <section id="id9">
-<h2>Практические применения<a class="headerlink" href="#id9" title="Ссылка на этот заголовок"></a></h2>
-<p>Данный проект можно расширить для использования в различных сценариях:</p>
+<h2>Возможные расширения проекта<a class="headerlink" href="#id9" title="Ссылка на этот заголовок"></a></h2>
+<p>Созданное приложение можно расширить несколькими способами:</p>
 <ol class="arabic simple">
-<li><p><strong>Система контроля доступа</strong> - добавить базу данных для хранения разрешенных UID и управления доступом.</p></li>
-<li><p><strong>Учет посещаемости</strong> - регистрация прихода/ухода сотрудников или студентов.</p></li>
-<li><p><strong>Система идентификации</strong> - использование в библиотеках, складах для идентификации книг, товаров.</p></li>
-<li><p><strong>Автоматизация дома</strong> - запуск различных сценариев при поднесении определенных карт.</p></li>
+<li><p><strong>База данных зарегистрированных карт</strong>:
+- Добавить SQLite или MySQL для хранения UID карт
+- Реализовать регистрацию новых карт через интерфейс
+- Показывать информацию о владельце карты при считывании</p></li>
+<li><p><strong>Система контроля доступа</strong>:
+- Добавить управление электронным замком через реле
+- Логирование всех попыток доступа с временной меткой
+- Разные уровни доступа для разных карт</p></li>
+<li><p><strong>Мобильные уведомления</strong>:
+- Отправлять push-уведомления при считывании определенных карт
+- Интеграция с Telegram, Email или SMS для оповещений</p></li>
+<li><p><strong>Расширенная аналитика</strong>:
+- Графики использования в течение дня/недели
+- Статистика посещаемости
+- Экспорт данных в различных форматах</p></li>
+<li><p><strong>Защищенный доступ к интерфейсу</strong>:
+- Авторизация для доступа к веб-интерфейсу
+- HTTPS для безопасного соединения
+- Различные роли пользователей (администратор, наблюдатель)</p></li>
 </ol>
 </section>
 <section id="id10">
-<h2>Расширение проекта<a class="headerlink" href="#id10" title="Ссылка на этот заголовок"></a></h2>
-<p>Вы можете усовершенствовать проект, добавив следующие функции:</p>
-<ol class="arabic">
-<li><p><strong>База данных пользователей</strong> - хранение UID с именами пользователей и уровнями доступа.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sqlite3</span>
-
-<span class="c1"># Создание базы данных</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">init_db</span><span class="p">():</span>
-    <span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;rfid_users.db&#39;</span><span class="p">)</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
-    <span class="n">c</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
-<span class="s1">    CREATE TABLE IF NOT EXISTS users</span>
-<span class="s1">    (uid TEXT PRIMARY KEY, name TEXT, access_level INTEGER)</span>
-<span class="s1">    &#39;&#39;&#39;</span><span class="p">)</span>
-    <span class="n">conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
-    <span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-</pre></div>
-</div>
-</li>
-<li><p><strong>Запись данных в файл</strong> - логирование всех считанных UID с временными метками.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">log_uid</span><span class="p">(</span><span class="n">uid</span><span class="p">):</span>
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;rfid_log.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1"> %H:%M:%S&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2"> - UID: </span><span class="si">{</span><span class="n">uid</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</li>
-<li><p><strong>Управление реле или другими устройствами</strong> - автоматическое включение/выключение в зависимости от считанной карты.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">gpiozero</span><span class="w"> </span><span class="kn">import</span> <span class="n">LED</span>
-
-<span class="c1"># Инициализация реле</span>
-<span class="n">relay</span> <span class="o">=</span> <span class="n">LED</span><span class="p">(</span><span class="mi">17</span><span class="p">)</span>
-
-<span class="c1"># Проверка доступа и управление реле</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">check_access</span><span class="p">(</span><span class="n">uid</span><span class="p">):</span>
-    <span class="c1"># Проверка в базе данных</span>
-    <span class="k">if</span> <span class="n">uid</span> <span class="ow">in</span> <span class="n">authorized_uids</span><span class="p">:</span>
-        <span class="n">relay</span><span class="o">.</span><span class="n">on</span><span class="p">()</span>  <span class="c1"># Открываем дверь/включаем устройство</span>
-        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-        <span class="n">relay</span><span class="o">.</span><span class="n">off</span><span class="p">()</span>
-        <span class="k">return</span> <span class="kc">True</span>
-    <span class="k">return</span> <span class="kc">False</span>
-</pre></div>
-</div>
-</li>
-<li><p><strong>Многопользовательский режим</strong> - расширение веб-интерфейса для управления несколькими пользователями.</p></li>
+<h2>Советы по отладке<a class="headerlink" href="#id10" title="Ссылка на этот заголовок"></a></h2>
+<ol class="arabic simple">
+<li><p><strong>Проблемы с I2C</strong>:
+- Проверьте подключение проводов
+- Выполните <cite>sudo i2cdetect -y 1</cite> для проверки наличия устройства
+- Убедитесь, что I2C включен в <cite>raspi-config</cite></p></li>
+<li><p><strong>Не считываются карты</strong>:
+- Проверьте расстояние между картой и считывателем (оптимально 1-3 см)
+- Убедитесь, что карта совместима с PN532 (ISO 14443A/MIFARE)
+- Проверьте питание считывателя (должно быть стабильным)</p></li>
+<li><p><strong>Проблемы с веб-интерфейсом</strong>:
+- Проверьте логи Flask на наличие ошибок
+- Используйте инструменты разработчика в браузере (F12) для проверки сетевых запросов
+- Если страница не обновляется, проверьте JavaScript-консоль на наличие ошибок</p></li>
 </ol>
 </section>
 <section id="id11">
-<h2>Завершение работы<a class="headerlink" href="#id11" title="Ссылка на этот заголовок"></a></h2>
-<p>Для остановки сервера нажмите <strong>Ctrl + C</strong> в терминале. Программа корректно завершит работу фонового потока для считывания RFID.</p>
-<p>Поздравляем! 🎉 Вы успешно создали веб-интерфейс для RFID считывателя на Raspberry Pi. Теперь вы можете удобно считывать и отображать UID RFID-меток с любого устройства в вашей локальной сети.</p>
+<h2>Заключение<a class="headerlink" href="#id11" title="Ссылка на этот заголовок"></a></h2>
+<p>В этом уроке мы создали полноценное веб-приложение для работы с NFC-считывателем. Мы научились:
+- Подключать и инициализировать NFC-считыватель PN532
+- Создавать многопоточное приложение для параллельной работы NFC и веб-сервера
+- Разрабатывать API для обмена данными между сервером и клиентом
+- Создавать интерактивный веб-интерфейс с автоматическим обновлением</p>
+<p>Такое приложение может служить основой для различных проектов, связанных с NFC-технологиями: от простых систем идентификации до комплексных решений контроля доступа.</p>
 </section>
 </section>
 
