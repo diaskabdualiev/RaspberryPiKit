@@ -27,7 +27,6 @@ Alash Raspberry Pi 5 Kit documentation
    :maxdepth: 3
 
    circuitPythonLessons/index
-   lessons/index
 
 .. toctree::
    :maxdepth: 1
